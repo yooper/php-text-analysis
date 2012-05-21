@@ -1,0 +1,15 @@
+<phpunit bootstrap="./bootstrap.php" colors="true">
+
+        <testsuite name="Text" >
+                <directory>./Text</directory>
+        </testsuite>
+
+        <filter>
+                <whitelist>
+                        <directory suffix=".php">../Text/</directory>
+                </whitelist>
+        </filter>
+
+
+</phpunit>
+
