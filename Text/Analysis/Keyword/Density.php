@@ -1,10 +1,10 @@
 <?php
-namespace Text\Analysis;
+namespace Text\Analysis\Keyword;
 /**
  * @author yooper
  * 
  */
-class KeywordDensity {
+class Density {
 
     /**
      *
@@ -14,7 +14,7 @@ class KeywordDensity {
     /**
      * @var string  
      */
-    protected $_splitPattern = "/[\s,\+]+/";
+    protected $_tokenPattern = " ,";
     
     /**
      *
@@ -52,7 +52,15 @@ class KeywordDensity {
      * @return array 
      */
     protected function tokenize($string){
-       return preg_split($this->_splitPattern, strtolower($string));
+     
+        $tokens = array();
+        $token = strtok(strtolower($string), $this->_tokenPattern);
+
+        while ($token !== false) {
+            $tokens[] = $token;
+            $token = strtok($this->_tokenPattern);
+        }
+        return $tokens;
     }
 
     /**

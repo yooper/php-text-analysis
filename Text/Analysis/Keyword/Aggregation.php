@@ -1,5 +1,5 @@
 <?php
-namespace Text\Analysis;
+namespace Text\Analysis\Keyword;
 
 /**
  * Report summary stats on the keyword hash table that is outputted from
@@ -7,7 +7,7 @@ namespace Text\Analysis;
  *
  * @author yooper
  */
-class KeywordAggregation {
+class Aggregation {
     
     /**
      * The keyword density hash table that was passed in
@@ -24,7 +24,6 @@ class KeywordAggregation {
         $func = function($word) {
             return strlen($word);
         };
-
         $lengths = array_map($func, array_keys($this->_keywordDensity[$wordCountIndex]));            
         $data = array_combine(array_keys($this->_keywordDensity[$wordCountIndex]), $lengths);      
         arsort($data, SORT_NUMERIC);
@@ -38,8 +37,7 @@ class KeywordAggregation {
      * @param integer $wordCount
      * @return integer 
      */
-    public function getSortedWordCountFrequency($wordCountIndex){ 
-        
+    public function getSortedWordCountFrequency($wordCountIndex){         
         if(!isset($this->_keywordDensity[$wordCountIndex])) {
             return 0;
         }

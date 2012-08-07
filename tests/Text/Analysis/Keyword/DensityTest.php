@@ -1,15 +1,15 @@
 <?php
-namespace Test\Text\Analysis;
+namespace Test\Text\Analysis\Keyword;
 
 /**
- * Description of KeywordDensityTest
+ * Description of DensityTest
  *
  * @author yooper
  */
-class KeywordDensityTest extends \Test\BaseUnitTest{
-    public function testKeywordDensityLorem(){ 
+class DensityTest extends \Test\BaseUnitTest{
+    public function testDensityLorem(){ 
         
-        $kd = new \Text\Analysis\KeywordDensity();
+        $kd = new \Text\Analysis\Keyword\Density();
         $text = file_get_contents(TESTS_PATH.'data'.DS.'Text'.DS.'Analysis'.DS.'text.txt');
         
         $this->assertEmpty($kd->getKeyWordDensityTable());
