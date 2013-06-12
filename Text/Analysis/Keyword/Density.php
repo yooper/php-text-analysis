@@ -147,7 +147,7 @@ class Density {
      * @param array $arrayOfWords
      * @return array 
      */
-    protected function _filterStopWords(&$arrayOfWords){
+    protected function _filterStopWords($arrayOfWords){
        $nonStopWords = array();
        for($index = 0; $index < count($arrayOfWords); $index++){
 
