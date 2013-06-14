@@ -1,8 +1,8 @@
 <?php
 
-namespace Tokenizers\Simple;
+namespace TextAnalysis\Tokenizers\Simple;
 
-use Tokenizers\TokenizerAbstract;
+use TextAnalysis\Tokenizers\TokenizerAbstract;
 
 /**
  * 
@@ -13,16 +13,16 @@ use Tokenizers\TokenizerAbstract;
 class FixedLengthTokenizer extends TokenizerAbstract
 {
     protected $startPosition = 0;
-    protected $stopPosition = 0;
+    protected $length = null;
     
     /**
      * @param int $startPosition
-     * @parma int $stopPosition 
+     * @parma int $length 
      */
-    public function __construct($startPosition, $stopPosition)
+    public function __construct($startPosition, $length = null)
     {
         $this->startPosition = $startPosition;
-        $this->stopPosition = $stopPosition;
+        $this->length = $length;
     }
     
     /**
@@ -32,7 +32,11 @@ class FixedLengthTokenizer extends TokenizerAbstract
      */
     public function tokenize($string)
     {
-        return array(substr($string, $this->startPosition, $this->stopPosition - $this->startPosition));
+        if(!$this->length) {
+            return array(substr($string, $this->startPosition));
+        } else {
+            return array(substr($string, $this->startPosition, $this->length));
+        }
     }
     
 }

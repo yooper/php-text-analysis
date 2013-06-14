@@ -1,8 +1,8 @@
 <?php
 
-namespace Test\Tokenizers\Simple;
+namespace Tests\TextAnalysis\Tokenizers\Simple;
 
-use Tokenizers\Simple\GeneralTokenizer;
+use TextAnalysis\Tokenizers\Simple\GeneralTokenizer;
 
 /**
  * GeneralTokenizerTest

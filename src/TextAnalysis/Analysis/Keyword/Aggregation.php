@@ -1,5 +1,5 @@
 <?php
-namespace Text\Analysis\Keyword;
+namespace TextAnalysis\Analysis\Keyword;
 
 /**
  * Report summary stats on the keyword hash table that is outputted from

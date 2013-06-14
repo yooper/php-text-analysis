@@ -1,5 +1,5 @@
 <?php
-namespace Text\Analysis\Keyword;
+namespace TextAnalysis\Analysis\Keyword;
 /**
  * @author yooper
  * 

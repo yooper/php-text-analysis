@@ -1,5 +1,5 @@
 <?php
-namespace Test\Text\Analysis\Keyword;
+namespace Tests\TextAnalysis\Analysis\Keyword;
 
 /**
  * Description of DensityTest
@@ -9,7 +9,7 @@ namespace Test\Text\Analysis\Keyword;
 class DensityTest extends \Test\BaseUnitTest{
     public function testDensityLorem(){ 
         
-        $kd = new \Text\Analysis\Keyword\Density();
+        $kd = new \TextAnalysis\Analysis\Keyword\Density();
         $text = file_get_contents(TESTS_PATH.'data'.DS.'Text'.DS.'Analysis'.DS.'text.txt');
         
         $this->assertEmpty($kd->getKeyWordDensityTable());

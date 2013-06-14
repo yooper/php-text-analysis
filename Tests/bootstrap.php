@@ -8,15 +8,14 @@
 define('DS',DIRECTORY_SEPARATOR);
 
 defined('LIB_PATH')
-    || define('LIB_PATH', realpath(dirname(__FILE__) . DS .'..'.DS));
+    || define('LIB_PATH', realpath(dirname(__FILE__) . DS .'../src/'.DS));
 
 defined('TESTS_PATH')
     || define('TESTS_PATH', realpath(dirname(__FILE__)).DS);
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(LIB_PATH . 'Text'),
-    realpath(LIB_PATH . 'Text'.DS.'Analysis'),
+    realpath(LIB_PATH . 'TextAnalysis'),
     get_include_path()
 )));
 

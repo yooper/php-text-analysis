@@ -1,5 +1,5 @@
 <?php
-namespace Tokenizers;
+namespace TextAnalysis\Tokenizers;
 
 /** 
  * An Abstract Class all Tokenizers extend
