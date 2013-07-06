@@ -16,17 +16,24 @@ defined('TESTS_PATH')
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(LIB_PATH . 'TextAnalysis'),
+    realpath(TESTS_PATH),
+    realpath(getcwd().DS."..".DS),
     get_include_path()
 )));
 
 error_reporting(E_ALL);
 ini_set('display_startup_errors', 1);
-require_once 'BaseUnitTest.php';
 
 spl_autoload_register('autoloader');
 
 function autoloader($className){
-    $newClassName = str_replace("\\", DS, $className);
-    require_once LIB_PATH.DS.$newClassName.'.php';
+    
+    if(strpos($className, "Tests") !== false) {
+        $newClassName = str_replace("\\", DS, $className);
+        require_once $newClassName.'.php';
+    } else {
+        $newClassName = str_replace("\\", DS, $className);
+        require_once LIB_PATH.DS.$newClassName.'.php';
+    }
 }
 

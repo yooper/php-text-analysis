@@ -4,8 +4,10 @@ namespace Tests\TextAnalysis\Analysis\Keyword;
 /** *
  * @author yooper
  */
-class AggregationTest extends \Test\BaseUnitTest{
-    public function testKeywordDensityAggregationLorem(){ 
+class AggregationTest extends \Tests\BaseUnitTest
+{
+    public function testKeywordDensityAggregationLorem()
+    { 
         
         $kd = new \TextAnalysis\Analysis\Keyword\Density();
         $text = file_get_contents(TESTS_PATH.'data'.DS.'Text'.DS.'Analysis'.DS.'text.txt');        
@@ -19,7 +21,8 @@ class AggregationTest extends \Test\BaseUnitTest{
         
     }
     
-    public function testKeywordDensityAggregationLength(){ 
+    public function testKeywordDensityAggregationLength()
+    { 
         
         $kd = new \TextAnalysis\Analysis\Keyword\Density();
         $text = file_get_contents(TESTS_PATH.'data'.DS.'Text'.DS.'Analysis'.DS.'text.txt');        

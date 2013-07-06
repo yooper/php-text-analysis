@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\TextAnalysis\Tokenizers\Simple;
+namespace Tests\TextAnalysis\Tokenizers;
 
-use TextAnalysis\Tokenizers\Simple\FixedLengthTokenizer;
+use TextAnalysis\Tokenizers\FixedLengthTokenizer;
 
 /**
  * FixedLengthTokenizerTest
- * @author dcardin
+ * @author yooper
  */
-class FixedLengthTokenizerTest extends \PHPUnit_Framework_TestCase{
+class FixedLengthTokenizerTest extends \PHPUnit_Framework_TestCase
+{
     
     public function testFixedLengthTokenizer()
     {

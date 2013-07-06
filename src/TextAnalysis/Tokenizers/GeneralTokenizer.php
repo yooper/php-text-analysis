@@ -1,8 +1,6 @@
 <?php
 
-namespace TextAnalysis\Tokenizers\Simple;
-
-use TextAnalysis\Tokenizers\TokenizerAbstract;
+namespace TextAnalysis\Tokenizers;
 
 /**
  * 
@@ -13,15 +11,16 @@ use TextAnalysis\Tokenizers\TokenizerAbstract;
 class GeneralTokenizer extends TokenizerAbstract
 {
     protected $tokenExpression = null;
-    
+        
     /**
      * 
      * @param string $tokenExpression 
      */
-    public function __construct($tokenExpression)
+    public function __construct($tokenExpression = " \n\t,")
     {
         $this->tokenExpression = $tokenExpression;
     }
+    
     
     /**
      * Return tokenized array from string

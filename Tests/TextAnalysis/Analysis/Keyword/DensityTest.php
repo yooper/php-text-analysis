@@ -6,8 +6,10 @@ namespace Tests\TextAnalysis\Analysis\Keyword;
  *
  * @author yooper
  */
-class DensityTest extends \Test\BaseUnitTest{
-    public function testDensityLorem(){ 
+class DensityTest extends \Tests\BaseUnitTest
+{
+    public function testDensityLorem()
+    { 
         
         $kd = new \TextAnalysis\Analysis\Keyword\Density();
         $text = file_get_contents(TESTS_PATH.'data'.DS.'Text'.DS.'Analysis'.DS.'text.txt');

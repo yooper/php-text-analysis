@@ -1,8 +1,6 @@
 <?php
 
-namespace TextAnalysis\Tokenizers\Simple;
-
-use TextAnalysis\Tokenizers\TokenizerAbstract;
+namespace TextAnalysis\Tokenizers;
 
 /**
  * 

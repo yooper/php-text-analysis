@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\TextAnalysis\Tokenizers\Simple;
+namespace Tests\TextAnalysis\Tokenizers;
 
-use TextAnalysis\Tokenizers\Simple\GeneralTokenizer;
+use TextAnalysis\Tokenizers\GeneralTokenizer;
 
 /**
  * GeneralTokenizerTest
- * @author dcardin
+ * @author yooper
  */
 class GeneralTokenizerTest extends \PHPUnit_Framework_TestCase{
     
