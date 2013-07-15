@@ -45,6 +45,15 @@ class Token
     }
     
     /**
+     * Get the number of positions this token is mentions
+     * @return int
+     */
+    public function getPositionCount()
+    {
+        return count($this->positions);
+    }
+    
+    /**
      * Returns the length of the word token
      * @return int
      */
