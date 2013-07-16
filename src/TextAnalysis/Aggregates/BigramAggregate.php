@@ -30,7 +30,7 @@ class BigramAggregate
         $sizeOf = count($this->tokens);
         
         for($index = 1; $index < $sizeOf; $index++) { 
-            $bigrams [] = array(
+            $bigrams[] = array(
                 $this->tokens[$index-1],
                 $this->tokens[$index]
             );
@@ -49,9 +49,8 @@ class BigramAggregate
         $sizeOf = count($this->tokens);
         
         for($index = 1; $index < $sizeOf; $index++) { 
-            $bigrams [] = array(
-                $this->tokens[$index-1].self::$splitBigramChar.$this->tokens[$index]
-            );
+            $bigrams[] = $this->tokens[$index-1].self::$splitBigramChar.$this->tokens[$index];
+           
         }
         return $bigrams;
     }

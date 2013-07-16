@@ -46,7 +46,7 @@ class CollocationAggregate
         $nGramAggregate = new BigramAggregate($this->tokens);
         $tokenMetaAggregate = new TokenMetaAggregator($this->text, $nGramAggregate->getAggregateStrings());
         $freqDist = new FreqDist($tokenMetaAggregate->getAggregate());
-        return $freqDist->getKeys();
+        return $freqDist->getKeyValues();
         
     }
     
