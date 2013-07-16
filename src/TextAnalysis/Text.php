@@ -47,6 +47,7 @@ class Text
      * 
      * @param string $text
      * @param TokenizerAbstract $tokenizer 
+     * @param boolean $normalize Normalize the text to lower case, default is true 
      */
     public function __construct($text, TokenizerAbstract $tokenizer = null, $normalize = true)
     {
@@ -62,7 +63,6 @@ class Text
         
         //initialize as empty
         $this->tokenCollection = new ArrayIterator(array());
-        
         $this->tokenizer = $tokenizer;
     }
     

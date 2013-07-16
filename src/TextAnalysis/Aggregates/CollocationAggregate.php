@@ -10,6 +10,11 @@ use TextAnalysis\Aggregates\BigramAggregate;
  */
 class CollocationAggregate 
 {    
+    /**
+     * Set the size of the nGram to scan for
+     * @todo implement
+     * @var int 
+     */
     static public $nGramSize = 2;
    
     /**
@@ -23,6 +28,7 @@ class CollocationAggregate
      * @var array 
      */
     protected $tokens = null;
+    
     
     public function __construct($text, array $tokens) 
     {

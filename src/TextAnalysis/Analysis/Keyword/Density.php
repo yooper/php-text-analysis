@@ -2,6 +2,7 @@
 namespace TextAnalysis\Analysis\Keyword;
 /**
  * @author yooper
+ * @deprecated
  * 
  */
 class Density {

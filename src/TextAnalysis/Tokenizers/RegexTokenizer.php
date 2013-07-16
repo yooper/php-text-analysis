@@ -3,11 +3,11 @@ namespace TextAnalysis\Tokenizers;
 /**
  * Regex GeneralTokenizer
  *
- * @author dcardin
+ * @author yooper
  */
 class RegexTokenizer extends TokenizerAbstract 
 {
-    const DEFAULT_REGEX = '\w+|\$[\d\.]+|\S+';
+    const DEFAULT_REGEX = '/\w+|\$[\d\.]+|\S+/';
     
     protected $pattern = null;
     protected $flags = 0;
@@ -32,7 +32,7 @@ class RegexTokenizer extends TokenizerAbstract
         if($count === false) { 
             return array();
         }
-        return $matches;
+        return $matches[0];
         
     }
 }

@@ -6,6 +6,7 @@ namespace TextAnalysis\Analysis\Keyword;
  * the Keyword Density Class
  *
  * @author yooper
+ * @deprecated
  */
 class Aggregation {
     
