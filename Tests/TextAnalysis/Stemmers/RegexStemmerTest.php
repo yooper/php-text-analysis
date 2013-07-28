@@ -11,7 +11,7 @@ use TextAnalysis\Stemmers\RegexStemmer;
 class RegexStemmerTest extends \PHPUnit_Framework_TestCase
 {
     
-    public function testFixedLengthTokenizer()
+    public function testRegexStemmer()
     {
         $stemmer = new RegexStemmer('ing$|s$|e$', 4);
         $this->assertEquals("car", $stemmer->stem("car"));
