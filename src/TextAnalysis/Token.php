@@ -70,4 +70,13 @@ class Token
     {
         return $this->word;
     }
+    
+    /**
+     * Return the word
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->getWord();
+    }
 }

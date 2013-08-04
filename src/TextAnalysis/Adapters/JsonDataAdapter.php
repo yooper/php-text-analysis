@@ -5,7 +5,7 @@ use TextAnalysis\Interfaces\IDataReader;
  *
  * @author yooper
  */
-class JsonLookupDataAdapter implements IDataReader
+class JsonDataAdapter implements IDataReader
 {
     /**
      * Json encoded string
@@ -19,7 +19,7 @@ class JsonLookupDataAdapter implements IDataReader
     }
     
     /**
-     * Returns a lookup table
+     * Returns the json data as an array
      * @return array 
      */
     public function read() 
