@@ -12,7 +12,7 @@ use TextAnalysis\Tokenizers\PennTreeBankTokenizer;
  *
  * @author yooper
  */
-class ConcordanceAggregateTest extends \Tests\BaseUnitTest
+class ConcordanceAggregateTest extends \Tests\Base
 {    
     public function testGeneralTokenizerConcordance()
     {    

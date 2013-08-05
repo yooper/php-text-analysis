@@ -1,7 +1,6 @@
 <?php
 namespace Tests\TextAnalysis\Analysis;
 
-use Tests\BaseUnitTest;
 use TextAnalysis\Tokenizers\GeneralTokenizer;
 use TextAnalysis\Analysis\FreqDist;
 use TextAnalysis\Aggregates\TokenMetaAggregator;
@@ -9,7 +8,7 @@ use TextAnalysis\Aggregates\TokenMetaAggregator;
  * Test cases for FreqDist
  * @author yooper
  */
-class FreqDistTest extends BaseUnitTest
+class FreqDistTest extends \Tests\Base
 {
     
     public function testFreqDist()

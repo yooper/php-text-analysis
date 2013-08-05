@@ -9,7 +9,7 @@ use TextAnalysis\Tokenizers\GeneralTokenizer;
  * Test the collocation
  * @author yooper
  */
-class CollocationAggregateTest extends \Tests\BaseUnitTest
+class CollocationAggregateTest extends \Tests\Base
 {    
     
     public function testCollocation()

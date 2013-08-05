@@ -3,10 +3,12 @@ namespace TextAnalysis\Stemmers;
 use TextAnalysis\Interfaces\IStemmer;
 use TextAnalysis\Interfaces\IDataReader;
 use TextAnalysis\Adapters\JsonDataAdapter;
+use TextAnalysis\Utilities\Vowel;
 /**
- * Description of LancasterStemmer
+ * A word stemmer based on the Lancaster stemming algorithm.
+ * Paice, Chris D. "Another Stemmer." ACM SIGIR Forum 24.3 (1990): 56-61.
  *
- * @author dcardin
+ * @author Dan Cardin
  */
 class LancasterStemmer implements IStemmer
 {
@@ -19,42 +21,13 @@ class LancasterStemmer implements IStemmer
     const REMOVE_TOTAL = 'remove_total';
     const APPEND_STRING = 'append_string';
     const CONTINUE_FLAG = 'continue_flag';
-
     
     /**
-     * An indexed copy of the rule set for easy re-use 
-     */
-    static protected $indexedRuleSet = array();
-    
-    /**
-     * Keep a copy of the original token
-     * @var string 
-     */
+    * Keep a copy of the original token
+    * @var string 
+    */
     protected $originalToken = null;
-    
-    /**
-     * The regex for parsing the Lancaster rule set
-     * @var string
-     */
-    protected $regexParsePattern = "/^([a-z]+)(\*?)(\d)([a-z]*)([>\.]?)$/";
-
-    
-    /**
-     * The default set of suffixes to strip
-     * @var array 
-     */
-    protected $stripSuffixes = array(
-        "kilo",
-        "micro" ,
-        "milli" ,
-        "intra" ,
-        "ultra" ,
-        "mega"  ,
-        "nano"  ,
-        "pico"  ,
-        "pseudo"
-    );
-    
+        
     /**
      * The indexed rule set provided
      * @var array
@@ -88,27 +61,6 @@ class LancasterStemmer implements IStemmer
                 $this->indexedRules[$rule[self::LOOKUP_CHAR]] = array($rule);
             }
         }       
-    }
-    
-    /**
-     * Clear the strip suffixes 
-     */
-    public function clearStripSuffixes()
-    {
-        $this->stripSuffixes = array();
-    }
-    
-    public function addStripSuffix($suffix)
-    {
-        $this->stripSuffixes[] = $suffix;
-    }
-    /**
-     * Get the list of strip suffixes
-     * @return array 
-     */
-    public function getStripSuffixes()
-    {
-        return $this->stripSuffixes();
     }
     
     public function stem($token)
@@ -171,18 +123,6 @@ class LancasterStemmer implements IStemmer
     }
     
     /**
-     * Check if the string contains a vole at a given index
-     * @param string $token
-     * @param int $index
-     * @return boolean 
-     */
-    public function hasVowelAtIndex($token, $index)
-    {
-        return (boolean)strpbrk($token[$index], 'aeiouy');
-
-    }
-    
-    /**
      * Check if a word is acceptable
      * @param string $token
      * @param int $removeTotal
@@ -191,42 +131,14 @@ class LancasterStemmer implements IStemmer
     protected function isAcceptable($token, $removeTotal)
     {
         $length =  strlen($token) - $removeTotal;
-        if($this->hasVowelAtIndex($token, 0) && $length >= 2){
+        if(Vowel::isVowel($token, 0)&& $length >= 2){
             return true;
         } elseif($length >= 3 && 
-                ($this->hasVowelAtIndex($token, 1) || $this->hasVowelAtIndex($token, 2))) {
+                (Vowel::isVowel($token, 1) || Vowel::isVowel($token, 2))) {
             return true;
         }
         return false;
     }
-    
-    /**
-     * Remove all characters except for letters and spaces
-     * @param string $token
-     * @return string 
-     */
-    protected function clean($token)
-    {
-        return preg_replace("/[^A-Za-z ]/", '', $token);        
-    }
-    
-    /**
-     * Strips the suffix from the word and returns the updated word, minus the suffix
-     * @param string $token
-     * @return string 
-     */
-    protected function stripSuffixes($token)
-    {
-        foreach($this->stripSuffixes as $stripSuffix)
-        {
-            $offset = strpos($token, $stripSuffix);
-            if($offset === 0) {
-                return substr($token, strlen($stripSuffix)); 
-            }
-        }
-        return $token;
-    }
-    
-    
+        
 }
 

@@ -1,15 +1,13 @@
 <phpunit bootstrap="./bootstrap.php" colors="true">
 
         <testsuite name="TextAnalysis" >
-                <directory>./TextAnalysis</directory>
+                <directory>./TextAnalysis/</directory>
         </testsuite>
 
         <filter>
-                <whitelist>
-                        <directory suffix=".php">../../TextAnalysis/</directory>
-                </whitelist>
+            <whitelist>
+                <directory suffix=".php">../../TextAnalysis/</directory>
+            </whitelist>             
         </filter>
-
-
 </phpunit>
 

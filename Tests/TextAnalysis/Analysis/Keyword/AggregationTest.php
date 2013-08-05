@@ -4,7 +4,7 @@ namespace Tests\TextAnalysis\Analysis\Keyword;
 /** *
  * @author yooper
  */
-class AggregationTest extends \Tests\BaseUnitTest
+class AggregationTest extends \Tests\Base
 {
     public function testKeywordDensityAggregationLorem()
     { 

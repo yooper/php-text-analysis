@@ -6,7 +6,7 @@ namespace Tests\TextAnalysis\Analysis\Keyword;
  *
  * @author yooper
  */
-class DensityTest extends \Tests\BaseUnitTest
+class DensityTest extends \Tests\Base
 {
     public function testDensityLorem()
     { 
