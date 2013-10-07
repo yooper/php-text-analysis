@@ -1,47 +1,40 @@
 <?php
 namespace TextAnalysis\Analysis;
 
-use TextAnalysis\Aggregates\TokenMetaAggregator;
-use \ArrayIterator;
-use TextAnalysis\Token;
 
 /**
  * Extract the Frequency distribution of keywords
- * @author yooper
+ * @author Dan Cardin
  */
 class FreqDist 
 {
+      
     /**
-     * Stores the ArrayIterator provided by the tokenMetaAggregation Class
-     * @var \ArrayIterator 
-     */
-    protected $tokenMetaCollection = null;
-    
-    /**
-     * The total number of tokens and times they occur
-     * @var int 
-     */
-    protected $totalTokens = 0;
-    
-    /**
-     * An associative array that holds all the weights per token
+     * An associative array that holds all the frequencies per token
      * @var array 
      */
     protected $keyValues = array();
     
     /**
+     * The total number of tokens originally passed into FreqDist
+     * @var int  
+     */
+    protected $totalTokens = null;
+    
+    
+    /**
      * This sorts the token meta data collection right away so use 
      * frequency distribution data can be extracted.
-     * @param \ArrayIterator $tokenMetaCollection 
+     * @param array $tokens
      */
-    public function __construct(\ArrayIterator $tokenMetaCollection)
-    {
-        $this->tokenMetaCollection = $tokenMetaCollection;        
-        $this->preCompute();
+    public function __construct(array $tokens)
+    {  
+        $this->preCompute($tokens);
+        $this->totalTokens = count($tokens);
     }
      
     /**
-     * Get the total number of tokens and number of times they occur
+     * Get the total number of tokens in this tokensDocument
      * @return int 
      */
     public function getTotalTokens()
@@ -50,24 +43,25 @@ class FreqDist
     }
     
     /**
-     * Internal function for summarizing all the data 
+     * Internal function for summarizing all the data into a key value store
+     * @param array $tokens The set of tokens passed into the constructor
      */
-    public function preCompute()
+    protected function preCompute(array &$tokens)
     {
-        /** @var Token $token */
-        foreach($this->tokenMetaCollection as $token){
-            $this->totalTokens += $token->getPositionCount();
-            $this->keyValues[$token->getWord()] = $token->getPositionCount();
-        }
-        
-        $fractionOfWhole = 1 / $this->totalTokens;
-        
-        //compute all the weights
-        foreach($this->tokenMetaCollection as $token){
-            $this->keyValues[$token->getWord()] *= $fractionOfWhole;
-        }        
+        //count all the tokens up and put them in a key value store
+        $this->keyValues = array_count_values($tokens);
         arsort($this->keyValues);        
     } 
+    
+
+    /**
+     * Return the weight of a single token
+     * @return float 
+     */
+    public function getWeightPerToken()
+    {
+        return 1 / $this->getTotalTokens();
+    }
     
     /**
      * Return get the total number of unique tokens
@@ -75,7 +69,7 @@ class FreqDist
      */
     public function getTotalUniqueTokens()
     {
-        return $this->tokenMetaCollection->count();
+        return count($this->keyValues);
     }
     
     /**
@@ -97,7 +91,7 @@ class FreqDist
     }
     
     /**
-     *
+     * Return the full key value store
      * @return array 
      */
     public function getKeyValues()
@@ -113,15 +107,27 @@ class FreqDist
      */
     public function getHapaxes()
     {
-        $hapaxes = array();
-        /** var $token Token */
-        foreach($this->tokenMetaCollection as $token) {
-           if(count($token->getPositions()) === 1) {
-               $hapaxes[] = $token->getWord();
-           } 
-        }
-        return $hapaxes; 
+            $hapaxes = array();
+            
+            //get the head key
+            $head = key($this->keyValues);
+            
+            //get the tail value,. set the internal pointer to the tail
+            $tail = end($this->keyValues);
+            // no hapaxes available
+            if($tail > 1) { 
+                return array();
+            }
+            
+            do {
+                $hapaxes[] = key($this->keyValues);
+                prev($this->keyValues);
+                
+            } while(current($this->keyValues) == 1 && key($this->keyValues) !== $head);
+            
+            //reset the internal pointer in the array
+            reset($this->keyValues);
+            return $hapaxes; 
     }
     
 }
-

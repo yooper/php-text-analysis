@@ -2,8 +2,8 @@
 namespace TextAnalysis\Adapters;
 use TextAnalysis\Interfaces\IDataReader;
 /**
- *
- * @author yooper
+ * A simple wrapper adapter class around json_decode
+ * @author Dan Cardin
  */
 class JsonDataAdapter implements IDataReader
 {
@@ -13,9 +13,21 @@ class JsonDataAdapter implements IDataReader
      */
     protected $jsonStr;
     
-    public function __construct($jsonStr)
+    /**
+     *
+     * @var boolean 
+     */
+    protected $assoc = true;
+    
+    /**
+     *
+     * @param string $jsonStr
+     * @param boolean $assoc 
+     */
+    public function __construct($jsonStr, $assoc = true)
     {
         $this->jsonStr = $jsonStr;
+        $this->assoc = $assoc;
     }
     
     /**
@@ -24,6 +36,6 @@ class JsonDataAdapter implements IDataReader
      */
     public function read() 
     {
-        return json_decode($this->jsonStr, true);
+        return json_decode($this->jsonStr, $this->assoc);
     }
 }

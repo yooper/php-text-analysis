@@ -1,9 +1,7 @@
 <?php
 namespace Tests\TextAnalysis\Analysis;
 
-use TextAnalysis\Tokenizers\GeneralTokenizer;
 use TextAnalysis\Analysis\FreqDist;
-use TextAnalysis\Aggregates\TokenMetaAggregator;
 /**
  * Test cases for FreqDist
  * @author yooper
@@ -11,27 +9,29 @@ use TextAnalysis\Aggregates\TokenMetaAggregator;
 class FreqDistTest extends \Tests\Base
 {
     
-    public function testFreqDist()
-    { 
-        $tokenizer = new GeneralTokenizer();
-        $tokens = $tokenizer->tokenize(self::$text);
-        $tokenMetaAggregator = new TokenMetaAggregator(self::$text, $tokens);
-        $freqDist = new FreqDist($tokenMetaAggregator->getAggregate());
-        $this->assertTrue(count($freqDist->getHapaxes()) > 1);
-        $this->assertTrue(count($freqDist->getKeys()) > 1);
-    }
-    
     public function testSimpleFreqDist()
     { 
-        $text = "Time flies like an arrow.";
-        $tokenizer = new GeneralTokenizer();
-        $tokens = $tokenizer->tokenize($text);
-        $tokenMetaAggregator = new TokenMetaAggregator($text, $tokens);
-        $freqDist = new FreqDist($tokenMetaAggregator->getAggregate());
-        $this->assertTrue(count($freqDist->getHapaxes()) > 1);
-        
-        $this->assertEquals(5, count($freqDist->getKeys()));
-    }    
+        $freqDist = new FreqDist(array("time", "flies", "like", "an", "arrow", "time", "flies", "like", "what"));
+        $this->assertTrue(count($freqDist->getHapaxes()) === 3);        
+        $this->assertEquals(9, $freqDist->getTotalTokens());
+        $this->assertEquals(6, $freqDist->getTotalUniqueTokens());
+    }
+    
+    public function testEmptyHapaxesFreqDist()
+    { 
+        $freqDist = new FreqDist(array("time", "time", "what", "what"));
+        $this->assertTrue(count($freqDist->getHapaxes()) === 0);        
+        $this->assertEquals(4, $freqDist->getTotalTokens());
+        $this->assertEquals(2, $freqDist->getTotalUniqueTokens());
+    }
+    
+    public function testSingleHapaxFreqDist()
+    {
+        $freqDist = new FreqDist(array("time"));
+        $this->assertTrue(count($freqDist->getHapaxes()) === 1);        
+        $this->assertEquals(1, $freqDist->getTotalTokens());
+        $this->assertEquals(1, $freqDist->getTotalUniqueTokens());        
+    } 
     
 }
    

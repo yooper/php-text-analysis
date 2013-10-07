@@ -16,7 +16,7 @@ class GeneralTokenizer extends TokenizerAbstract
      * 
      * @param string $tokenExpression 
      */
-    public function __construct($tokenExpression = " \n\t,")
+    public function __construct($tokenExpression = " \n\t\r,-!?")
     {
         $this->tokenExpression = $tokenExpression;
     }
