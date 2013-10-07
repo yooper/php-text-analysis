@@ -1,0 +1,24 @@
+{
+	"name": "php-text-analysis/php-text-analysis",
+	"description": "PHP Text Analysis is a library for performing Information Retrival (IR) and Natural Language Processing (NLP) tasks using the PHP language",
+	"keywords": ["nlp","ir","text analysis","natural language processing"],
+	"license": "BSD",
+	"authors": [
+		{
+			"name": "Dan Cardin"
+		}
+	],
+	"require": {
+		"php": ">=5.3"
+	},
+	"autoload": {
+		"psr-0": {
+			"TextAnalysis\\": "src/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
+}
