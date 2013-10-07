@@ -1,4 +1,4 @@
-text-analysis
+php-text-analysis
 =============
 
-Analyze Text Using PHP!
+PHP Text Analysis is a library for performing Information Retrival (IR) and Natural Language Processing (NLP) tasks using the PHP language. All the documentation for this project can be found in the wiki. 
