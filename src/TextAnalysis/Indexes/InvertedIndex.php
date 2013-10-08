@@ -1,7 +1,7 @@
 <?php
 namespace TextAnalysis\Indexes;
 
-use TextAnalysis\Collections\DocumentArrayCollection;
+use TextAnalysis\Interfaces\ICollection;
 
 /**
  * A implementation of the inverted document index that is popular for use in 
@@ -10,17 +10,27 @@ use TextAnalysis\Collections\DocumentArrayCollection;
  */
 class InvertedIndex
 {       
+    /**
+     * The index
+     * @var array 
+     */
     protected $index = array();
     
-    
+    /**
+     *
+     * @param ICollection $collection 
+     */
     public function __construct(ICollection $collection)
     {
         $this->buildIndex($collection);
     }
     
+    /**
+     * Build the index from the provided collection
+     * @param ICollection $documentCollection 
+     */
     protected function buildIndex(ICollection $documentCollection)
-    {
-        
+    {        
         foreach($documentCollection as $id => $document) {
             $tokens = $document->getDocumentData();
             foreach($tokens as $token) { 
@@ -30,14 +40,20 @@ class InvertedIndex
                 
                 $this->index[$token][] = $id;                
             }
-        }
-        
+        }   
     }
     
+
     /**
-     * return an array  
+     * Accepts a string a query and returns the set of documents relevant 
+     * to the query
+     * @param string $query
+     * @return array 
      */
-    public function query($token);
+    public function query($query)
+    {
+        return array();
+    }
     
 }
 
