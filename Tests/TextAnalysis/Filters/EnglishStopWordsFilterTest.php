@@ -9,6 +9,7 @@ use TextAnalysis\Filters\EnglishStopWordsFilter;
  */
 class EnglishStopWordsFilterTest extends \PHPUnit_Framework_TestCase
 {
+    
     public function testIsStopWord()
     {
         $stopWord = new EnglishStopWordsFilter();
@@ -20,4 +21,10 @@ class EnglishStopWordsFilterTest extends \PHPUnit_Framework_TestCase
         $stopWord = new EnglishStopWordsFilter();
         $this->assertEquals("Peninsula", $stopWord->transform("Peninsula"));
     }
+    
+    public function testIsStopWord2()
+    {
+        $stopWord = new EnglishStopWordsFilter();
+        $this->assertNull($stopWord->transform("as"));
+    }    
 }

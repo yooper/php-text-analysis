@@ -668,6 +668,8 @@ STOPWORDS;
         //there is an extra new line that must be popped off
         $this->stopWords = explode(PHP_EOL, $stopWords);        
         array_pop($this->stopWords);
+        //sort the stop words
+        sort($this->stopWords);
         
     } // end of init stop words
 }
