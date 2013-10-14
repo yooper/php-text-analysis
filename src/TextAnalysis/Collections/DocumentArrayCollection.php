@@ -9,9 +9,6 @@ use TextAnalysis\Documents\DocumentAbstract;
  */
 class DocumentArrayCollection implements ICollection
 {
-    const CLASS_AS_KEY = 1;
-    const OFFSET_AS_KEY = 2;
-
     /**
      * An array of documents
      * @var array
@@ -25,6 +22,10 @@ class DocumentArrayCollection implements ICollection
      */
     protected $currentDocument = null;
 
+    /**
+     * An array of DocumentAbstract objects
+     * @param array $documents 
+     */
     public function __construct(array $documents)
     {
         $this->documents = $documents;
@@ -53,26 +54,42 @@ class DocumentArrayCollection implements ICollection
     }
     
 
-    // ====== Implementation of \Iterator interface =========
     public function rewind()
     {
         reset($this->documents);
         $this->currentDocument = current($this->documents);
     }
+    
+    
     public function next()
     {
         $this->currentDocument = next($this->documents);
     }
+    
+    /**
+     *
+     * @return boolean
+     */
     public function valid()
     {
         return $this->currentDocument === null;
     }
+    
+    /**
+     *
+     * @return DocumentAbstract
+     */
     public function current()
     {
         return $this->currentDocument;
     }
 
-    
+    /**
+     *
+     * @param mixed $key
+     * @param DocumentAbstract $value
+     * @return boolean 
+     */
     public function offsetSet($key, $value)
     {
         if(!isset($key)) { 
@@ -86,6 +103,11 @@ class DocumentArrayCollection implements ICollection
         
     }
     
+    /**
+     *
+     * @param mixed $key
+     * @return null 
+     */
     public function offsetUnset($key)
     {
         if (isset($this->documents[$key])) {
@@ -96,21 +118,40 @@ class DocumentArrayCollection implements ICollection
          }
           return null;
     }
+    
+    /**
+     *
+     * @param mixed $key
+     * @return DocumentAbstract 
+     */
     public function offsetGet($key)
     {
         return $this->documents[$key];
     }
+    
+    /**
+     *
+     * @param mixed $key
+     * @return boolean 
+     */
     public function offsetExists($key)
     {
         return isset($this->documents[$key]);
     }
 
-    
+    /**
+     *
+     * @return int
+     */
     public function count()
     {
         return count($this->documents);
     }
 
+    /**
+     *
+     * @return \ArrayIterator 
+     */
     public function getIterator()
     {
         return new \ArrayIterator($this->documents);

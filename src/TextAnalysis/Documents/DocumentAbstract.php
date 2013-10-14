@@ -13,30 +13,24 @@ abstract class DocumentAbstract
      */
     protected $tokens = array();
     
-    
     /**
-     * A name,class,type, or a metadata field, etc..
-     * @var string 
+     * Zones provides a stdClass for adding in the desired metadata/zones in this document
+     * leave as public to simplify access
+     * @var \stdClass
      */
-    protected $name;
+    public $zones;
     
     /**
      * 
      * @param array|null $tokens 
+     * @param \stdClass|null $zones
      */
-    public function __construct(array $tokens = array(), $name = null)
+    public function __construct(array $tokens = array(), $zones = null)
     {
         $this->tokens = $tokens;
-        $this->name = $name;
-    }
-    
-    /**
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
+        if(!$zones) { 
+            $this->zones = new \stdClass();
+        }
     }
     
     /**

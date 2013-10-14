@@ -1,15 +1,21 @@
 <?php
 namespace TextAnalysis\Indexes;
 
-use TextAnalysis\Interfaces\ICollection;
+use TextAnalysis\Queries\QueryAbstractFactory;
+use TextAnalysis\Queries\SingleTermQuery;
+use TextAnalysis\Queries\MultiTermQuery;
 
+use TextAnalysis\Interfaces\IDataReader;
 /**
  * A implementation of the inverted document index that is popular for use in 
  * mapping tokens to documents
  * @author Dan Cardin (yooper)
  */
 class InvertedIndex
-{       
+{     
+    const FREQ = 'freq';
+    const POSTINGS = 'postings';
+    
     /**
      * The index
      * @var array 
@@ -17,43 +23,50 @@ class InvertedIndex
     protected $index = array();
     
     /**
-     *
-     * @param ICollection $collection 
+     * Pass in the pre-built indexes for doing lookups
+     * @param IDataReader $reader 
      */
-    public function __construct(ICollection $collection)
+    public function __construct(IDataReader $reader)
     {
-        $this->buildIndex($collection);
+        $this->index = $reader->read();
     }
-    
-    /**
-     * Build the index from the provided collection
-     * @param ICollection $documentCollection 
-     */
-    protected function buildIndex(ICollection $documentCollection)
-    {        
-        foreach($documentCollection as $id => $document) {
-            $tokens = $document->getDocumentData();
-            foreach($tokens as $token) { 
-                if(isset($this->index[$token])) { 
-                    $this->index[$token] = array();
-                }
-                
-                $this->index[$token][] = $id;                
-            }
-        }   
-    }
-    
-
+        
     /**
      * Accepts a string a query and returns the set of documents relevant 
      * to the query
-     * @param string $query
+     * @param string $queryStr
      * @return array 
      */
-    public function query($query)
+    public function query($queryStr)
     {
-        return array();
+        $queryObj = QueryAbstractFactory::factory($queryStr);
+        
+        if($queryObj instanceof SingleTermQuery && isset($this->index[$queryObj->getQuery()])) { 
+            return $this->index[$queryObj->getQuery()][self::POSTINGS];
+        } else if($queryObj instanceof MultiTermQuery) {
+            return $this->getMultiTermResults($queryObj->getQuery());
+        }
+        
+        //no results available
+        return array();            
     }
     
+    /**
+     * Return the array of documents the search terms where found in
+     * @param array $tokens
+     * @return array 
+     */
+    protected function getMultiTermResults(array $terms)
+    {
+        $docList = array();
+        foreach($terms as $term) { 
+            if(isset($this->index[$term])) {
+                $docList = array_merge($docList, $this->index[$term][self::POSTINGS]);
+            }
+        }
+        //re-index and unique the array
+        return array_values(array_unique($docList));
+    }
+        
 }
 

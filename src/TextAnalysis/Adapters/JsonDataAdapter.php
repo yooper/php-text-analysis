@@ -2,7 +2,7 @@
 namespace TextAnalysis\Adapters;
 use TextAnalysis\Interfaces\IDataReader;
 /**
- * A simple wrapper adapter class around json_decode
+ * A simple wrapper adapter class around json_decode and json decode
  * @author Dan Cardin
  */
 class JsonDataAdapter implements IDataReader

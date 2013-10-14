@@ -12,6 +12,7 @@ use TextAnalysis\Indexes\TfIdf;
  */
 class TfIdfTest extends \PHPUnit_Framework_TestCase
 {
+        
     public function testIdf()
     {
         $docs = array(
@@ -24,14 +25,7 @@ class TfIdfTest extends \PHPUnit_Framework_TestCase
            
         $tfIdf = new TfIdf($docCollection);
         
-        var_dump($tfIdf->getIdf());
-        /*
-        $results = $idf->query("hiking");
-        $this->assertTrue($results['doc1'] > 1.21);
-        $this->assertTrue($results['doc2'] > 0.4);
-        $this->assertTrue($results['doc3'] == 0);         
-         * 
-         */
+        
     }
     
 }
