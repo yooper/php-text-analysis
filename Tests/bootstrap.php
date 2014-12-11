@@ -35,10 +35,10 @@ function autoloader($className){
     
     if(strpos($className, "Tests") !== false) {
         $newClassName = str_replace("\\", DS, $className);
-        require_once $newClassName.'.php';
+        include_once $newClassName.'.php';
     } else {
         $newClassName = str_replace("\\", DS, $className);
-        require_once LIB_PATH.DS.$newClassName.'.php';
+        include_once LIB_PATH.DS.$newClassName.'.php';
     }
 }
 

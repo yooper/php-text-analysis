@@ -46,7 +46,7 @@ class FreqDist
      * Internal function for summarizing all the data into a key value store
      * @param array $tokens The set of tokens passed into the constructor
      */
-    protected function preCompute(array &$tokens)
+    protected function preCompute(array $tokens)
     {
         //count all the tokens up and put them in a key value store
         $this->keyValues = array_count_values($tokens);
@@ -109,7 +109,7 @@ class FreqDist
         //make a copy of the array
         $keyValuesByWeight = $this->keyValues;
         
-        array_walk($keyValuesByWeight, function(&$value, $key, $weightPerToken) {
+        array_walk($keyValuesByWeight, function($value, $key, $weightPerToken) {
             $value = $value * $weightPerToken;
         }, $this->totalTokens);
         
