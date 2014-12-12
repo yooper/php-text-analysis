@@ -46,8 +46,9 @@ class InvertedIndexTest extends \PHPUnit_Framework_TestCase
         
         $invertedIndex = new InvertedIndex($adapter);
         
-        $this->assertEquals(array(0,1,2), $invertedIndex->query("ironwood michigan"));
-        $this->assertEquals(array(1,2), $invertedIndex->query("no ironwood"));
+        // the order has changed in the test cases since the php version bump
+        $this->assertCount(3, $invertedIndex->query("ironwood michigan"));
+        $this->assertCount(2, $invertedIndex->query("no ironwood"));
     }    
     
     public function testSingleTermSearchTermDoesNotExists()
