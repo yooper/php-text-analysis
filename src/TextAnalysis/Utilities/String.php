@@ -56,4 +56,13 @@ class String
         return $subStrings;        
     }
     
+    /**
+     * Return a binary string from the passed in text
+     * @param string $text Input text
+     * @return string
+     */
+    static public function convertBinaryToString($text)
+    {
+        return base_convert(unpack('H*', $text)[1], 16, 2);
+    }
 }

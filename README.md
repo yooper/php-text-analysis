@@ -12,3 +12,13 @@ Examples For PHP Text Analysis
 =============
 
 https://github.com/yooper/php-text-analysis-examples
+
+Installation Instructions
+=============
+
+PHP Text Analysis does use some additional modules
+
+## UBUNTU 14.04
+```
+sudo apt-get install libgmp-dev php5-gmp
+```
