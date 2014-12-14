@@ -61,8 +61,9 @@ class String
      * @param string $text Input text
      * @return string
      */
-    static public function convertBinaryToString($text)
+    static public function textToBin($text)
     {
         return base_convert(unpack('H*', $text)[1], 16, 2);
     }
+       
 }

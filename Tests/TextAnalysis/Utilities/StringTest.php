@@ -21,10 +21,10 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $substrings);
     }
     
-    public function testTextToBinary()
+    public function testTextToBin()
     {
-        $this->assertEquals('011000110110000101110100', String::convertBinaryToString('cat'));
-        $this->assertEquals('011000110110000101110100', String::convertBinaryToString('cat'));
-        $this->assertEquals('01110100011010010110111001111001', String::convertBinaryToString('tiny'));
+        $this->assertEquals('011000110110000101110100', String::textToBin('cat'));
+        $this->assertEquals('011000110110000101110100', String::textToBin('cat'));
+        $this->assertEquals('01110100011010010110111001111001', String::textToBin('tiny'));
     }
 }
