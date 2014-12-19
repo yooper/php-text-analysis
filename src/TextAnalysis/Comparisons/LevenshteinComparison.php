@@ -31,12 +31,12 @@ class LevenshteinComparison implements IDistance
     
     /**
      * Return the levenshtein distance, default costs of 1 applied
-     * @param string $obj1
-     * @param string $obj2
+     * @param string $text1
+     * @param string $text2
      * @return int
      */
-    public function distance($obj1, $obj2)
+    public function distance($text1, $text2)
     {
-        return levenshtein($obj1, $obj2, $this->insertCost, $this->replaceCost, $this->deleteCost);
+        return levenshtein($text1, $text2, $this->insertCost, $this->replaceCost, $this->deleteCost);
     }
 }

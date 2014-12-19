@@ -9,5 +9,5 @@ namespace TextAnalysis\Interfaces;
  */
 interface ISimilarity 
 {
-    public function similarity($obj1, $obj2);
+    public function similarity($text1, $text2);
 }

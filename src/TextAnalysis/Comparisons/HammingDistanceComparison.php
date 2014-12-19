@@ -14,17 +14,17 @@ class HammingDistanceComparison implements IDistance
 {        
     /**
      * Return the hamming distance, expects the strings to be equal length
-     * @param string $obj1
-     * @param string $obj2
+     * @param string $text1
+     * @param string $text2
      * @return int
      */
-    public function distance($obj1, $obj2)
+    public function distance($text1, $text2)
     {
         $distance = 0;
-        $strLength = strlen($obj1);
+        $strLength = strlen($text1);
         for($index = 0; $index < $strLength; $index++)
         {
-            if($obj1[$index] != $obj2[$index]) { 
+            if($text1[$index] != $text2[$index]) { 
                 $distance++;
             }
         }

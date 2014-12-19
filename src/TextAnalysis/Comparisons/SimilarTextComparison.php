@@ -13,24 +13,24 @@ class SimilarTextComparison implements ISimilarity, IDistance
 {
     /**
      * Return the distance
-     * @param string $obj1
-     * @param string $obj2
+     * @param string $text1
+     * @param string $text2
      * @return type
      */
-    public function distance($obj1, $obj2) 
+    public function distance($text1, $text2) 
     {
-        return strlen($obj2) - $this->similarity($obj1, $obj2);
+        return strlen($text2) - $this->similarity($text1, $text2);
     }
 
     /**
      * Returns similar_text call
-     * @param string $obj1
-     * @param string $obj2
+     * @param string $text1
+     * @param string $text2
      * @return int
      */
-    public function similarity($obj1, $obj2) 
+    public function similarity($text1, $text2) 
     {
-        return similar_text($obj1, $obj2);
+        return similar_text($text1, $text2);
     }
 
 }

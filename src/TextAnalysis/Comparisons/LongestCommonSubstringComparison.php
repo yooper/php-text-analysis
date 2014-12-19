@@ -14,24 +14,24 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
 {
     /**
      * Returns the string length of the longest common substring (LCS)
-     * @param string $obj1
-     * @param string $obj2
+     * @param string $text1
+     * @param string $text2
      * @return int
      */
-    public function distance($obj1, $obj2) 
+    public function distance($text1, $text2) 
     {
-        return strlen($this->similarity($obj1, $obj2));
+        return strlen($this->similarity($text1, $text2));
     }
 
     /**
      * Returns the Longest common substring
-     * @param string $obj1
-     * @param string $obj2
+     * @param string $text1
+     * @param string $text2
      * @return string
      */
-    public function similarity($obj1, $obj2) 
+    public function similarity($text1, $text2) 
     {
-        $intersection = array_intersect( String::getAllSubStrings($obj1), String::getAllSubStrings($obj2));
+        $intersection = array_intersect( String::getAllSubStrings($text1), String::getAllSubStrings($text2));
         $max = 0;
         $lcs = '';
         foreach($intersection as $substr)

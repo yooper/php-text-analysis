@@ -8,5 +8,5 @@ namespace TextAnalysis\Interfaces;
  */
 interface IDistance 
 {
-    public function distance($obj1, $obj2);
+    public function distance($text1, $text2);
 }
