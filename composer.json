@@ -5,14 +5,15 @@
 	"license": "BSD",
 	"authors": [
 		{
-			"name": "Dan Cardin"
+			"name": "Dan Cardin",
+                        "email" : "dcardin2007@gmail.com"
 		}
 	],
 	"require": {
 		"php": ">=5.5"
 	},
 	"autoload": {
-		"psr-0": {
+		"psr-4": {
 			"TextAnalysis\\": "src/"
 		}
 	},
@@ -24,6 +25,7 @@
         "config": {
             "bin-dir": "bin/"
         },
+        "require" : {},
         "require-dev": {
             "phpunit/phpunit": "3.7.*",
             "phpunit/phpunit-selenium": ">=1.2",
