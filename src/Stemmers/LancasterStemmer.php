@@ -78,10 +78,14 @@ class LancasterStemmer implements IStemmer
     /**
      * Performs a Lancaster stem on the giving word
      * @param string $word The word that gets stemmed
-     * @return string The stemmed word
+     * @return string|null The stemmed word
      */
     public function stem($word)
     {
+        if(empty(trim($word))) { 
+            return null;
+        }
+        
         $this->originalToken = $word;
         
         //only iterate out loop if a rule is applied        

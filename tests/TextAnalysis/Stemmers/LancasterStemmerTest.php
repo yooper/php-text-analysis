@@ -23,6 +23,7 @@ class LancasterStemmerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('string', $stemmer->stem('string'));
         $this->assertEquals('meant', $stemmer->stem('meant')); 
         $this->assertEquals('cem', $stemmer->stem('cement')); 
+        $this->assertEquals( null, $stemmer->stem(' ')); 
         
     }    
 }
