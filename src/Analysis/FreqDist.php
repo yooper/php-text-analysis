@@ -2,6 +2,7 @@
 namespace TextAnalysis\Analysis;
 
 use TextAnalysis\Documents\TokensDocument;
+use TextAnalysis\Exceptions\InvalidParameterSizeException;
 
 /**
  * Extract the Frequency distribution of keywords
@@ -30,7 +31,10 @@ class FreqDist
     public function __construct(array $tokens)
     {  
         $this->preCompute($tokens);
-        $this->totalTokens = count($tokens);
+        $this->totalTokens = count($tokens);        
+        if($this->totalTokens === 0) { 
+            throw new InvalidParameterSizeException("The tokens array must not be empty");
+        }
     }
      
     /**
@@ -124,27 +128,27 @@ class FreqDist
      */
     public function getHapaxes()
     {
-            $hapaxes = array();
+        $hapaxes = array();
             
-            //get the head key
-            $head = key($this->keyValues);
+        //get the head key
+        $head = key($this->keyValues);
             
-            //get the tail value,. set the internal pointer to the tail
-            $tail = end($this->keyValues);
-            // no hapaxes available
-            if($tail > 1) { 
-                return array();
-            }
+        //get the tail value,. set the internal pointer to the tail
+        $tail = end($this->keyValues);
+        // no hapaxes available
+        if($tail > 1) { 
+            return array();
+        }
             
-            do {
-                $hapaxes[] = key($this->keyValues);
-                prev($this->keyValues);
+        do {
+            $hapaxes[] = key($this->keyValues);
+            prev($this->keyValues);
                 
-            } while(current($this->keyValues) == 1 && key($this->keyValues) !== $head);
+        } while(current($this->keyValues) == 1 && key($this->keyValues) !== $head);
             
-            //reset the internal pointer in the array
-            reset($this->keyValues);
-            return $hapaxes; 
+        //reset the internal pointer in the array
+        reset($this->keyValues);
+        return $hapaxes; 
     }
     
 }

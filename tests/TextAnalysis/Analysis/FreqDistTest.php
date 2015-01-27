@@ -32,6 +32,14 @@ class FreqDistTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $freqDist->getTotalTokens());
         $this->assertEquals(1, $freqDist->getTotalUniqueTokens());        
     } 
-    
+
+    /**
+    * @expectedException TextAnalysis\Exceptions\InvalidParameterSizeException
+    *  
+    */    
+    public function testEmptyFreqDist()
+    {
+        $freqDist = new FreqDist([]);        
+    }     
 }
    
