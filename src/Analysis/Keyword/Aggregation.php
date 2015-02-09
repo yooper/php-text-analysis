@@ -35,7 +35,7 @@ class Aggregation {
     /**
      * Get the number of unique words for the word
      * count size specified
-     * @param integer $wordCount
+     * @param integer $wordCountIndex
      * @return integer 
      */
     public function getSortedWordCountFrequency($wordCountIndex){         

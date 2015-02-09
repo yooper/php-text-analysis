@@ -10,21 +10,37 @@ use TextAnalysis\Interfaces\ITokenTransformation;
  */
 class TokensDocument extends DocumentAbstract
 {
-    public function applyTransformation(ITokenTransformation $transformer) {
-        
-        foreach($this->tokens as &$token) { 
+    /**
+     * Apply the transformation
+     * @param ITokenTransformation $transformer
+     * @return \TextAnalysis\Documents\TokensDocument
+     */
+    public function applyTransformation(ITokenTransformation $transformer) 
+    {        
+        foreach($this->tokens as &$token) 
+        { 
             $token = $transformer->transform($token);
         }
         //filter null tokens and re-index
         $this->tokens = array_values(array_filter($this->tokens));
-        
+        return $this;
+    }
+    
+    /**
+     * Return the tokens
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->tokens;
     }
     
     /**
      * Return an array of tokens
      * @return array
      */
-    public function getDocumentData() {
+    public function getDocumentData() 
+    {
         return $this->tokens;
     }
 }
