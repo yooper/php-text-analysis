@@ -28,14 +28,12 @@ class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("affärschef", $stemmer->stem("affärscheferna"));
     }    
     
-    /**
-     * @expectedException   Exception
-     */
     public function testException()
     {
         if( getenv('SKIP_TEST')) {
             return;
-        }        
+        }      
+        $this->setExpectedException('Exception');
         $stemmer = new SnowballStemmer('ewok');
     }
 }
