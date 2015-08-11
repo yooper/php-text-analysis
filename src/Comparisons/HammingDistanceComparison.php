@@ -2,7 +2,6 @@
 
 namespace TextAnalysis\Comparisons;
 
-use TextAnalysis\Utilities\String;
 use TextAnalysis\Interfaces\IDistance;
 
 /** 

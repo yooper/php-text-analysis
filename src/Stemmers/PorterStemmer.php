@@ -13,6 +13,6 @@ class PorterStemmer implements IStemmer
 
     public function stem($token) 
     {
-        
+        die('not implemented');
     }
 }
