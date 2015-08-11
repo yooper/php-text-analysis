@@ -7,7 +7,7 @@ use TextAnalysis\Comparisons\JaccardIndexComparison;
 /**
  * Description of JaccardIndexComparisonTest
  *
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class JaccardIndexComparisonTest extends \PHPUnit_Framework_TestCase
 {

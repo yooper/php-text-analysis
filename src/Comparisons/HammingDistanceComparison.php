@@ -8,7 +8,7 @@ use TextAnalysis\Interfaces\IDistance;
 /** 
  * Implementation of hamming distance using PHP's native function 
  * 
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class HammingDistanceComparison implements IDistance
 {        

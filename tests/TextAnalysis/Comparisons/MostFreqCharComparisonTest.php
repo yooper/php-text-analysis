@@ -6,7 +6,7 @@ use TextAnalysis\Comparisons\MostFreqCharComparison;
 
 /**
  *
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class MostFreqCharComparisonTest extends \PHPUnit_Framework_TestCase 
 {

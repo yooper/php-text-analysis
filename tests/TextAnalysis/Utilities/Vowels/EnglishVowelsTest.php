@@ -4,7 +4,7 @@ use TextAnalysis\Utilities\Vowels\VowelsAbstractFactory;
 
 /**
  *
- * @author Dan Cardin
+ * @author yooper
  */
 class EnglishVowelsTest extends \PHPUnit_Framework_TestCase
 {

@@ -6,7 +6,7 @@ use TextAnalysis\Comparisons\JaroWinklerComparison;
 
 /**
  *
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class JaroWinklerComparisonTest extends \PHPUnit_Framework_TestCase
 {

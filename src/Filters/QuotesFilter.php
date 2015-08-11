@@ -5,7 +5,7 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 
 /**
  * Remove quotes from tokenized documents
- * @author Dan Cardin
+ * @author yooper
  */
 class QuotesFilter implements ITokenTransformation
 {

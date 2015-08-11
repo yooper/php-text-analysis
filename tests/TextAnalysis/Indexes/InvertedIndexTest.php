@@ -8,7 +8,7 @@ use TextAnalysis\Adapters\ArrayDataReaderAdapter;
 
 /**
  * Test the inverted index
- * @author Dan Cardin
+ * @author yooper
  */
 class InvertedIndexTest extends \PHPUnit_Framework_TestCase
 {

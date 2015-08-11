@@ -7,7 +7,7 @@ use TextAnalysis\Documents\DocumentAbstract;
 
 /**
  * An implementation of the TF Idf Algorithm
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class TfIdf 
 {

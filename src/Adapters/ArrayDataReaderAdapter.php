@@ -3,7 +3,7 @@ namespace TextAnalysis\Adapters;
 use TextAnalysis\Interfaces\IDataReader;
 /**
  * wraps an array
- * @author Dan Cardin
+ * @author yooper
  */
 class ArrayDataReaderAdapter implements IDataReader
 {

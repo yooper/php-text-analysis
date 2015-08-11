@@ -6,7 +6,7 @@ use TextAnalysis\Comparisons\LongestCommonSubstringComparison;
 
 /**
  *
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class LongestSubstringComparisonTest extends \PHPUnit_Framework_TestCase
 {

@@ -5,7 +5,7 @@ use TextAnalysis\Filters\EnglishStopWordsFilter;
 
 /**
  * Stop word filter test
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class EnglishStopWordsFilterTest extends \PHPUnit_Framework_TestCase
 {

@@ -6,7 +6,7 @@ use TextAnalysis\Interfaces\ISimilarity;
 
 /**
  * Implementation of the Jaro Winker algorithm
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class JaroWinklerComparison implements ISimilarity
 {

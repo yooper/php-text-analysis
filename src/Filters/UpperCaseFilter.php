@@ -5,7 +5,7 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 
 /**
  * Normalize the text to upper case
- * @author Dan Cardin
+ * @author yooper
  */
 class UpperCaseFilter implements ITokenTransformation
 {

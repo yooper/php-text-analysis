@@ -7,7 +7,7 @@ use TextAnalysis\Interfaces\IDistance;
 
 /**
  * Wrapper for PHP's similar_text function
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class SimilarTextComparison implements ISimilarity, IDistance
 {

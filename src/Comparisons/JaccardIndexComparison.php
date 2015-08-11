@@ -6,7 +6,7 @@ use TextAnalysis\Interfaces\ISimilarity;
 
 /**
  * Implents the Jaccard Index algorithm
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class JaccardIndexComparison implements ISimilarity
 {

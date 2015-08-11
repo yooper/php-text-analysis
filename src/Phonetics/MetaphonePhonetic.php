@@ -4,7 +4,7 @@ namespace Tests\TextAnalysis\Comparisons\Phonetics;
 
 /**
  * Native wrapper for PHP's metaphone function
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class MetaphonePhonetic 
 {

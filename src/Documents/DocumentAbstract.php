@@ -3,7 +3,7 @@ namespace TextAnalysis\Documents;
 use TextAnalysis\Interfaces\ITokenTransformation;
 /**
  * Abstract parent document. 
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 abstract class DocumentAbstract
 {

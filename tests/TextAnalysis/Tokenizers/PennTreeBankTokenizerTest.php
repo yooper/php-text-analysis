@@ -6,7 +6,7 @@ use TextAnalysis\Tokenizers\PennTreeBankTokenizer;
 
 /**
  *
- * @author Dan Cardin
+ * @author yooper
  */
 class PennTreeBankTokenizerTest extends \PHPUnit_Framework_TestCase
 {

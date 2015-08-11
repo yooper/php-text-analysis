@@ -7,7 +7,7 @@ use TextAnalysis\Interfaces\IDistance;
 /**
  * Wrapper for native php's levenshtein 
  *
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class LevenshteinComparison implements IDistance
 {

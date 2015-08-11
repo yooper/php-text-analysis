@@ -5,7 +5,7 @@ namespace TextAnalysis\NGrams;
 /**
  * Generate ngrams
  *
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class NGramFactory
 {

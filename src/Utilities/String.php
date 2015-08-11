@@ -3,7 +3,7 @@ namespace TextAnalysis\Utilities;
 
 /**
  * Additional string functions
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class String 
 {
@@ -55,15 +55,4 @@ class String
         }
         return $subStrings;        
     }
-    
-    /**
-     * Return a binary string from the passed in text
-     * @param string $text Input text
-     * @return string
-     */
-    static public function textToBin($text)
-    {
-        return base_convert(unpack('H*', $text)[1], 16, 2);
-    }
-       
 }

@@ -5,7 +5,7 @@ use TextAnalysis\Stemmers\LancasterStemmer;
 /**
  * Description of LancasterStemmerTest
  *
- * @author Dan Cardin
+ * @author yooper
  */
 class LancasterStemmerTest extends \PHPUnit_Framework_TestCase
 {    

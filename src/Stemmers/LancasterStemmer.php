@@ -7,7 +7,7 @@ use TextAnalysis\Utilities\Vowels\VowelsAbstractFactory;
  * A word stemmer based on the Lancaster stemming algorithm.
  * Paice, Chris D. "Another Stemmer." ACM SIGIR Forum 24.3 (1990): 56-61.
  *
- * @author Dan Cardin
+ * @author yooper
  */
 class LancasterStemmer implements IStemmer
 {

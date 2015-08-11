@@ -4,7 +4,7 @@ namespace Tests\TextAnalysis\Analysis;
 use TextAnalysis\Analysis\FreqDist;
 /**
  * Test cases for FreqDist
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class FreqDistTest extends \PHPUnit_Framework_TestCase
 {

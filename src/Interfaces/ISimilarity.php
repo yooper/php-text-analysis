@@ -5,7 +5,7 @@ namespace TextAnalysis\Interfaces;
 
 /**
  *
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 interface ISimilarity 
 {

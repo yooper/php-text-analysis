@@ -8,7 +8,7 @@ use TextAnalysis\Indexes\TfIdf;
 
 
 /**
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class TfIdfTest extends \PHPUnit_Framework_TestCase
 {

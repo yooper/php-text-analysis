@@ -4,7 +4,7 @@ namespace Tests\TextAnalysis\Filters;
 use TextAnalysis\Filters\QuotesFilter;
 
 /**
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class QoutesFilterTest extends \PHPUnit_Framework_TestCase
 {

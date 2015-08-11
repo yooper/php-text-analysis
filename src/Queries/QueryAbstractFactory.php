@@ -6,7 +6,7 @@ use TextAnalysis\Tokenizers\GeneralTokenizer;
 
 /**
  * Examines the string and determines the type of query analyzer to use
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 abstract class QueryAbstractFactory 
 {

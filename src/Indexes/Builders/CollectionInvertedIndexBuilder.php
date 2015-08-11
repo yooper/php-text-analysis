@@ -6,7 +6,7 @@ use TextAnalysis\Analysis\FreqDist;
 
 /**
  * A really easy way to build an inverted index
- * @author Dan Cardin
+ * @author yooper
  */
 class CollectionInvertedIndexBuilder
 {

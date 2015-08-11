@@ -8,7 +8,7 @@ use TextAnalysis\Utilities\String;
 
 /**
  * Find the longest common substring/subsequence (LCS) between two strings
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class LongestCommonSubstringComparison implements ISimilarity, IDistance
 {

@@ -7,7 +7,7 @@ use TextAnalysis\NGrams\NGramFactory;
 /**
  * Description of NGramFactoryTest
  *
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class NGramFactoryTest extends \PHPUnit_Framework_TestCase
 {

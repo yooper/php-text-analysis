@@ -9,7 +9,7 @@ use TextAnalysis\Interfaces\IDataReader;
 /**
  * A implementation of the inverted document index that is popular for use in 
  * mapping tokens to documents
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class InvertedIndex
 {     

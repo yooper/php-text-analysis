@@ -6,7 +6,7 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 /**
  * A document that contains an array of tokens
  *
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class TokensDocument extends DocumentAbstract
 {

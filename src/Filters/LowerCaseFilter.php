@@ -5,7 +5,7 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 
 /**
  * Normalize the text to lower case
- * @author Dan Cardin
+ * @author yooper
  */
 class LowerCaseFilter implements ITokenTransformation
 {

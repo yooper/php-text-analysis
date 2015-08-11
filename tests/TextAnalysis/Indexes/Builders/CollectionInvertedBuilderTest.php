@@ -7,7 +7,7 @@ use TextAnalysis\Documents\TokensDocument;
 /**
  * Test building an index works with collections 
  *
- * @author Dan Cardin
+ * @author yooper
  */
 class CollectionInvertedBuilderTest extends \PHPUnit_Framework_TestCase
 {

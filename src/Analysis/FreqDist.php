@@ -6,7 +6,7 @@ use TextAnalysis\Exceptions\InvalidParameterSizeException;
 
 /**
  * Extract the Frequency distribution of keywords
- * @author Dan Cardin
+ * @author yooper
  */
 class FreqDist 
 {

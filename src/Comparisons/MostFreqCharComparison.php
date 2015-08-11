@@ -8,7 +8,7 @@ use TextAnalysis\Interfaces\IDistance;
 /**
  * An implementation Most frequent k characters algorithm; see
  * http://en.wikipedia.org/wiki/Most_frequent_k_characters
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class MostFreqCharComparison implements ISimilarity, IDistance
 {

@@ -4,7 +4,7 @@ namespace TextAnalysis\Utilities\Vowels;
 
 /**
  * Helper Vowel class, determines if the character at a given index is a vowel
- * @author Dan Cardin
+ * @author yooper
  */
 class EnglishVowels extends VowelsAbstractFactory
 {    

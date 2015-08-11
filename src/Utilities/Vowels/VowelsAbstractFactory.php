@@ -3,7 +3,7 @@ namespace TextAnalysis\Utilities\Vowels;
 
 /**
  * Factory wrapper for Vowels
- * @author Dan Cardin
+ * @author yooper
  */
 abstract class VowelsAbstractFactory 
 {

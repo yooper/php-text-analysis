@@ -4,7 +4,7 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 
 /**
  * Stop words is an english list of stop words
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class EnglishStopWordsFilter implements ITokenTransformation
 {    

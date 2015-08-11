@@ -4,7 +4,7 @@ namespace Tests\TextAnalysis\Filters;
 use TextAnalysis\Filters\LowerCaseFilter;
 
 /**
- * @author Dan Cardin (yooper)
+ * @author yooper (yooper)
  */
 class LowerCaseFilterilterTest extends \PHPUnit_Framework_TestCase
 {

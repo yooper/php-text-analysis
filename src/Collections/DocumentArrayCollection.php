@@ -35,7 +35,7 @@ class DocumentArrayCollection implements ICollection
     public function __destruct()
     {
         unset($this->documents);
-        $this->currentDocument = null;
+        unset($this->currentDocument);
     }
     
     /**

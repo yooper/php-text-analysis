@@ -7,7 +7,7 @@ use TextAnalysis\Exceptions\InvalidExpression;
 /**
  * PennTreeBank Tokenizer
  * Based on http://www.cis.upenn.edu/~treebank/tokenizer.sed
- * @author Dan Cardin
+ * @author yooper
  */
 class PennTreeBankTokenizer extends WhitespaceTokenizer
 {

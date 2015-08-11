@@ -5,7 +5,7 @@ namespace TextAnalysis\Exceptions;
 use Exception;
 /**
  * 
- * @author Dan Cardin <yooper>
+ * @author yooper <yooper>
  */
 class InvalidParameterSizeException extends Exception 
 {
