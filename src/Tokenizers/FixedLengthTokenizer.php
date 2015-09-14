@@ -6,7 +6,7 @@ namespace TextAnalysis\Tokenizers;
  * 
  * FixedLength Tokenizer, wraps substr
  * @package Tokenizers\Simple\FixedLengthTokenizer
- * @author dcardin
+ * @author yooper
  */
 class FixedLengthTokenizer extends TokenizerAbstract
 {

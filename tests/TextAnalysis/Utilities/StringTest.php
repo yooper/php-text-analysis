@@ -7,7 +7,7 @@ use TextAnalysis\Utilities\String;
 /**
  * Description of StringTest
  *
- * @author dcardin
+ * @author yooper
  */
 class StringTest extends \PHPUnit_Framework_TestCase
 {

@@ -7,3 +7,14 @@ Installation Instructions
 =============
 
 http://yooper.github.io/php-text-analysis/
+
+Dictionary Installation
+=============
+For Ubuntu
+sudo apt-get install libpspell-dev 
+sudo apt-get install php5-pspell
+sudo apt-get install aspell-en
+
+For Centos 
+sudo yum install php5-pspell
+sudo yum install aspell-en

@@ -6,7 +6,7 @@ use TextAnalysis\Comparisons\LevenshteinComparison;
 
 /**
  *
- * @author dcardin
+ * @author yooper
  */
 class LevenshteinComparisonTest extends \PHPUnit_Framework_TestCase
 {

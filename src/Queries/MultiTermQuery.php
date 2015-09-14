@@ -6,7 +6,7 @@ use TextAnalysis\Tokenizers\WhitespaceTokenizer;
 
 /**
  * Handles search queries that have more than one query
- * @author dcardin
+ * @author yooper
  */
 class MultiTermQuery extends QueryAbstractFactory
 {

@@ -9,16 +9,12 @@ use TextAnalysis\Tokenizers\SentenceTokenizer;
  */
 class SentenceTokenizerTest extends \PHPUnit_Framework_TestCase
 {
-    
-    public function testSpaceTokenizer()
+    public function testSentenceTokenizer()
     {
-        $tokenizer = new SentenceTokenizer(" ");
-        $this->assertCount(1, $tokenizer->tokenize("This has some words."));
+        $tokenizer = new SentenceTokenizer();
+        $this->assertCount(2, $tokenizer->tokenize("This has some words. Why only 4 words?"));
+        $this->assertCount(2, $tokenizer->tokenize("My name is Yooper. I like programming!"));        
+        $this->assertCount(2, $tokenizer->tokenize("My name is Yooper!? I like programming!! !!"));                
     }
-    
-    public function testLineTokenizer(){
-
-        $tokenizer = new SentenceTokenizer(PHP_EOL);
-        $this->assertCount(2, $tokenizer->tokenize("My name is Yooper. I like programming."));        
-    }
+ 
 }

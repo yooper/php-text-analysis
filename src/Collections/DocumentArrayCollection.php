@@ -4,6 +4,7 @@ namespace TextAnalysis\Collections;
 use TextAnalysis\Interfaces\ICollection;
 use TextAnalysis\Interfaces\ITokenTransformation;
 use TextAnalysis\Documents\DocumentAbstract;
+use TextAnalysis\Interfaces\IExtractStrategy;
 
 /**
  */
@@ -51,6 +52,38 @@ class DocumentArrayCollection implements ICollection
                 $document->applyTransformation($transformation);
             }
         }        
+    }
+    
+    /**
+     * @param array $stemmers An array of stemmers
+     * Apply the collection of stem transformers to the documents
+     */
+    public function applyStemmers(array $stemmers)
+    {
+        /** @var DocumentAbstract $document **/
+        foreach($this->documents as $document) { 
+            /** @var ITokenTransformation $transformation **/
+            foreach($stemmers as $stemmer){
+                $document->applyStemmer($stemmer);
+            }
+        }        
+    }   
+    
+    /**
+     * Apply extract to the document to pull out all the points of 
+     * interest
+     * @param IExtractStrategy $extract
+     * @return array
+     */
+    public function applyExtract(IExtractStrategy $extract)
+    {
+        /* @var $document \TextAnalysis\Documents\TokensDocument */
+        $found = [];
+        foreach($this->documents as $document)
+        {
+            $found = array_merge($document->applyExtract($extract), $found);
+        }
+        return $found;
     }
     
 

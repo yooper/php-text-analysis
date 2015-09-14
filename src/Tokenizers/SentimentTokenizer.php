@@ -6,7 +6,7 @@ use TextAnalysis\Exceptions\InvalidExpression;
 /**
  * 
  * @todo
- * @author dcardin
+ * @author yooper
  */
 class SentimentTokenizer extends TokenizerAbstract 
 {

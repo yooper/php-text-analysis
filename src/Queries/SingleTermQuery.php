@@ -4,7 +4,7 @@ namespace TextAnalysis\Queries;
 
 /**
  * Handles search queries that only have a single term
- * @author dcardin
+ * @author yooper
  */
 class SingleTermQuery extends QueryAbstractFactory
 {

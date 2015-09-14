@@ -3,7 +3,7 @@ namespace TextAnalysis\Exceptions;
 
 /**
  * Used by the tokenization, primarily
- * @author dcardin
+ * @author yooper
  */
 class InvalidExpression extends \Exception
 {

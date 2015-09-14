@@ -4,7 +4,7 @@ use TextAnalysis\Interfaces\IStemmer;
 use TextAnalysis\Interfaces\IDataReader;
 /**
  * A dictionary based lookup stemmer. Depends upon input file
- * @author dcardin
+ * @author yooper
  */
 class LookupStemmer implements IStemmer
 {

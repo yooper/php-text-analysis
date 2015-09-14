@@ -3,7 +3,7 @@ namespace TextAnalysis\Tokenizers;
 /**
  * Description of WhitespaceTokenizer
  *
- * @author dcardin
+ * @author yooper
  */
 class WhitespaceTokenizer extends TokenizerAbstract
 {

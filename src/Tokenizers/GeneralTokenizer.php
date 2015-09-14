@@ -6,7 +6,7 @@ namespace TextAnalysis\Tokenizers;
  * 
  * General Purpose Tokenizer, wraps strtok
  * @package Tokenizers\Simple\GeneralTokenizer\
- * @author dcardin
+ * @author yooper
  */
 class GeneralTokenizer extends TokenizerAbstract
 {
@@ -43,7 +43,10 @@ class GeneralTokenizer extends TokenizerAbstract
 
         $tokens = array();
         while ($token !== false) {
-            $tokens[] = $token;
+            // avoid tokenizing white spaces
+            if(!empty(trim($token))) { 
+                $tokens[] = $token;
+            }
             $token = strtok($this->tokenExpression);        
         }
         return $tokens;

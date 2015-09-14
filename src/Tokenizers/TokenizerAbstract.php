@@ -3,7 +3,7 @@ namespace TextAnalysis\Tokenizers;
 
 /** 
  * An Abstract Class all Tokenizers extend
- * @author dcardin
+ * @author yooper
  */
 abstract class TokenizerAbstract 
 {
@@ -26,5 +26,5 @@ abstract class TokenizerAbstract
      * @return array
      */
     abstract function tokenize($string);
-    
+        
 }

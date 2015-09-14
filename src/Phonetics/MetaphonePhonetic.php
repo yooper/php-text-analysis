@@ -2,19 +2,21 @@
 
 namespace Tests\TextAnalysis\Comparisons\Phonetics;
 
+use TextAnalysis\Interfaces\ITokenTransformation;
+
 /**
  * Native wrapper for PHP's metaphone function
  * @author yooper (yooper)
  */
-class MetaphonePhonetic 
+class MetaphonePhonetic implements ITokenTransformation
 {
     /**
      * Return the metaphone algorithm
-     * @param string $text
+     * @param string $token
      * @return string
      */
-    public function compute($text)
+    public function transform($token)
     {
-        return metaphone($text);
+        return metaphone($token);
     }
 }

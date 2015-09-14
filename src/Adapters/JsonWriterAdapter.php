@@ -5,7 +5,7 @@ use TextAnalysis\Interfaces\IDataWriter;
 /**
  * return a json string based on the provided string
  * this class is a wrapper around json_encode
- * @author dcardin
+ * @author yooper
  */
 class JsonWriterAdapter implements IDataWriter
 {
