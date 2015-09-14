@@ -12,13 +12,17 @@ http://yooper.github.io/php-text-analysis/
 
 Dictionary Installation
 =============
-For Ubuntu
+
+*For Ubuntu*
+```
 sudo apt-get install libpspell-dev 
 sudo apt-get install php5-pspell
 sudo apt-get install aspell-en
 sudo apt-get install php5-enchant
-
-For Centos 
+```
+*For Centos* 
+```
 sudo yum install php5-pspell
 sudo yum install aspell-en
 sudo yum install php5-enchant
+```
