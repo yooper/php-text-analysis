@@ -13,6 +13,9 @@ class PspellAdapterTest extends \PHPUnit_Framework_TestCase
 {
     public function testSpelling()
     {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }        
         $adapter = new PspellAdapter();
         $this->assertEquals('run', $adapter->suggest("runn")[0]);                
         $this->assertEquals('Cooper', $adapter->suggest("yooper")[0]); 
