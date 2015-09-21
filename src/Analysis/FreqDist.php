@@ -151,4 +151,10 @@ class FreqDist
         return $hapaxes; 
     }
     
+    public function __destruct() 
+    {
+        unset($this->keyValues);
+        unset($this->totalTokens);
+    }
+    
 }
