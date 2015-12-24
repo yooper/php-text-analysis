@@ -25,14 +25,23 @@ class DictionaryStemmer implements IStemmer
     protected $spell;
     
     /**
+     * Holds an array of words that are excluded from the stemmer algorithm
+     * @var array
+     */
+    protected $whiteList = [];
+    
+    
+    /**
      * 
      * @param ISpelling $spell
      * @param IStemmer $stemmer
+     * @param array $whiteList
      */
-    public function __construct(ISpelling $spell, IStemmer $stemmer)
+    public function __construct(ISpelling $spell, IStemmer $stemmer, $whiteList = [])
     {
         $this->stemmer = $stemmer;
         $this->spell = $spell;
+        $this->whiteList = $whiteList;
     }
     
     /**
@@ -41,6 +50,9 @@ class DictionaryStemmer implements IStemmer
      */
     public function stem($token) 
     {
+        if(in_array($token, $this->whiteList)) { 
+            return $token;
+        }
         return $this->spell->suggest( $this->stemmer->stem($token) )[0];
     }
 }

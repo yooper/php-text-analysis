@@ -12,11 +12,32 @@ use TextAnalysis\Interfaces\IExtractStrategy;
  */
 class TokensDocument extends DocumentAbstract
 {
+    
+    /**
+     * An array of tokens that all Documents have
+     * @var type 
+     */
+    protected $tokens = array();
+    
+    /**
+     *
+     * @var array holds assigned metadata for
+     * further analysis
+     */
+    protected $metadata = [];
+    
+    
+    /**
+     *
+     * @var DateTime date the document was created on
+     */
+    protected $createdOn;    
     /**
      * Apply a stemmer
      * @param IStemmer $stemmer
      * @return \TextAnalysis\Documents\TokensDocument
      */
+    
     public function applyStemmer(IStemmer $stemmer) 
     {        
         foreach($this->tokens as &$token) 
@@ -62,6 +83,45 @@ class TokensDocument extends DocumentAbstract
         return $found;
     }
 
+    /**
+     * 
+     * @param array $metadata
+     * @return \TextAnalysis\Documents\TokensDocument
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->metadata = $metadata;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+    
+    /**
+     * 
+     * @param \TextAnalysis\Documents\DateTime $createdOn
+     * @return \TextAnalysis\Documents\TokensDocument
+     */
+    public function setCreatedOn(DateTime $createdOn)
+    {
+        $this->createdOn = $createdOn;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return DateTime
+     */
+    public function getCreatedOn()
+    {
+        return $this->createdOn;
+    }
 
     /**
      * Return the tokens

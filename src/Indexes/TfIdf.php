@@ -98,8 +98,6 @@ class TfIdf
                     $maxFrequency = current($keyValuesByWeight);
                     return 0.5 + (0.5 * $keyValuesByWeight[$token]) / $maxFrequency;
  
-                    return $keyValuesByWeight;
-
                 case self::FREQUENCY_MODE:
                 default:
                     return $keyValuesByWeight[$token];

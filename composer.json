@@ -1,32 +1,45 @@
 {
-	"name": "php-text-analysis/php-text-analysis",
-	"description": "PHP Text Analysis is a library for performing Information Retrival (IR) and Natural Language Processing (NLP) tasks using the PHP language",
-	"keywords": ["nlp","ir","text analysis","natural language processing"],
-	"license": "BSD",
-	"authors": [
-		{
-			"name": "yooper",
-                        "email" : "dcardin2007@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=5.5"
-	},
-	"autoload": {
-		"psr-4": {
-			"TextAnalysis\\": "src/"
-		}
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "1.0.x-dev"
-		}
-	},
-        "config": {
-            "bin-dir": "bin/"
-        },
-        "require" : {},
-        "require-dev": {
-            "phpunit/phpunit": "4.*"
+    "name": "php-text-analysis/php-text-analysis",
+    "description": "PHP Text Analysis is a library for performing Information Retrival (IR) and Natural Language Processing (NLP) tasks using the PHP language",
+    "keywords": ["nlp","ir","text analysis","natural language processing"],
+    "license": "Apache 2",
+    "authors": [
+    {
+        "name": "yooper",
+        "email" : "dcardin2007@gmail.com"
+    }
+    ],
+    "repositories": [
+    {
+        "type": "package",
+        "package": {
+            "name": "yooper/stop-words",
+            "version": "dev-master",
+            "source": {
+                "url": "https://github.com/yooper/stop-words",
+                "type": "git",
+                "reference": "origin/master"
+            }
         }
+    }
+    ],
+    "require": {
+        "php": ">=5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "TextAnalysis\\": "src/"
+	}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "require" : {
+        "yooper/stop-words": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
+    }
 }
