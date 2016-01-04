@@ -53,7 +53,7 @@ class InvertedIndex
     
     /**
      * Return the array of documents the search terms where found in
-     * @param array $tokens
+     * @param array $terms
      * @return array 
      */
     protected function getMultiTermResults(array $terms)

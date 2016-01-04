@@ -1,7 +1,6 @@
 <?php
 namespace TextAnalysis\Analysis;
 
-use TextAnalysis\Documents\TokensDocument;
 use TextAnalysis\Exceptions\InvalidParameterSizeException;
 
 /**
