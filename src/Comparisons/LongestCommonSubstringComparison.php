@@ -4,7 +4,7 @@ namespace TextAnalysis\Comparisons;
 
 use TextAnalysis\Interfaces\ISimilarity;
 use TextAnalysis\Interfaces\IDistance;
-use TextAnalysis\Utilities\String;
+use TextAnalysis\Utilities\Text;
 
 /**
  * Find the longest common substring/subsequence (LCS) between two strings
@@ -31,7 +31,7 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
      */
     public function similarity($text1, $text2) 
     {
-        $intersection = array_intersect( String::getAllSubStrings($text1), String::getAllSubStrings($text2));
+        $intersection = array_intersect( Text::getAllSubStrings($text1), Text::getAllSubStrings($text2));
         $max = 0;
         $lcs = '';
         foreach($intersection as $substr)

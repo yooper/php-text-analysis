@@ -2,21 +2,21 @@
 
 namespace Tests\Utilities;
 
-use TextAnalysis\Utilities\String;
+use TextAnalysis\Utilities\Text;
 
 /**
- * Description of StringTest
+ * Description of TextTest
  *
  * @author yooper
  */
-class StringTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit_Framework_TestCase
 {
     public function testAllSubstrings()
     {
         $text = 'abc';
         $expected = ['a','ab','abc','b','bc','c'];
         
-        $substrings = String::getAllSubStrings($text);
+        $substrings = Text::getAllSubStrings($text);
         $this->assertCount(6, $substrings);
         $this->assertEquals($expected, $substrings);
     }

@@ -3,7 +3,7 @@
 namespace TextAnalysis\Analysis;
 
 use TextAnalysis\Tokenizers\SentenceTokenizer;
-use TextAnalysis\Utilities\String;
+use TextAnalysis\Utilities\Text;
 use DateTime;
 
 /**
@@ -68,7 +68,7 @@ class DateAnalysis
         if(empty($this->dates)) {
             $getDateFunc = function($sentence) 
             { 
-                $date = String::findDate($sentence);
+                $date = Text::findDate($sentence);
                 return new DateTime("{$date['year']}-{$date['month']}-{$date['day']}");
             };
             

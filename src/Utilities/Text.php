@@ -5,7 +5,7 @@ namespace TextAnalysis\Utilities;
  * Additional string functions
  * @author yooper (yooper)
  */
-class String 
+class Text 
 {
     protected function __construct(){}
     

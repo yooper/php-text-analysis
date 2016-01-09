@@ -4,7 +4,7 @@ namespace TextAnalysis\Filters;
 
 
 use TextAnalysis\Interfaces\ITokenTransformation;
-use TextAnalysis\Utilities\String;
+use TextAnalysis\Utilities\Text;
 
 /**
  * Remove 's from tokens
@@ -19,7 +19,7 @@ class PossessiveNounFilter implements ITokenTransformation
      */
     public function transform($word)
     {
-        if(String::endsWith($word, "'s")) { 
+        if(Text::endsWith($word, "'s")) { 
             return substr($word, 0, -2);
         } else {
             return $word;
