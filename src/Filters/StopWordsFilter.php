@@ -15,8 +15,10 @@ class StopWordsFilter implements ITokenTransformation
      */
     protected $stopWords = null;
     
+
     /**
-     * Pass in the stop words and sort them
+     * Make sure to normalize your stop words before using this filter
+     * @param array $stopWords
      */
     public function __construct(array $stopWords)
     {

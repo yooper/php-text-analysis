@@ -12,7 +12,7 @@ class PunctuationFilter implements ITokenTransformation
 {
     public function transform($word)
     {
-        return preg_replace("/[[:punct:]]+/", "", $word);
+        return preg_replace("/[[:punct:]]+/", NULL, $word);
     }
 
 }
