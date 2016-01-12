@@ -1,4 +1,4 @@
 nbproject/
 vendor/
-corpora/
+storage/
 composer.lock
