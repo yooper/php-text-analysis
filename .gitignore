@@ -1,4 +1,4 @@
 nbproject/
-bin/
 vendor/
+storage/
 composer.lock
