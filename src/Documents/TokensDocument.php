@@ -52,16 +52,19 @@ class TokensDocument extends DocumentAbstract
     /**
      * Apply the transformation
      * @param ITokenTransformation $transformer
+     * @param boolean Remove nulls, we need nulls to indictate where stop words are
      * @return \TextAnalysis\Documents\TokensDocument
      */
-    public function applyTransformation(ITokenTransformation $transformer) 
+    public function applyTransformation(ITokenTransformation $transformer, $removeNulls = true) 
     {        
         foreach($this->tokens as &$token) 
         { 
             $token = $transformer->transform($token);
         }
         //filter null tokens and re-index
-        $this->tokens = array_values(array_filter($this->tokens));
+        if($removeNulls) {
+            $this->tokens = array_values(array_filter($this->tokens));
+        }
         return $this;
     } 
     

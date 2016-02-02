@@ -9,6 +9,7 @@ namespace TextAnalysis\Tokenizers;
  */
 class SentenceTokenizer extends GeneralTokenizer
 {
+
     /**
      * 
      */
