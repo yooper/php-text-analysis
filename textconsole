@@ -6,10 +6,13 @@ require __DIR__.'/vendor/autoload.php';
 
 use TextAnalysis\Console\Commands\NltkPackageListCommand;
 use TextAnalysis\Console\Commands\NltkPackageInstallCommand;
+use TextAnalysis\Console\Commands\StopWordsCommand;
 
 use Symfony\Component\Console\Application;
 
-$application = new Application();
-$application->add(new NltkPackageListCommand());
-$application->add(new NltkPackageInstallCommand());
-$application->run();
+$app = new Application();
+$app->add(new NltkPackageListCommand());
+$app->add(new NltkPackageInstallCommand());
+$app->add(new StopWordsCommand());
+
+$app->run();
