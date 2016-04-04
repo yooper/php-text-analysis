@@ -25,6 +25,10 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
     
     public function testClassiferNotFound()
     {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }           
+        
         $tagger = new StanfordNerTagger(get_storage_path('ner').'stanford-ner.jar', "classifier.gz");
         $this->setExpectedException('RuntimeException', 'Classifier not found classifier.gz');
         $tagger->tag([]);        
@@ -32,12 +36,14 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
     
     public function testTempCreatedFile()
     {
-        $jarPath = get_storage_path('ner').'stanford-ner.jar';
-        $classiferPath = get_storage_path('ner'.DIRECTORY_SEPARATOR."classifiers")."english.all.3class.distsim.crf.ser.gz";
-        $mockTagger = Mockery::mock('TextAnalysis\Taggers\StanfordNerTagger[exec]', [$jarPath, $classiferPath])
+        $mockTagger = Mockery::mock('TextAnalysis\Taggers\StanfordNerTagger[exec,verify]', ['bogus.jar', 'bogus.classifier'])
                 ->shouldAllowMockingProtectedMethods();
+        
         $mockTagger->shouldReceive('exec')
+                ->andReturnNull()
+                ->shouldReceive('verify')
                 ->andReturnNull();
+        
         $mockTagger->tag((new WhitespaceTokenizer())->tokenize($this->text));
         $this->assertFileExists($mockTagger->getTmpFilePath());
         $this->assertEquals(138, filesize($mockTagger->getTmpFilePath()));
