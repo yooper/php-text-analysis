@@ -9,20 +9,6 @@
         "email" : "dcardin2007@gmail.com"
     }
     ],
-    "repositories": [
-    {
-        "type": "package",
-        "package": {
-            "name": "yooper/stop-words",
-            "version": "dev-master",
-            "source": {
-                "url": "https://github.com/yooper/stop-words",
-                "type": "git",
-                "reference": "origin/master"
-            }
-        }
-    }
-    ],
     "autoload": {
         "psr-4": {
             "TextAnalysis\\": "src/"

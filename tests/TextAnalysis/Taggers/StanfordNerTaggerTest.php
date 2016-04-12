@@ -25,7 +25,7 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
     
     public function testClassiferNotFound()
     {
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !getenv('JAVA_HOME')) {
             return;
         }           
         
@@ -51,7 +51,7 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
 
     public function testStanfordNer()
     {
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !getenv('JAVA_HOME')) {
             return;
         }        
         

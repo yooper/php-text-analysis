@@ -2,6 +2,7 @@
 namespace Tests\TextAnalysis\Filters;
 
 use TextAnalysis\Filters\StopWordsFilter;
+use StopWordFactory;
 
 /**
  * Stop word filter test
@@ -16,7 +17,7 @@ class StopWordsFilterTest extends \PHPUnit_Framework_TestCase
      */
     protected function loadStopwords()
     {
-        return array_map('trim', file(VENDOR_DIR.'yooper/stop-words/data/stop-words_english_1_en.txt'));
+        return StopWordFactory::get('stop-words_english_1_en.txt');
     }
     
     public function testIsStopWord()
