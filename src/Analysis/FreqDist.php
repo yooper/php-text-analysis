@@ -111,11 +111,10 @@ class FreqDist
         $weightPerToken = $this->getWeightPerToken();
         //make a copy of the array
         $keyValuesByWeight = $this->keyValues;
-        
-        array_walk($keyValuesByWeight, function($value, $key, $weightPerToken) {
-            $value = $value * $weightPerToken;
+        array_walk($keyValuesByWeight, function(&$value, $key, $weightPerToken) {
+            $value /= $weightPerToken;
         }, $this->totalTokens);
-        
+
         return $keyValuesByWeight;
     }
     
