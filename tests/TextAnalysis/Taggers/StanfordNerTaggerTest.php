@@ -65,7 +65,7 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
         
         $this->assertFileExists($tagger->getTmpFilePath());        
         $this->assertEquals(138, filesize($tagger->getTmpFilePath()));        
-        $this->assertEquals(['LOCATION','Michigan'], $output[15]);        
+        $this->assertEquals(['LOCATION','Michigan'], $output[15], "Did you set JAVA_HOME env variable?");        
     }    
     
 }

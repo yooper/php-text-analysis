@@ -8,10 +8,17 @@ PHP Text Analysis is a library for performing Information Retrieval (IR) and Nat
 Installation Instructions
 =============
 
+Add PHP Text Analysis to your project
+```
+composer require yooper/php-text-analysis
+```
+
 http://yooper.github.io/php-text-analysis/
 
 Dictionary Installation
 =============
+
+Not required unless you use the dictionary stemmers
 
 *For Ubuntu*
 ```
@@ -26,3 +33,38 @@ sudo yum install php5-pspell
 sudo yum install aspell-en
 sudo yum install php5-enchant
 ```
+
+
+Tokenize
+=============
+
+There are several tokenizers available 
+
+ * FixedLengthTokenizer
+ * GeneralTokenizer
+ * LambdaTokenizer
+ * PennTreeBankTokenizer
+ * RegexTokenizer
+ * SentenceTokenizer 
+ * WhitespaceTokenizer
+
+*Tokenizer Usage*
+
+$tokenizer = new GeneralTokenizer()
+$tokens = $tokenizer->tokenize("Enter your text here");
+
+
+Frequency Distribution
+=============
+
+$tokenizer = new GeneralTokenizer()
+$tokens = $tokenizer->tokenize("time flies like an arrow and an arrow flies like time");
+$freqDist = new FreqDist($tokens);
+$freqDist->getHapaxes(); Get the Hapaxes
+$freqDist->getTotalTokens()
+$freqDist->getTotalUniqueTokens();
+
+Check out the API for full documentation
+https://github.com/yooper/php-text-analysis/blob/master/src/Analysis/FreqDist.php
+
+ 
