@@ -49,21 +49,21 @@ There are several tokenizers available
  * WhitespaceTokenizer
 
 *Tokenizer Usage*
-
+```
 $tokenizer = new GeneralTokenizer()
 $tokens = $tokenizer->tokenize("Enter your text here");
-
+```
 
 Frequency Distribution
 =============
-
+```
 $tokenizer = new GeneralTokenizer()
 $tokens = $tokenizer->tokenize("time flies like an arrow and an arrow flies like time");
 $freqDist = new FreqDist($tokens);
 $freqDist->getHapaxes(); Get the Hapaxes
 $freqDist->getTotalTokens()
 $freqDist->getTotalUniqueTokens();
-
+```
 Check out the API for full documentation
 https://github.com/yooper/php-text-analysis/blob/master/src/Analysis/FreqDist.php
 
