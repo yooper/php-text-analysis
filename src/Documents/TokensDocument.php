@@ -4,9 +4,10 @@ namespace TextAnalysis\Documents;
 use TextAnalysis\Interfaces\ITokenTransformation;
 use TextAnalysis\Interfaces\IStemmer;
 use TextAnalysis\Interfaces\IExtractStrategy;
+use DateTime;
 
 /**
- * A document that contains an array of tokens
+ * A document that contains an array of tokens with a doc id
  *
  * @author yooper (yooper)
  */
@@ -18,20 +19,38 @@ class TokensDocument extends DocumentAbstract
      * @var type 
      */
     protected $tokens = array();
+
+    /**
+     *
+     * @var DateTime time doc was created defaults to now
+     */
+    protected $createdOn = null;
+    
+    static protected $counter = 0;
     
     /**
      *
-     * @var array holds assigned metadata for
-     * further analysis
+     * @var mixed
      */
-    protected $metadata = [];
+    protected $id = null;
     
     
+    public function __construct(array $tokens, $id = null, DateTime $createdOn = null) 
+    {
+        parent::__construct($tokens, null);
+        $this->id = $id ?: ++self::$counter;
+        $this->createdOn = $createdOn ?: new DateTime();
+    }
+
     /**
-     *
-     * @var DateTime date the document was created on
+     * 
+     * @return mixed
      */
-    protected $createdOn;    
+    public function getId()
+    {
+        return $this->id;
+    }
+    
     /**
      * Apply a stemmer
      * @param IStemmer $stemmer

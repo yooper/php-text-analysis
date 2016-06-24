@@ -26,6 +26,15 @@ abstract class QueryAbstractFactory
     }
     
     /**
+     * 
+     * @return string
+     */
+    public function getQueryString()
+    {
+        return $this->queryString;
+    }
+    
+    /**
      *
      * @param string $queryString
      * @return QueryAbstractFactory 
@@ -42,6 +51,9 @@ abstract class QueryAbstractFactory
         }
     }
     
+    /**
+     * @return array
+     */
     public abstract function getQuery();
 }
 

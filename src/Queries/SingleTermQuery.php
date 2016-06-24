@@ -9,12 +9,12 @@ namespace TextAnalysis\Queries;
 class SingleTermQuery extends QueryAbstractFactory
 {
     /**
-     * Returns a single string no spaces
-     * @return string
+     * Returns a single string no spaces inside an array
+     * @return array
      */
     public function getQuery()
     {
-        return $this->queryString;
+        return [$this->getQueryString()];
     }
 }
 

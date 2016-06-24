@@ -36,6 +36,12 @@ class Text
         return (substr($haystack, -$length) === $needle);
     }
     
+    static public function contains($haystack, $needle)
+    {
+        return (strpos($haystack, $needle) !== false);
+    }
+    
+    
     /**
      * Takes a string and produces all possible substrings
      * @param string $text

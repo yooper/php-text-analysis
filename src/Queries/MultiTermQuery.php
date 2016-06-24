@@ -11,12 +11,11 @@ use TextAnalysis\Tokenizers\WhitespaceTokenizer;
 class MultiTermQuery extends QueryAbstractFactory
 {
     /**
-     * Returns a single string no spaces
-     * @return string
+     * Returns an array of strings
+     * @return array
      */
     public function getQuery()
     {
-        $ws = new WhitespaceTokenizer();
-        return $ws->tokenize($this->queryString);
+        return (new WhitespaceTokenizer())->tokenize($this->getQueryString());
     }
 }

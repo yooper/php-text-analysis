@@ -27,8 +27,8 @@ class InvertedIndexTest extends \PHPUnit_Framework_TestCase
         
         $invertedIndex = new InvertedIndex($adapter);
         
-        $this->assertEquals(array(0,1,2), $invertedIndex->query("michigan"));
-        $this->assertEquals(array(0,1), $invertedIndex->query("swimming"));
+        $this->assertEquals(['michigan' => [0,1,2]], $invertedIndex->query("michigan"));
+        $this->assertEquals(['swimming' => [0,1]], $invertedIndex->query("swimming"));
     }
     
     public function testMultiTermSearchTermExists()
@@ -47,7 +47,7 @@ class InvertedIndexTest extends \PHPUnit_Framework_TestCase
         $invertedIndex = new InvertedIndex($adapter);
         
         // the order has changed in the test cases since the php version bump
-        $this->assertCount(3, $invertedIndex->query("ironwood michigan"));
+        $this->assertCount(2, $invertedIndex->query("ironwood michigan"));
         $this->assertCount(2, $invertedIndex->query("no ironwood"));
     }    
     

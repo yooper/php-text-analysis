@@ -3,7 +3,7 @@ namespace TextAnalysis\Indexes;
 
 use TextAnalysis\Queries\QueryAbstractFactory;
 use TextAnalysis\Queries\SingleTermQuery;
-use TextAnalysis\Queries\MultiTermQuery;
+use TextAnalysis\Utilities\Text;
 
 use TextAnalysis\Interfaces\IDataReader;
 /**
@@ -41,32 +41,35 @@ class InvertedIndex
     {
         $queryObj = QueryAbstractFactory::factory($queryStr);
         
-        if($queryObj instanceof SingleTermQuery && isset($this->index[$queryObj->getQuery()])) { 
-            return $this->index[$queryObj->getQuery()][self::POSTINGS];
-        } else if($queryObj instanceof MultiTermQuery) {
-            return $this->getMultiTermResults($queryObj->getQuery());
-        }
-        
-        //no results available
-        return array();            
+        if($queryObj instanceof SingleTermQuery && isset($this->index[$queryObj->getQuery()[0]])) { 
+            return [$queryObj->getQuery()[0] => $this->index[$queryObj->getQuery()[0]][self::POSTINGS]];
+        } else { 
+            return $this->getPartialMatches($queryObj);                    
+        }                   
     }
     
     /**
-     * Return the array of documents the search terms where found in
-     * @param array $terms
-     * @return array 
+     * Returns the document ids of the matching partial terms, they key is the 
+     * term that contains the query string(s)
+     * @param QueryAbstractFactory $queryObj
+     * @return array
      */
-    protected function getMultiTermResults(array $terms)
+    public function getPartialMatches(QueryAbstractFactory $queryObj)
     {
-        $docList = array();
-        foreach($terms as $term) { 
-            if(isset($this->index[$term])) {
-                $docList = array_merge($docList, $this->index[$term][self::POSTINGS]);
+        $terms = array_keys($this->index);        
+        $found = [];
+        
+        foreach($terms as $term) 
+        {
+            foreach($queryObj->getQuery() as $queryTerm)
+            {
+                if(Text::contains($term, $queryTerm)) {
+                    $found[$term] = $this->index[$term][self::POSTINGS];
+                }
             }
         }
-        //re-index and unique the array
-        return array_values(array_unique($docList));
-    }
+        return $found;
+    }    
         
 }
 

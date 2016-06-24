@@ -46,9 +46,11 @@ class DocumentArrayCollection implements ICollection
     public function applyTransformations(array $transformations)
     {
         /** @var DocumentAbstract $document **/
-        foreach($this->documents as $document) { 
+        foreach($this->documents as $document) 
+        { 
             /** @var ITokenTransformation $transformation **/
-            foreach($transformations as $transformation){
+            foreach($transformations as $transformation)
+            {
                 $document->applyTransformation($transformation);
             }
         }        
@@ -61,9 +63,11 @@ class DocumentArrayCollection implements ICollection
     public function applyStemmers(array $stemmers)
     {
         /** @var DocumentAbstract $document **/
-        foreach($this->documents as $document) { 
+        foreach($this->documents as $document) 
+        { 
             /** @var ITokenTransformation $transformation **/
-            foreach($stemmers as $stemmer){
+            foreach($stemmers as $stemmer)
+            {
                 $document->applyStemmer($stemmer);
             }
         }        

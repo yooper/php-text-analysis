@@ -20,22 +20,27 @@ class CollectionInvertedIndexBuilder
     protected $index = array();
     
     /**
+     *
+     * @var ICollection;
+     */
+    protected $collection;
+    
+    /**
      * Build the index from the collection of documents
      * @param ICollection $collection 
      */
-    public function __construct(ICollection $collection)
+    public function __construct(ICollection &$collection)
     {
-        $this->buildIndex($collection);
+        $this->collection = $collection;
     }
     
     /**
      * Builds the internal index data structure using the provided collection
-     * @param ICollection $collection 
      */
-    protected function buildIndex(ICollection $collection)
+    protected function buildIndex()
     {
         //first pass compute frequencies and all the terms in the collection
-        foreach($collection as $id => $document) { 
+        foreach($this->collection as $id => $document) { 
             $freqDist = new FreqDist($document->getDocumentData());
             foreach($freqDist->getKeyValuesByFrequency() as $term => $freq) { 
                 if(!isset($this->index[$term])) { 
@@ -53,7 +58,15 @@ class CollectionInvertedIndexBuilder
      */
     public function getIndex()
     {
+        if(empty($this->index)) {
+            $this->buildIndex();
+        }
         return $this->index;
+    }
+    
+    public function __destruct() 
+    {
+        unset($this->index);
     }
 }
 
