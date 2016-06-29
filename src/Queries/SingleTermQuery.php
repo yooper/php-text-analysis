@@ -2,6 +2,7 @@
 namespace TextAnalysis\Queries;
 
 use TextAnalysis\Indexes\InvertedIndex;
+use TextAnalysis\Utilities\Text;
 
 /**
  * Handles search queries that only have a single term
@@ -23,8 +24,23 @@ class SingleTermQuery extends QueryAbstractFactory
      * @return arrray
      */
     public function queryIndex(InvertedIndex $invertedIndex) 
-    {
-        return [$this->getQuery()[0] => $invertedIndex->getDocumentIdsByTerm($this->getQuery()[0])];
+    {        
+        $r = $invertedIndex->getDocumentIdsByTerm($this->getQuery()[0]);
+        if(!empty($r)) {
+            return [$this->getQuery()[0] => $r];
+        }
+        
+        // do partial matches
+        $terms = array_keys($invertedIndex->getIndex());        
+        $found = [];
+        
+        foreach($terms as $term) 
+        {
+            if(Text::contains($term, $this->getQueryString())) {
+                $found[$term] = $invertedIndex->getDocumentIdsByTerm($term);
+            }
+        }
+        return $found;                 
     }
 
 }

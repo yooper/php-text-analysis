@@ -18,7 +18,7 @@ class SingleTermQueryTest extends TestBaseCase
     
     public function testSingleTermNotFound()
     {        
-        $this->assertEquals(['none' => []], $this->getInvertedIndex()->query("none"));
-        $this->assertEquals(['php' => []], $this->getInvertedIndex()->query("php"));         
+        $this->assertEquals([], $this->getInvertedIndex()->query("none"));
+        $this->assertEquals([], $this->getInvertedIndex()->query("php"));         
     }
 }
