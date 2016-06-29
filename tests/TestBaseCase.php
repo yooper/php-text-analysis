@@ -48,8 +48,10 @@ class TestBaseCase extends \PHPUnit_Framework_TestCase
                 new TokensDocument(["ironwood", "michigan", "hiking", "biking", "camping", "swimming","marquette"]),
                 new TokensDocument(["no","tokens","michigan"])
             ];
-            $builder = new CollectionInvertedIndexBuilder(new DocumentArrayCollection($docs)); 
-            $this->invertedIndex = new InvertedIndex(new ArrayDataReaderAdapter($builder->getIndex()));  
+            $collection = new DocumentArrayCollection($docs);
+            $builder = new CollectionInvertedIndexBuilder($collection); 
+            $dataReader = new ArrayDataReaderAdapter($builder->getIndex());
+            $this->invertedIndex = new InvertedIndex($dataReader);  
         }
         return $this->invertedIndex;
     }
