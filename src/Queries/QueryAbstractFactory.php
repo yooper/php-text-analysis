@@ -1,7 +1,8 @@
 <?php
 namespace TextAnalysis\Queries;
-use TextAnalysis\Tokenizers\GeneralTokenizer;
 
+use TextAnalysis\Tokenizers\GeneralTokenizer;
+use TextAnalysis\Indexes\InvertedIndex;
 
 
 /**
@@ -37,19 +38,26 @@ abstract class QueryAbstractFactory
     /**
      *
      * @param string $queryString
-     * @return QueryAbstractFactory 
+     * @return QueryAbstractFactory
      */
     public static function factory($queryString)
     {
         $tokenizer = new GeneralTokenizer();
         $tokens = $tokenizer->tokenize($queryString);
         
-        if(count($tokens) === 1) { 
+        if(in_array($queryString[0], ['"',"'"]) && in_array($queryString[strlen($queryString)-1], ['"',"'"])) {
+            return new QuotedQuery($queryString);
+        } elseif(count($tokens) === 1) { 
             return new SingleTermQuery($queryString);
         } else {
             return new MultiTermQuery($queryString);
         }
     }
+    
+    /**
+     * Each query type is going to interact with the inverted index in its own way
+     */
+    public abstract function queryIndex(InvertedIndex $invertedIndex);
     
     /**
      * @return array

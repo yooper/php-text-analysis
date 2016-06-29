@@ -1,71 +1,45 @@
 <?php
 namespace Tests\TextAnalysis\Indexes;
+
+use TestBaseCase;
 use TextAnalysis\Documents\TokensDocument;
-use TextAnalysis\Collections\DocumentArrayCollection;
-use TextAnalysis\Indexes\Builders\CollectionInvertedIndexBuilder;
-use TextAnalysis\Indexes\InvertedIndex;
-use TextAnalysis\Adapters\ArrayDataReaderAdapter;
 
 /**
  * Test the inverted index
  * @author yooper
  */
-class InvertedIndexTest extends \PHPUnit_Framework_TestCase
+class InvertedIndexTest extends TestBaseCase
 {
-    public function testSingleTermSearchTermExists()
+    public function tearDown()
     {
-        $docs = array(
-            new TokensDocument(array("marquette", "michigan", "hiking", "hiking", "hiking" , "camping", "swimming")),
-            new TokensDocument(array("ironwood", "michigan", "hiking", "biking", "camping", "swimming","marquette")),
-            new TokensDocument(array("no","tokens","michigan"))
-        );
-        
-        $collection = new DocumentArrayCollection($docs);
-        $builder = new CollectionInvertedIndexBuilder($collection); 
-        
-        $adapter = new ArrayDataReaderAdapter($builder->getIndex());
-        
-        $invertedIndex = new InvertedIndex($adapter);
-        
-        $this->assertEquals(['michigan' => [0,1,2]], $invertedIndex->query("michigan"));
-        $this->assertEquals(['swimming' => [0,1]], $invertedIndex->query("swimming"));
+        // reset the inverted index
+        $this->invertedIndex = null;
     }
     
-    public function testMultiTermSearchTermExists()
+    public function testRemoveDocFound()
     {
-        $docs = array(
-            new TokensDocument(array("marquette", "michigan", "hiking", "hiking", "hiking" , "camping", "swimming")),
-            new TokensDocument(array("ironwood", "michigan", "hiking", "biking", "camping", "swimming","marquette")),
-            new TokensDocument(array("no","tokens","michigan"))
-        );
-        
-        $collection = new DocumentArrayCollection($docs);
-        $builder = new CollectionInvertedIndexBuilder($collection); 
-        
-        $adapter = new ArrayDataReaderAdapter($builder->getIndex());
-        
-        $invertedIndex = new InvertedIndex($adapter);
-        
-        // the order has changed in the test cases since the php version bump
-        $this->assertCount(2, $invertedIndex->query("ironwood michigan"));
-        $this->assertCount(2, $invertedIndex->query("no ironwood"));
-    }    
+        $docId = 1;
+        // remove all doc's with id 1
+        $this->assertCount(7, $this->getInvertedIndex()->getTermsByDocumentId($docId));
+        $this->assertTrue($this->getInvertedIndex()->removeDocument($docId));        
+        $this->assertCount(0, $this->getInvertedIndex()->getTermsByDocumentId($docId));
+    } 
     
-    public function testSingleTermSearchTermDoesNotExists()
+    public function testAddDoc()
     {
-        $docs = array(
-            new TokensDocument(array("no","tokens"))
-        );
-        
-        $collection = new DocumentArrayCollection($docs);
-        $builder = new CollectionInvertedIndexBuilder($collection); 
-        
-        $adapter = new ArrayDataReaderAdapter($builder->getIndex());
-        
-        $invertedIndex = new InvertedIndex($adapter);
-        
-        $this->assertEquals(array(), $invertedIndex->query("none"));
-        $this->assertEquals(array(), $invertedIndex->query("php"));        
-    }    
+        $docId = 4;
+        $doc = new TokensDocument(['canada','usa','mexico','uk','poland'], $docId);        
+        $this->getInvertedIndex()->addDocument($doc);        
+        $this->assertCount(5, $this->getInvertedIndex()->getTermsByDocumentId($docId));
+    } 
+    
+    public function testGetTermsByDocumentId()
+    {
+        $expected = ["marquette", "michigan", "hiking" , "camping", "swimming"];
+        sort($expected);
+        $actual = $this->getInvertedIndex()->getTermsByDocumentId(0);
+        sort($actual);
+        $this->assertEquals($expected, $actual);        
+    }
     
 }

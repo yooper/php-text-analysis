@@ -20,5 +20,4 @@ ini_set('display_startup_errors', 1);
 
 define('VENDOR_DIR', 'vendor/');
 
-
 require_once('vendor/autoload.php');

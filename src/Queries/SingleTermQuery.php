@@ -1,6 +1,7 @@
 <?php
 namespace TextAnalysis\Queries;
 
+use TextAnalysis\Indexes\InvertedIndex;
 
 /**
  * Handles search queries that only have a single term
@@ -16,5 +17,15 @@ class SingleTermQuery extends QueryAbstractFactory
     {
         return [$this->getQueryString()];
     }
+
+    /**
+     * @param InvertedIndex $invertedIndex
+     * @return arrray
+     */
+    public function queryIndex(InvertedIndex $invertedIndex) 
+    {
+        return [$this->getQuery()[0] => $invertedIndex->getDocumentIdsByTerm($this->getQuery()[0])];
+    }
+
 }
 

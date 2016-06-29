@@ -15,6 +15,9 @@
 	},
         "files": ["src/helpers/storage.php", "src/helpers/print.php"]
     },
+    "autoload-dev": {
+        "files": ["tests/TestBaseCase.php"]
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"

@@ -2,6 +2,8 @@
 namespace TextAnalysis\Queries;
 
 use TextAnalysis\Tokenizers\WhitespaceTokenizer;
+use TextAnalysis\Indexes\InvertedIndex;
+use TextAnalysis\Utilities\Text;
 
 
 /**
@@ -18,4 +20,27 @@ class MultiTermQuery extends QueryAbstractFactory
     {
         return (new WhitespaceTokenizer())->tokenize($this->getQueryString());
     }
+
+    /**
+     * 
+     * @param InvertedIndex $invertedIndex
+     * @return array
+     */
+    public function queryIndex(InvertedIndex $invertedIndex) 
+    {
+        $terms = array_keys($invertedIndex->getIndex());        
+        $found = [];
+        
+        foreach($terms as $term) 
+        {
+            foreach($this->getQuery() as $queryTerm)
+            {
+                if(Text::contains($term, $queryTerm)) {
+                    $found[$term] = $invertedIndex->getDocumentIdsByTerm($term);
+                }
+            }
+        }
+        return $found;       
+    }
+
 }

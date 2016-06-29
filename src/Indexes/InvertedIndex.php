@@ -2,10 +2,9 @@
 namespace TextAnalysis\Indexes;
 
 use TextAnalysis\Queries\QueryAbstractFactory;
-use TextAnalysis\Queries\SingleTermQuery;
-use TextAnalysis\Utilities\Text;
-
 use TextAnalysis\Interfaces\IDataReader;
+use TextAnalysis\Documents\TokensDocument;
+
 /**
  * A implementation of the inverted document index that is popular for use in 
  * mapping tokens to documents
@@ -20,7 +19,7 @@ class InvertedIndex
      * The index
      * @var array 
      */
-    protected $index = array();
+    protected $index = [];
     
     /**
      * Pass in the pre-built indexes for doing lookups
@@ -39,37 +38,103 @@ class InvertedIndex
      */
     public function query($queryStr)
     {
-        $queryObj = QueryAbstractFactory::factory($queryStr);
-        
-        if($queryObj instanceof SingleTermQuery && isset($this->index[$queryObj->getQuery()[0]])) { 
-            return [$queryObj->getQuery()[0] => $this->index[$queryObj->getQuery()[0]][self::POSTINGS]];
-        } else { 
-            return $this->getPartialMatches($queryObj);                    
-        }                   
+        return QueryAbstractFactory::factory($queryStr)->queryIndex($this);
     }
     
     /**
-     * Returns the document ids of the matching partial terms, they key is the 
-     * term that contains the query string(s)
-     * @param QueryAbstractFactory $queryObj
+     * 
+     * @param string $term
      * @return array
      */
-    public function getPartialMatches(QueryAbstractFactory $queryObj)
+    public function getDocumentIdsByTerm($term) 
     {
-        $terms = array_keys($this->index);        
-        $found = [];
-        
-        foreach($terms as $term) 
+        if(!isset($this->index[$term])) {
+            return [];
+        }
+        return $this->index[$term][self::POSTINGS];
+    }
+    
+    /**
+     * Returns the key value array with the terms found in the document for the
+     * given doc id
+     * @param mixed $docId
+     * @return array
+     */
+    public function getTermsByDocumentId($docId)
+    {
+        $termsFoundIn = [];
+        foreach($this->index as $term => $row)
         {
-            foreach($queryObj->getQuery() as $queryTerm)
-            {
-                if(Text::contains($term, $queryTerm)) {
-                    $found[$term] = $this->index[$term][self::POSTINGS];
-                }
+            if(in_array($docId, $row[self::POSTINGS])) { 
+                $termsFoundIn[] = $term; 
             }
         }
-        return $found;
-    }    
+        return $termsFoundIn;
+    }
+    
+    /**
+     * Add a document
+     * @param TokensDocument $document
+     * @return void
+     */
+    public function addDocument(TokensDocument $document)
+    {      
+        foreach($document->getDocumentData() as $term)
+        {
+            if(isset($this->index[$term])) {
+                $this->index[$term][self::FREQ]++;
+                $this->index[$term][self::POSTINGS][] = $document->getId();
+            } else {
+                $this->index[$term] = [
+                    self::FREQ => 1,
+                    self::POSTINGS => [$document->getId()]
+                ];
+            }
+        }        
+    }
+    
+    /**
+     * True if the doc was removed
+     * @param mixed $docId
+     * @return boolean
+     */
+    public function removeDocument($docId)
+    {
+        $terms = $this->getTermsByDocumentId($docId);
+        $flag = false;
+        foreach($terms as $term)
+        {            
+            $flag = true;
+            $row = &$this->index[$term][self::POSTINGS];            
+            // remove the term altogether
+            if(count($row) === 1) {
+                unset($this->index[$term]);
+            } else {            
+                $idx = array_search($docId, $row);
+                unset($row[$idx]);
+                $row = array_values($row); // re-index the array   
+            }
+        }        
+        return $flag;
+    }
+    
+    
+    /**
+     * Return the internal index data structure
+     * @return array
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+    
+    /**
+     * clean up
+     */
+    public function __destruct() 
+    {
+        unset($this->index);
+    }
         
 }
 

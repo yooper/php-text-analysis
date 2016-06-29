@@ -67,6 +67,7 @@ class CollectionInvertedIndexBuilder
     public function __destruct() 
     {
         unset($this->index);
+        unset($this->collection);
     }
 }
 
