@@ -13,6 +13,27 @@ use TextAnalysis\Utilities\Text;
 class LongestCommonSubstringComparison implements ISimilarity, IDistance
 {
     /**
+     * Using caching to improve preformance on text2 inputs 
+     * @var boolean
+     */
+    protected $useCache = false;
+    
+    /**
+     * Cache for holding substring arrays key/value array
+     * @var array
+     */
+    protected $cache = [];
+    
+    /**
+     * 
+     * @param boolean $useCache
+     */
+    public function __construct($useCache = false) 
+    {
+        $this->useCache = $useCache;
+    }
+    
+    /**
      * Returns the string length of the longest common substring (LCS)
      * @param string $text1
      * @param string $text2
@@ -20,7 +41,8 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
      */
     public function distance($text1, $text2) 
     {
-        return strlen($this->similarity($text1, $text2));
+        
+        return max(strlen($text1), strlen($text2)) - strlen($this->similarity($text1, $text2));
     }
 
     /**
@@ -31,7 +53,11 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
      */
     public function similarity($text1, $text2) 
     {
-        $intersection = array_intersect( Text::getAllSubStrings($text1), Text::getAllSubStrings($text2));
+        if($this->useCache && !isset($this->cache[$text2])) {
+            $this->cache[$text2] = Text::getAllSubStrings($text2);
+        }
+        
+        $intersection = array_intersect( Text::getAllSubStrings($text1), ($this->useCache) ? $this->cache[$text2] : Text::getAllSubStrings($text2));
         $max = 0;
         $lcs = '';
         foreach($intersection as $substr)
@@ -42,5 +68,20 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
             }
         }
         return $lcs;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getCache()
+    {
+        return $this->cache;
+    }
+    
+    public function __destruct() 
+    {
+        unset($this->cache);
+        unset($this->useCache);
     }
 }

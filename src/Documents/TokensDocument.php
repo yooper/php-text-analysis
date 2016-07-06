@@ -34,12 +34,26 @@ class TokensDocument extends DocumentAbstract
      */
     protected $id = null;
     
+    /**
+     * Stores an array of metadata about the document
+     * @var array
+     */
+    protected $metadata = [];
     
-    public function __construct(array $tokens, $id = null, DateTime $createdOn = null) 
+    
+    /**
+     * 
+     * @param array $tokens
+     * @param mixed $id
+     * @param DateTime $createdOn
+     * @param array $metadata
+     */
+    public function __construct(array $tokens, $id = null, DateTime $createdOn = null, $metadata = []) 
     {
         parent::__construct($tokens, null);
         $this->id = $id ?: ++self::$counter;
         $this->createdOn = $createdOn ?: new DateTime();
+        $this->metadata = $metadata;
     }
 
     /**
@@ -162,5 +176,6 @@ class TokensDocument extends DocumentAbstract
     {
         return $this->tokens;
     }
+    
 }
 

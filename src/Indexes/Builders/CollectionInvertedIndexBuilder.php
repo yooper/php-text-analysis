@@ -5,7 +5,7 @@ use TextAnalysis\Analysis\FreqDist;
 
 
 /**
- * A really easy way to build an inverted index
+ * A really easy way to build an inverted index from a document array collection
  * @author yooper
  */
 class CollectionInvertedIndexBuilder
@@ -26,12 +26,19 @@ class CollectionInvertedIndexBuilder
     protected $collection;
     
     /**
+     * The collection of metadata for all the documents, indexed by doc id
+     * @var array
+     */
+    protected $metadata;
+    
+    /**
      * Build the index from the collection of documents
      * @param ICollection $collection 
      */
     public function __construct(ICollection &$collection)
     {
         $this->collection = $collection;
+        $this->buildIndex();
     }
     
     /**
@@ -49,6 +56,7 @@ class CollectionInvertedIndexBuilder
                 $this->index[$term][self::FREQ] += $freq;
                 $this->index[$term][self::POSTINGS][] = $id;
             }
+            $this->metadata[$id] = $document->getMetadata();
         }          
     }
     
@@ -58,11 +66,17 @@ class CollectionInvertedIndexBuilder
      */
     public function getIndex()
     {
-        if(empty($this->index)) {
-            $this->buildIndex();
-        }
         return $this->index;
     }
+    
+    /**
+     * @return the metadata indexed by document id
+     */
+    public function getMetadata()
+    {
+        $this->metadata;
+    }
+    
     
     public function __destruct() 
     {
