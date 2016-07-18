@@ -40,9 +40,8 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
      * @return int
      */
     public function distance($text1, $text2) 
-    {
-        
-        return max(strlen($text1), strlen($text2)) - strlen($this->similarity($text1, $text2));
+    {        
+        return max(mb_strlen($text1), mb_strlen($text2)) - mb_strlen($this->similarity($text1, $text2));
     }
 
     /**
@@ -62,8 +61,9 @@ class LongestCommonSubstringComparison implements ISimilarity, IDistance
         $lcs = '';
         foreach($intersection as $substr)
         {
-            if( strlen($substr) > $max) {
-                $max = strlen($substr);
+            $strlen = mb_strlen($substr);
+            if( $strlen > $max) {
+                $max = $strlen;
                 $lcs = $substr;
             }
         }

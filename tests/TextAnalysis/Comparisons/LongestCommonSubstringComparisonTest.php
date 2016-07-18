@@ -22,6 +22,7 @@ class LongestSubstringComparisonTest extends \PHPUnit_Framework_TestCase
         $txt1 = "sunnyside";
         $txt2 = "hide";
         
+        
         $this->assertEquals(6, $lcs->distance($txt2, $txt1));
         $this->assertEquals("ide", $lcs->similarity($txt2, $txt1));                                
     }
