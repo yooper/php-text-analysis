@@ -8,11 +8,11 @@ use TextAnalysis\Interfaces\ITokenTransformation;
  * Remove the punctuation 
  * @author yooper
  */
-class PunctuationFilter implements ITokenTransformation
-{
+class PunctuationFilter extends SpacePunctuationFilter implements ITokenTransformation
+{  
     public function transform($word)
     {
-        return preg_replace("/[[:punct:]]+/", NULL, $word);
+        return str_replace($this->getSearchFor(), "", $word);
     }
 
 }

@@ -14,4 +14,10 @@ class PunctuationFilterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("Yoopers", $transformer->transform("Yooper's!?;,"));
     }
     
+    public function testOnDate()
+    {
+        $transformer = new PunctuationFilter(['/',':'], []);
+        $this->assertEquals('8/8/2016 5:51 PM', $transformer->transform('8/8/2016 5:51 PM'));
+    }
+    
 }

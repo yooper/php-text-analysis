@@ -18,8 +18,18 @@ class SpacePunctuationFilter implements ITokenTransformation
     
     protected $replacements = [];
     
-    public function __construct()
+    /**
+     * 
+     * @param array $whiteList
+     * @param array $blackList
+     */
+    public function __construct(array $whiteList = [], array $blackList = [])
     {
+        // add elements from the white list
+        $this->searchFor = array_diff($this->searchFor, $whiteList);
+        
+        $this->searchFor = array_merge($this->searchFor, $blackList);
+        
         foreach($this->getSearchFor() as $punct)
         {
             $this->replacements[] = " $punct ";
