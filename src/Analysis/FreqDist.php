@@ -23,6 +23,12 @@ class FreqDist
     protected $totalTokens = null;
     
     /**
+     * Caches a copy of keys by weight
+     * @var array
+     */
+    protected $keysByWeight = [];
+    
+    /**
      * This sorts the token meta data collection right away so use 
      * frequency distribution data can be extracted.
      * @param array $tokens
@@ -108,14 +114,17 @@ class FreqDist
      */
     public function getKeyValuesByWeight()
     {
-        $weightPerToken = $this->getWeightPerToken();
-        //make a copy of the array
-        $keyValuesByWeight = $this->keyValues;
-        array_walk($keyValuesByWeight, function(&$value, $key, $weightPerToken) {
-            $value /= $weightPerToken;
-        }, $this->totalTokens);
-
-        return $keyValuesByWeight;
+        if(empty($this->keysByWeight)) {
+            $weightPerToken = $this->getWeightPerToken();
+            //make a copy of the array
+            $keyValuesByWeight = $this->keyValues;
+            array_walk($keyValuesByWeight, function(&$value, $key, $weightPerToken) {
+                $value /= $weightPerToken;
+            }, $this->totalTokens);
+            
+            $this->keysByWeight = $keyValuesByWeight;
+        }
+        return $this->keysByWeight;
     }
     
     /**
@@ -153,6 +162,7 @@ class FreqDist
     {
         unset($this->keyValues);
         unset($this->totalTokens);
+        unset($this->keysByWeight);
     }
     
 }

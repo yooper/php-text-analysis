@@ -19,12 +19,11 @@ use TestBaseCase;
  */
 class CollocationFinderTest extends TestBaseCase
 {
+    
     public function testCollocationFinder()
     {
         $stopwords = array_map('trim', file(VENDOR_DIR.'yooper/stop-words/data/stop-words_english_1_en.txt'));
-        // all punctuation must be moved 1 over. Fixes issues with sentences
         $testData = (new SpacePunctuationFilter())->transform(self::$text);
-        //rake MUST be split on whitespace and new lines only
         $tokens = (new GeneralTokenizer(" \n\t\r"))->tokenize($testData);        
         $tokenDoc = new TokensDocument($tokens);
         $tokenDoc->applyTransformation(new LowerCaseFilter())
@@ -40,9 +39,7 @@ class CollocationFinderTest extends TestBaseCase
     public function testCollocationFinderTrigram()
     {
         $stopwords = array_map('trim', file(VENDOR_DIR.'yooper/stop-words/data/stop-words_english_1_en.txt'));
-        // all punctuation must be moved 1 over. Fixes issues with sentences
         $testData = (new SpacePunctuationFilter())->transform(self::$text);
-        //rake MUST be split on whitespace and new lines only
         $tokens = (new GeneralTokenizer(" \n\t\r"))->tokenize($testData);        
         $tokenDoc = new TokensDocument($tokens);
         $tokenDoc->applyTransformation(new LowerCaseFilter())
@@ -54,6 +51,23 @@ class CollocationFinderTest extends TestBaseCase
         $finder = new CollocationFinder($tokenDoc->toArray(), 3);
         $this->assertArrayHasKey('finn red handed', $finder->getCollocations());
     }    
+    
+    public function testGetCollocationsByPmi()
+    {
+        $stopwords = array_map('trim', file(VENDOR_DIR.'yooper/stop-words/data/stop-words_english_1_en.txt'));
+        $testData = (new SpacePunctuationFilter())->transform(self::$text);
+        $tokens = (new GeneralTokenizer(" \n\t\r"))->tokenize($testData);        
+        $tokenDoc = new TokensDocument($tokens);
+        $tokenDoc->applyTransformation(new LowerCaseFilter())
+                ->applyTransformation(new PunctuationFilter([]), false)
+                ->applyTransformation(new StopWordsFilter([]))
+                ->applyTransformation(new QuotesFilter())
+                ->applyTransformation(new CharFilter());
+        
+        $finder = new CollocationFinder($tokenDoc->toArray(), 2);
+        $this->assertArrayHasKey('outlying cottages', $finder->getCollocationsByPmi());
+ 
+    }      
     
     
 }
