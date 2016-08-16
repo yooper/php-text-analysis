@@ -19,13 +19,22 @@ class SnowballStemmer implements IStemmer
     protected $lang = null;
     
     /**
+     * A lookup table for manually setting stems on words
+     * @var array 
+     */
+    protected $exceptions = [];
+    
+    /**
      * Initialize the snowball stemmer
      * @param string $lang
+     * @param array $exceptions
      * @throws Exception
      */
-    public function __construct($lang = 'english')
+    public function __construct($lang = 'english', array $exceptions = [])
     {
         $this->lang = $lang;
+        $this->exceptions = $exceptions;
+        
         if(!extension_loaded ('stem') ) {
             throw new Exception("pecl stem module is not loaded");
         }
@@ -42,7 +51,16 @@ class SnowballStemmer implements IStemmer
      */
     public function stem($token)
     {
+        if(isset($this->exceptions[$token])) { 
+            return $this->exceptions[$token];
+        }
         return call_user_func("stem_{$this->lang}", $token);    
+    }
+    
+    public function __destruct() 
+    {
+        unset($this->lang);
+        unset($this->exceptions);
     }
 
 }
