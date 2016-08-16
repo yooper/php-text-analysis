@@ -54,7 +54,6 @@ class CollocationFinderTest extends TestBaseCase
     
     public function testGetCollocationsByPmi()
     {
-        $stopwords = array_map('trim', file(VENDOR_DIR.'yooper/stop-words/data/stop-words_english_1_en.txt'));
         $testData = (new SpacePunctuationFilter())->transform(self::$text);
         $tokens = (new GeneralTokenizer(" \n\t\r"))->tokenize($testData);        
         $tokenDoc = new TokensDocument($tokens);
