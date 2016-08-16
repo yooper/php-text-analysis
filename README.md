@@ -12,8 +12,8 @@ Add PHP Text Analysis to your project
 ```
 composer require yooper/php-text-analysis
 ```
-
-http://yooper.github.io/php-text-analysis/
+Documentation for the library resides in the wiki. 
+https://github.com/yooper/php-text-analysis/wiki
 
 Dictionary Installation
 =============
