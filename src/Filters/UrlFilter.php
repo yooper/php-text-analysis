@@ -18,7 +18,7 @@ class UrlFilter implements ITokenTransformation
     public function transform($word) 
     {
         $result = parse_url($word);
-        if(!$result) {
+        if(!$result || !isset($result['host'])) {
             return $word;
         } 
         return null;

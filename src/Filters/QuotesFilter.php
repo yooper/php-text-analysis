@@ -21,7 +21,7 @@ class QuotesFilter implements ITokenTransformation
      * Specify what chars or strings needs to be search for and replace with a empty space
      * @param array|null $search 
      */
-    public function __construct(array $search = ["'",'"','`'])        
+    public function __construct(array $search = ["'",'"','`','“','”','’'])        
     {
         $this->search = $search;
     }

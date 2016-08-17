@@ -68,17 +68,21 @@ class TokensDocument extends DocumentAbstract
     /**
      * Apply a stemmer
      * @param IStemmer $stemmer
+     * @param boolean $removeNulls
      * @return \TextAnalysis\Documents\TokensDocument
      */
     
-    public function applyStemmer(IStemmer $stemmer) 
+    public function applyStemmer(IStemmer $stemmer, $removeNulls = true) 
     {        
         foreach($this->tokens as &$token) 
         { 
             $token = $stemmer->stem($token);
         }
-        //filter null tokens and re-index
-        $this->tokens = array_values(array_filter($this->tokens));
+        
+        if($removeNulls) {
+            //filter null tokens and re-index
+            $this->tokens = array_values(array_filter($this->tokens));            
+        }
         return $this;
     }
 
