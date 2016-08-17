@@ -7,6 +7,7 @@ require __DIR__.'/vendor/autoload.php';
 use TextAnalysis\Console\Commands\NltkPackageListCommand;
 use TextAnalysis\Console\Commands\NltkPackageInstallCommand;
 use TextAnalysis\Console\Commands\StopWordsCommand;
+use TextAnalysis\Console\Commands\VocabSizeCommand;
 
 use Symfony\Component\Console\Application;
 
@@ -14,5 +15,7 @@ $app = new Application();
 $app->add(new NltkPackageListCommand());
 $app->add(new NltkPackageInstallCommand());
 $app->add(new StopWordsCommand());
+$app->add(new VocabSizeCommand());
+$app->add(new \TextAnalysis\Console\Commands\StemmerExceptionListCommand());
 
 $app->run();

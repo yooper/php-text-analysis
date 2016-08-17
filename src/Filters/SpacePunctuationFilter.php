@@ -13,7 +13,7 @@ class SpacePunctuationFilter implements ITokenTransformation
     protected $searchFor = [
         '!','#','$','%','&','(',')','*','+',"'",',',
         '\\','-','.','/',':',';','<','=','>','?','@',
-        '^','_','`','{','|','}','~'                
+        '^','_','`','{','|','}','~','[',']'                
     ];
     
     protected $replacements = [];
