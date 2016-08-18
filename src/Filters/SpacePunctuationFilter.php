@@ -11,12 +11,12 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 class SpacePunctuationFilter implements ITokenTransformation
 {
     protected $searchFor = [
-        '!','#','$','%','&','(',')','*','+',"'",',',
-        '\\','-','.','/',':',';','<','=','>','?','@',
-        '^','_','`','{','|','}','~','[',']'                
+        '!','#','$','%','&','\(','\)','*','+',"\'",',',
+        '\\','-','\.','\\/',':',';','<','=','>','?','@',
+        '^','_','`','{','|','}','~','\[','\]'                
     ];
-    
-    protected $replacements = [];
+        
+    protected $regex = "";
     
     /**
      * 
@@ -26,14 +26,18 @@ class SpacePunctuationFilter implements ITokenTransformation
     public function __construct(array $whiteList = [], array $blackList = [])
     {
         // add elements from the white list
-        $this->searchFor = array_diff($this->searchFor, $whiteList);
-        
-        $this->searchFor = array_merge($this->searchFor, $blackList);
-        
-        foreach($this->getSearchFor() as $punct)
-        {
-            $this->replacements[] = " $punct ";
-        }
+        $this->searchFor = array_diff($this->searchFor, $whiteList);        
+        $this->searchFor = array_merge($this->searchFor, $blackList);                
+        $this->regex = "/([".implode("", $this->searchFor)."])/";
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getRegex()
+    {
+        return $this->regex;
     }
     
     /**
@@ -44,16 +48,7 @@ class SpacePunctuationFilter implements ITokenTransformation
     {
         return $this->searchFor;
     }
-    
-    /**
-     * 
-     * @return array
-     */
-    public function getReplacements()
-    {
-        return $this->replacements;
-    }
-       
+   
 
     /**
      * 
@@ -62,7 +57,13 @@ class SpacePunctuationFilter implements ITokenTransformation
      */
     public function transform($word) 
     {
-        return str_replace($this->getSearchFor(), $this->getReplacements(), $word);
+        return preg_replace($this->getRegex(), ' $1 ', $word);
+    }
+    
+    public function __destruct() 
+    {
+        unset($this->regex);
+        unset($this->searchFor);
     }
 
 }

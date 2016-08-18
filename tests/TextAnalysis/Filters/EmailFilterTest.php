@@ -14,7 +14,7 @@ class EmailFilterTest extends \PHPUnit_Framework_TestCase
     {
         $filter = new EmailFilter();        
         $this->assertEquals(null, $filter->transform("yooper@example.com"));
-        $this->assertEquals(null, $filter->transform("yooper.mqt@example.sub.dub.edu"));
+        $this->assertEquals(' , ' , $filter->transform("yooper.mqt@example.sub.dub.edu , yooper@example.com"));
         
     }
 }

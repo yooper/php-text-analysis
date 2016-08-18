@@ -16,7 +16,7 @@ class UrlFilterTest extends \PHPUnit_Framework_TestCase
     {
         $filter = new UrlFilter();        
         $this->assertEquals("google.com", $filter->transform("google.com"));
-        $this->assertEquals(null, $filter->transform("https://github.com/yooper/php-text-analysis/wiki"));
+        $this->assertEquals(" , ", $filter->transform("https://github.com/yooper/php-text-analysis/wiki , https://www.facebook.com/?query=1&field=none"));
         $this->assertEquals('hello', $filter->transform("hello"));        
     }
 }

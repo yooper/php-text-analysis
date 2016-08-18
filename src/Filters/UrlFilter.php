@@ -17,11 +17,7 @@ class UrlFilter implements ITokenTransformation
      */
     public function transform($word) 
     {
-        $result = parse_url($word);
-        if(!$result || !isset($result['host'])) {
-            return $word;
-        } 
-        return null;
+        return preg_replace("/(https?|ftp):\/\/[^\s$.?#].[^\s]*/i", "", $word);
     }
 
 }

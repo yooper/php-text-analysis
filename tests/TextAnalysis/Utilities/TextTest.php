@@ -20,4 +20,12 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(6, $substrings);
         $this->assertEquals($expected, $substrings);
     }
+    
+    public function testEndsWith()
+    {
+        $this->assertTrue(Text::endsWith('lunches', 's'));        
+        $this->assertTrue(Text::endsWith('lunches', 'es'));
+        $this->assertTrue(Text::endsWith('lunches', 'hes'));       
+        $this->assertFalse(Text::endsWith('joe', 'is'));                
+    }
 }

@@ -25,7 +25,7 @@ class SpacePunctuationFilterTest  extends \PHPUnit_Framework_TestCase
     
     public function testBlackList()
     {
-        $filter = new SpacePunctuationFilter(['/',':']);
+        $filter = new SpacePunctuationFilter(['\/',':']);
         $this->assertEquals('8/8/2016 5:51 PM', $filter->transform('8/8/2016 5:51 PM'));
     }    
     

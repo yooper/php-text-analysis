@@ -13,17 +13,13 @@ use TextAnalysis\Utilities\Text;
 class PossessiveNounFilter implements ITokenTransformation
 {
     /**
-     * Lower case the word and return it
+     * remove the possive nouns
      * @param string $word
      * @return string 
      */
     public function transform($word)
     {
-        if(Text::endsWith($word, "'s")) { 
-            return substr($word, 0, -2);
-        } else {
-            return $word;
-        }
+        return preg_replace("/\'s/", "", $word);
     }
    
 }

@@ -50,20 +50,13 @@ class Rake
     public function getPhrases()
     {   
         $phrases = [];
-        $tokens = $this->getTokensDocument()->getDocumentData();
-        // set nulls/empty strings to pipe
-        foreach($tokens as &$token) {
-            if(empty($token)) { 
-                $token = '|';
-            }
-        }
+
+        // filter empty tokens
+        $tokens = array_values(array_filter($this->getTokensDocument()->getDocumentData()));
         
         for($index = $this->nGramSize; $index >= 2; $index--)
         {                     
-            $nGramTokens = NGramFactory::create($tokens, $index);
-            // filter tokens that have the pipe in them
-            $filtered = array_filter( $nGramTokens, function($token){ return (strpos($token,'|') === false); });
-            $phrases = array_merge($phrases, array_values($filtered));                        
+            $phrases = array_merge($phrases, NGramFactory::create($tokens, $index));                        
         }
         
         // you cannot use a phrase if it is a substring of a longer phrase
@@ -130,6 +123,12 @@ class Rake
         
         arsort($phraseScores);
         return $phraseScores;
-    }            
+    }    
+    
+    public function __destruct() 
+    {
+        unset($this->document);
+        unset($this->nGramSize);
+    }
     
 }

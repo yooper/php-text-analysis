@@ -21,19 +21,13 @@ class Text
     }
 
     /**
-     * http://stackoverflow.com/questions/834303/php-startswith-and-endswith-functions
      * @param string $haystack
      * @param string $needle
      * @return boolean 
      */
     static public function endsWith($haystack, $needle)
     {
-        $length = strlen($needle);
-        if ($length == 0) {
-            return true;
-        }
-
-        return (substr($haystack, -$length) === $needle);
+        return strpos($haystack, $needle) === (strlen($haystack) - strlen($needle));
     }
     
     static public function contains($haystack, $needle)

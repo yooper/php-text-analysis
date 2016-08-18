@@ -11,16 +11,13 @@ class EmailFilter implements ITokenTransformation
 {
     
     /**
-     * Remove the email address
+     * Remove the email address. The matching rule was intentionally left simplistic
      * @param string $word
      * @return string 
      */
     public function transform($word)
     {
-        if(filter_var($word, FILTER_VALIDATE_EMAIL)) {
-            return null;
-        } 
-        return $word;
+        return preg_replace("/[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+/", "", $word);
     }
 }
 

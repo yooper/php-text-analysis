@@ -14,7 +14,7 @@ class PossessiveNounFilterTest extends \PHPUnit_Framework_TestCase
     public function testPossessive()
     {
         $filter = new PossessiveNounFilter();
-        $this->assertEquals("yooper", $filter->transform("yooper's"));
+        $this->assertEquals("yooper lives in Marquette west side", $filter->transform("yooper's lives in Marquette's west side"));
     }
     
     public function testNonPossessive()

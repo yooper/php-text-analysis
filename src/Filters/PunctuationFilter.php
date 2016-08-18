@@ -12,7 +12,7 @@ class PunctuationFilter extends SpacePunctuationFilter implements ITokenTransfor
 {  
     public function transform($word)
     {
-        return str_replace($this->getSearchFor(), "", $word);
+        return preg_replace($this->getRegex(), '', $word);
     }
 
 }
