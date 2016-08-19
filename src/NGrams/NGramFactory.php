@@ -27,6 +27,9 @@ class NGramFactory
     {
         $separatorLength = strlen($separator);
         $length = count($tokens) - $nGramSize + 1;
+        if($length < 1) {
+            return [];
+        }
         $ngrams = array_fill(0, $length, ''); // initialize the array
         
         for($index = 0; $index < $length; $index++)

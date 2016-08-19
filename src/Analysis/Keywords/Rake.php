@@ -22,6 +22,12 @@ class Rake
      * @var ContentDocument;
      */
     protected $document = null;
+    
+    /**
+     *
+     * @var array
+     */
+    protected $tokens = [];
            
     /**
      * 
@@ -32,6 +38,18 @@ class Rake
     {
         $this->document = $document;
         $this->nGramSize = $nGramSize;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getTokens()
+    {
+        if(empty($this->tokens)) {
+            $this->tokens = array_values(array_filter($this->getTokensDocument()->getDocumentData()));
+        }
+        return $this->tokens;
     }
     
     /**
@@ -51,19 +69,16 @@ class Rake
     {   
         $phrases = [];
 
-        // filter empty tokens
-        $tokens = array_values(array_filter($this->getTokensDocument()->getDocumentData()));
-        
         for($index = $this->nGramSize; $index >= 2; $index--)
         {                     
-            $phrases = array_merge($phrases, NGramFactory::create($tokens, $index));                        
+            $phrases = array_merge($phrases, NGramFactory::create($this->getTokens(), $index));                        
         }
         
         // you cannot use a phrase if it is a substring of a longer phrase
         // we must exclude all of the substring phrases        
         $add = [];
         $remove = [];
-        foreach($phrases as &$phrase) 
+        foreach($phrases as $phrase) 
         {   
             if(isset($remove[$phrase])) {
                 continue;
@@ -74,7 +89,7 @@ class Rake
                 //remove the prefix            
                 $remove[substr($phrase, strpos($phrase," ")+1)] = true;                 
             }
-        }  
+        }        
         return array_keys($add);        
     }
     
@@ -86,14 +101,12 @@ class Rake
     {                             
         $phrases = $this->getPhrases();
         // we must filter the null values before computing the frequencies        
-        $tokens = array_values( array_filter( $this->getTokensDocument()->getDocumentData() ));        
-        $freqDist = (new FreqDist($tokens))->getKeyValuesByFrequency();
-        unset($tokens);        
+        $freqDist = (new FreqDist($this->getTokens()))->getKeyValuesByFrequency();
                                         
         $keywords = array_keys($freqDist);
         // track the total degrees for a token
         $degrees = array_fill_keys($keywords, 0);
-        
+
         // tally the results
         foreach($phrases as $phrase)
         {
@@ -101,23 +114,17 @@ class Rake
             {                
                 if(strpos($phrase, $keyword) !== false) {                 
                     $degrees[$keyword] += substr_count($phrase, " ")+1;                    
-                }
-                
+                }                
             }  
-        }                        
-        $tally = [];
-        foreach($freqDist as $keyword => $freqValue)
-        {
-            $tally[$keyword] = $degrees[$keyword] / $freqValue;
-        }
-            
-        $phraseScores = array_fill_keys($phrases, 0);
+        }      
+        
+        $phraseScores = array_fill_keys($phrases, 0);                    
         foreach($phrases as $phrase) 
         {
             $tokens = explode(" ", $phrase);
             foreach($tokens as $token) 
             {            
-                $phraseScores[$phrase] += $tally[$token];
+                $phraseScores[$phrase] += ($degrees[$token] / $freqDist[$token]);
             }
         }
         
@@ -129,6 +136,7 @@ class Rake
     {
         unset($this->document);
         unset($this->nGramSize);
+        unset($this->tokens);
     }
     
 }

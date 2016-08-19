@@ -18,12 +18,30 @@ class QuotesFilter implements ITokenTransformation
     
     
     /**
+     *
+     * @var string
+     */
+    protected $regex = null;
+    
+    
+    /**
      * Specify what chars or strings needs to be search for and replace with a empty space
      * @param array|null $search 
      */
-    public function __construct(array $search = ["'",'"','`','“','”','’'])        
+    public function __construct(array $search = ["\'",'\"','`','“','”','’'])        
     {
-        $this->search = $search;
+        $this->search = $search;        
+        $this->regex = "/([".implode("", $this->search)."])/";
+        
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    public function getRegex()
+    {
+        return $this->regex;
     }
     
     /**
@@ -33,7 +51,13 @@ class QuotesFilter implements ITokenTransformation
      */
     public function transform($word)
     {
-        return str_replace($this->search, "", $word);
+        return preg_replace($this->getRegex(), '', $word);
+    }
+    
+    public function __destruct() 
+    {
+        unset($this->regex);
+        unset($this->search);
     }
 }
 
