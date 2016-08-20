@@ -110,11 +110,10 @@ class Rake
         // tally the results
         foreach($phrases as $phrase)
         {
-            foreach($keywords as $keyword)
+            $tokens = explode(" ", $phrase);            
+            foreach($tokens as $keyword)
             {                
-                if(strpos($phrase, $keyword) !== false) {                 
-                    $degrees[$keyword] += substr_count($phrase, " ")+1;                    
-                }                
+                $degrees[$keyword] += substr_count($phrase, " ")+1;                                    
             }  
         }      
         
