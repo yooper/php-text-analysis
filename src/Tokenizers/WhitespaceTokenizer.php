@@ -9,7 +9,7 @@ class WhitespaceTokenizer extends TokenizerAbstract
 {
     public function tokenize($string)
     {
-        return preg_split('/[\pZ\pC]+/u', $string, null, PREG_SPLIT_NO_EMPTY);
+        return mb_split('\s+', $string);
     }
 }
 

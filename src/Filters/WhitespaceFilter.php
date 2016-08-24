@@ -12,7 +12,7 @@ class WhitespaceFilter implements ITokenTransformation
 {
     public function transform($word) 
     {
-        return preg_replace("/(^\s+)|(\s+$)/us", "", preg_replace( '/\s+/', ' ', $word ));
+        return preg_replace("/\s[[:space:]]+/", " ", str_replace(["\r", "\n"], ' ', $word));
     }
 
 }

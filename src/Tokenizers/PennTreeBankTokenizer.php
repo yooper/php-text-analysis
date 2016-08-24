@@ -9,7 +9,7 @@ use TextAnalysis\Exceptions\InvalidExpression;
  * Based on http://www.cis.upenn.edu/~treebank/tokenizer.sed
  * @author yooper
  */
-class PennTreeBankTokenizer extends WhitespaceTokenizer
+class PennTreeBankTokenizer
 {
     /**
      *
@@ -24,11 +24,11 @@ class PennTreeBankTokenizer extends WhitespaceTokenizer
 
     /**
      * Calls internal functions to handle data processing
-     * @param type $string
+     * @param string $str
      */
     public function tokenize($str)
     {
-        return parent::tokenize($this->execute($str));
+        return preg_split('/[\pZ\pC]+/u', $this->execute($str), null, PREG_SPLIT_NO_EMPTY);
     }
     /**
      * Handles the data processing
