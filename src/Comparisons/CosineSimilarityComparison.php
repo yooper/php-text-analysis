@@ -24,7 +24,7 @@ class CosineSimilarityComparison implements IDistance, ISimilarity
         $product = 0.0;
                
         // always choose the smaller document
-        if(count($text1Freq) > count($text2Freq)) {
+        if(count($text1Freq) < count($text2Freq)) {
             $iterateTokens =& $text1Freq;
         } else {
             $iterateTokens =& $text2Freq;
