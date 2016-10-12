@@ -38,6 +38,26 @@ class TestBaseCase extends \PHPUnit_Framework_TestCase
     
     /**
      * 
+     * @param string $className
+     * @param array $params
+     * @param array $constructorArgs
+     * @return \Mockery\Mock
+     */
+    public function getPartialMock($className,array $params, array $constructorArgs = [])
+    {
+        $partialMethods = implode(",", array_keys($params));
+        $partialMockStr = "{$className}[{$partialMethods}]";
+        $mock = Mockery::mock($partialMockStr, $constructorArgs);
+        foreach($params as $methodName => $returnValue)
+        {
+            $mock->shouldReceive($methodName)
+                    ->andReturn($returnValue);
+        }
+        return $mock;
+    }    
+    
+    /**
+     * 
      * @return InvertedIndex
      */
     public function getInvertedIndex()
