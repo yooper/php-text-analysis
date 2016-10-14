@@ -85,7 +85,7 @@ class WordnetCorpusTest extends \TestBaseCase
     
     public function testGetExceptionMapFromString()
     {
-        $wn = new WordnetCorpus(get_storage_path('corpora/wordnet'));
+        $wn = new WordnetCorpus('not_used');
         
         $e1 = $wn->getExceptionMapFromString('thieves thief', 'n');
         $this->assertCount(1, $e1->getExceptionList());
