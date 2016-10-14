@@ -35,9 +35,14 @@ class NltkPackageListCommand extends Command
             $downloader = new NltkCorporaIndexDownloader();     
         }
 
+        $packages = $downloader->getPackages();
+        
+        usort($packages, function($package1, $package2){ 
+            return strnatcasecmp($package1->getId(), $package2->getId()); 
+        });
         /** @var $package \TextAnalysis\Utilities\Nltk\Download\Package */
         $output->writeln("Packages available for installation:");
-        foreach($downloader->getPackages() as $package)
+        foreach($packages as $package)
         {
             $output->writeln(" * {$package->getId()} - {$package->getName()}");
         }
