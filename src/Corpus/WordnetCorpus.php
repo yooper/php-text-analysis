@@ -5,6 +5,7 @@ namespace TextAnalysis\Corpus;
 use RuntimeException;
 use TextAnalysis\Models\Wordnet\Lemma;
 use TextAnalysis\Models\Wordnet\Synset;
+use TextAnalysis\Models\Wordnet\ExceptionMap;
 
 /**
  * Loads the wordnet corpus for use. Borrowed heavily from nltk
@@ -36,6 +37,12 @@ class WordnetCorpus extends ReadCorpusAbstract
     protected $synsets = [];
     
     /**
+     * @var ExceptionMap[]
+     */
+    protected $exceptionsMap = [];
+    
+    
+    /**
      * @var array map part of speech character to its definition
      */
     protected $posFileMaps = [
@@ -56,6 +63,59 @@ class WordnetCorpus extends ReadCorpusAbstract
             'index.noun', 'index.verb','data.adj', 'data.adv', 'data.noun', 
             'data.verb', 'adj.exc', 'adv.exc', 'noun.exc', 'verb.exc'
         ];
+    }
+    
+    /**
+     * Returns array of file names with the exceptions
+     * @return array
+     */
+    public function getExceptionFileNames()
+    {
+        return ['adj.exc', 'adv.exc', 'noun.exc', 'verb.exc'];
+    }
+    
+    /**
+     * 
+     * @param string $line
+     * @param string $pos
+     * @return ExceptionMap
+     */
+    public function getExceptionMapFromString($line, $pos)
+    {
+        $tokens = explode(" ", $line);
+        return new ExceptionMap($pos, $tokens[count($tokens)-1], array_slice($tokens, 0, -1));
+    }
+    
+    /**
+     * Returns the list of exception spellings
+     * @return ExceptionMap[]
+     * @throws RuntimeException
+     */
+    public function getExceptionsMap()
+    {
+        if(empty($this->exceptionsMap)) {
+            $fileExtToPos = array_flip($this->getPosFileMaps());
+            
+            foreach($this->getExceptionFileNames() as $fileName )
+            {
+                $pos = $fileExtToPos[substr($fileName, 0, -4)];
+                $fh = fopen($this->getDir().$fileName,'r');
+                if(!$fh) {
+                    throw new RuntimeException("wordnet file missing {$fileName}");
+                }                
+                                
+                while($line = fgets($fh)) 
+                {
+                    if($line[0] === ' ') {
+                        continue;
+                    }
+                    $this->exceptionsMap[] = $this->getExceptionMapFromString(trim($line), $pos);
+
+                }               
+                fclose($fh);
+            } 
+        }
+        return $this->exceptionsMap;
     }
     
     

@@ -83,4 +83,20 @@ class WordnetCorpusTest extends \TestBaseCase
         $this->assertCount(4, $synset->getLinkedSynsets());
     }
     
+    public function testGetExceptionMapFromString()
+    {
+        $wn = new WordnetCorpus(get_storage_path('corpora/wordnet'));
+        
+        $e1 = $wn->getExceptionMapFromString('thieves thief', 'n');
+        $this->assertCount(1, $e1->getExceptionList());
+        $this->assertEquals('thief', $e1->getTarget());
+        $this->assertEquals('thieves', $e1->getExceptionList()[0]);
+        
+        $e2 = $wn->getExceptionMapFromString('ploughmen ploughman plowman', 'n');
+        $this->assertCount(2, $e2->getExceptionList());
+        $this->assertEquals('plowman', $e2->getTarget());
+        $this->assertEquals(['ploughmen', 'ploughman'], $e2->getExceptionList());        
+        
+    }
+    
 }
