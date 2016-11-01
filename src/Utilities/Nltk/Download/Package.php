@@ -21,12 +21,12 @@ class Package
           
     /**
      * 
-     * @param type $id
-     * @param type $checksum
-     * @param type $name
-     * @param type $subdir
-     * @param type $unzip
-     * @param type $url
+     * @param string $id
+     * @param string $checksum
+     * @param string $name
+     * @param string $subdir
+     * @param string $unzip
+     * @param string $url
      */
     public function __construct($id, $checksum, $name, $subdir, $unzip, $url) 
     {
@@ -74,6 +74,6 @@ class Package
      */
     public function getInstallationPath()
     {
-        return get_storage_path('corpora'.DIRECTORY_SEPARATOR.$this->getId());
+        return get_storage_path($this->getSubdir().DIRECTORY_SEPARATOR.$this->getId());
     }
 }

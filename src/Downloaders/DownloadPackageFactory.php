@@ -68,7 +68,7 @@ class DownloadPackageFactory
     {
         // it is zipped, we must unzip it
         if($this->getPackage()->getUnzip()) {
-            $this->extractZip();
+            $this->extractZip($this->getDownloadFullPath(), $this->getInstallDir());
         } else {
             $this->recursiveCopy($this->getDownloadFullPath(), $this->getInstallDir());                        
         }        
@@ -83,6 +83,10 @@ class DownloadPackageFactory
      */
     protected function recursiveCopy($src,$dst)
     {
+        if($this->isZip($src)) { 
+            $this->extractZip($src, $this->getInstallDir());
+            return;
+        }
         $dir = opendir($src); 
         if(!is_dir($dst)) {
             mkdir($dst);
@@ -101,18 +105,31 @@ class DownloadPackageFactory
     }
     
     /**
+     * 
+     * @param string $path
+     * @return boolean
+     */
+    protected function isZip($path)
+    {
+        $r = zip_open($path);
+        if(is_resource($r)) { 
+            zip_close($r);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Use PHP's ZipArchive to extract out the data
      */
-    protected function extractZip()
+    protected function extractZip($srcPath, $extractToDir)
     {
         $zip = new ZipArchive();
-        $r = $zip->open($this->getDownloadFullPath());
-        if(!$r) { // error occurred
-            
-        } else {
-            $zip->extractTo($this->getInstallDir());
+        $r = $zip->open($srcPath);
+        if($r) {
+            $zip->extractTo($extractToDir);
             $zip->close();             
-        }          
+        }        
     }
     
     /**
@@ -164,7 +181,7 @@ class DownloadPackageFactory
      */
     public function getInstallDir()
     {
-        return 'storage'.DIRECTORY_SEPARATOR.'corpora'.DIRECTORY_SEPARATOR;
+        return 'storage'.DIRECTORY_SEPARATOR.$this->getPackage()->getSubdir().DIRECTORY_SEPARATOR;
     }
     
     /**

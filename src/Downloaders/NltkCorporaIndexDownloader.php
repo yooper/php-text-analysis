@@ -33,7 +33,7 @@ class NltkCorporaIndexDownloader
      * @param string $url Default value is provided, but you can override
      * @param boolean $useCache use the cached copy if it is available, by default it is off
      */
-    public function __construct($url = 'https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/index.xml', $useCache = false) 
+    public function __construct($url = 'https://raw.githubusercontent.com/yooper/pta_data/gh-pages/index.xml', $useCache = false) 
     {
         $this->url = $url;
         $this->useCache = $useCache;

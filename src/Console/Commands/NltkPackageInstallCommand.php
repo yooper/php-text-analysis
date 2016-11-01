@@ -20,7 +20,7 @@ class NltkPackageInstallCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('nltk:install-package')
+        $this->setName('nltk:install:package')
             ->setDescription('Install the selected corpus')
             ->addArgument(
                 'package',
