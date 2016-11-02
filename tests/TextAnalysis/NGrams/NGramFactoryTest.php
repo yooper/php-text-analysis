@@ -16,7 +16,8 @@ class NGramFactoryTest extends \PHPUnit_Framework_TestCase
         $tokens = ["one","two","three"];
         $expected = ["one two","two three"];
         $bigrams = NGramFactory::create($tokens);
-        $this->assertEquals($expected, $bigrams);        
+        $this->assertEquals($expected, $bigrams);  
+        $this->assertEquals($expected, bigrams($tokens));
     }
     
     public function testTriGram()
@@ -25,5 +26,7 @@ class NGramFactoryTest extends \PHPUnit_Framework_TestCase
         $expected = ["one two three","two three four"];
         $bigrams = NGramFactory::create($tokens, NGramFactory::TRIGRAM);
         $this->assertEquals($expected, $bigrams);        
+        $this->assertEquals($expected, trigrams($tokens));
+
     }    
 }
