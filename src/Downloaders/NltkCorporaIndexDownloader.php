@@ -89,7 +89,7 @@ class NltkCorporaIndexDownloader
      */
     protected function getCacheFileName()
     {
-        return 'nltk-list.xml';
+        return 'pta-list.xml';
     }
     
     

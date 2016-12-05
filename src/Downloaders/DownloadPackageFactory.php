@@ -52,11 +52,14 @@ class DownloadPackageFactory
     }
     
     /**
-     * Verify the packages checksum against the downloaded file
+     * Verify the packages checksum against the downloaded file, if it exists
      * @return boolean
      */
     public function verifyChecksum()
     {
+        if(empty($this->getPackage()->getChecksum())) {
+            return true;
+        }
         return $this->getPackage()->getChecksum() === md5($this->getDownloadFullPath());
     }
     
@@ -169,7 +172,7 @@ class DownloadPackageFactory
      */
     public function getDownloadFullPath()
     {
-       return  sys_get_temp_dir().DIRECTORY_SEPARATOR.'nltk-downloads'
+       return  sys_get_temp_dir().DIRECTORY_SEPARATOR.'pta-downloads'
                .DIRECTORY_SEPARATOR.$this->getPackage()->getSubdir()
                .DIRECTORY_SEPARATOR.basename($this->getPackage()->getUrl());
     }

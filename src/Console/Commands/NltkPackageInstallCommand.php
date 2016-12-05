@@ -20,12 +20,12 @@ class NltkPackageInstallCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('nltk:install:package')
+        $this->setName('pta:install:package')
             ->setDescription('Install the selected corpus')
             ->addArgument(
                 'package',
                 InputArgument::REQUIRED,
-                'You must selected a valid package id, use nltk:list to explore the available options.'
+                'You must selected a valid package id, use pta:list to explore the available options.'
             );               
     }
 
@@ -47,7 +47,7 @@ class NltkPackageInstallCommand extends Command
         }
         
         if(!$packageFound) { 
-            $output->writeln("Package {$packageId} was not found, try textconsole nltk:list, to see the available packages");
+            $output->writeln("Package {$packageId} was not found, try textconsole pta:list, to see the available packages");
         } else {
             $output->writeln("Package {$package->getId()} - {$package->getName()} was installed into {$download->getInstallDir()}");
         }        

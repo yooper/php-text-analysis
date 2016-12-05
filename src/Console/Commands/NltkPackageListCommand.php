@@ -17,12 +17,12 @@ class NltkPackageListCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('nltk:list')
-            ->setDescription('List Corpora available in the nltk data repo.')
+        $this->setName('pta:list')
+            ->setDescription('List Corpora available in the pta data repo.')
             ->addArgument(
                 'url',
                 InputArgument::OPTIONAL,
-                'Use a different url to download the nltk package list.'
+                'Use a different url to download the pta/nltk package list.'
             );               
     }
 

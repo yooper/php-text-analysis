@@ -11,14 +11,14 @@ use TextAnalysis\Downloaders\NltkCorporaIndexDownloader;
 
 
 /**
- * Install all the nltk data packages
+ * Install all the pta data packages
  * @author yooper
  */
 class NltkPackageInstallAllCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('nltk:install:all')
+        $this->setName('pta:install:all')
             ->setDescription('Install all packages from pta data');              
     }
 
