@@ -17,7 +17,7 @@ class EnchantAdapterTest extends \PHPUnit_Framework_TestCase
         }        
         $adapter = new EnchantAdapter();
         $this->assertEquals('run', $adapter->suggest("runn")[0]);                
-        $this->assertEquals('cooper', $adapter->suggest("yooper")[0]); 
+        $this->assertEquals('looper', $adapter->suggest("yooper")[0]); 
         $this->assertEquals('flute', $adapter->suggest("flute")[0]);         
     }
 }

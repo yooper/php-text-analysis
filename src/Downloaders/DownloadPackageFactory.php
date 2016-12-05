@@ -31,14 +31,7 @@ class DownloadPackageFactory
         if(file_exists($this->getDownloadFullPath()) && $this->verifyChecksum()) {
             return;
         }     
-        
-        $this->downloadRemoteFile();
-        
-        if($this->verifyChecksum()) {
-            throw new Exception("Bad checksum for the downloaded package {$this->getPackage()->getId()}");            
-        }
-        
-        $this->unpackPackage();        
+               
     }
     
     /**
@@ -67,7 +60,7 @@ class DownloadPackageFactory
      * de-compress the downloaded corpus into the install directory, or
      * copy the files into the install directory
      */
-    protected function unpackPackage()
+    public function unpackPackage()
     {
         // it is zipped, we must unzip it
         if($this->getPackage()->getUnzip()) {
@@ -150,21 +143,6 @@ class DownloadPackageFactory
         
     }
     
-    /**
-     * @todo improve downloader code, make it more robust
-     */
-    protected function downloadRemoteFile()
-    {
-        $handle = fopen($this->getPackage()->getUrl(), "rb");
-        $fp = fopen($this->getDownloadFullPath(), 'w');
-        $content = '';
-        while (!feof($handle)) {
-          $content = fread($handle, 8192);
-          fwrite($fp, $content);
-        }
-        fclose($handle);
-        fclose($fp);
-    }
     
     /**
      * Has the full path to where the download should go

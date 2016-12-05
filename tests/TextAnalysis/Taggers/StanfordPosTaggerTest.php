@@ -16,6 +16,8 @@ class StanfordPosTaggerTest extends \PHPUnit_Framework_TestCase
 {
     protected $text = "Marquette County is a county located in the Upper Peninsula of the US state of Michigan. As of the 2010 census, the population was 67,077.";
             
+    protected $posPath = 'taggers/stanford-postagger-2015-12-09'; 
+
     public function testJarNotFound()
     {
         $tagger = new StanfordPosTagger("not_available.jar", "not available");
@@ -29,7 +31,7 @@ class StanfordPosTaggerTest extends \PHPUnit_Framework_TestCase
             return;
         }           
         
-        $tagger = new StanfordPosTagger(get_storage_path('corpora/stanford_pos_tagger').'stanford-postagger-3.6.0.jar', "classifier.gz");
+        $tagger = new StanfordPosTagger(get_storage_path($this->posPath).'stanford-postagger-3.6.0.jar', "classifier.gz");
         $this->setExpectedException('RuntimeException', 'Classifier not found classifier.gz');
         $tagger->tag([]);        
     }
@@ -51,16 +53,12 @@ class StanfordPosTaggerTest extends \PHPUnit_Framework_TestCase
 
     public function testStanfordPos()
     {
-        if( getenv('SKIP_TEST') || !getenv('JAVA_HOME')) {
+        if( getenv('SKIP_TEST')) {
             return;
         }        
         
-        $document = new TokensDocument((new WhitespaceTokenizer())->tokenize($this->text));
-        
-        $jarPath = get_storage_path('corpora/stanford_pos_tagger').'stanford-postagger-3.6.0.jar';
-        $modelPath = get_storage_path('corpora/stanford_pos_tagger'.DIRECTORY_SEPARATOR."models")."english-left3words-distsim.tagger";
-        
-        $tagger = new StanfordPosTagger($jarPath, $modelPath);
+        $document = new TokensDocument((new WhitespaceTokenizer())->tokenize($this->text));            
+        $tagger = new StanfordPosTagger();
         $output = $tagger->tag($document->getDocumentData());
         
         $this->assertFileExists($tagger->getTmpFilePath());        

@@ -14,7 +14,7 @@ class DictionaryStemmerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPspell()
     {       
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
             return;
         }
         

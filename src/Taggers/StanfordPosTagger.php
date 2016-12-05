@@ -12,8 +12,18 @@ use TextAnalysis\Tokenizers\WhitespaceTokenizer;
  */
 class StanfordPosTagger extends StanfordAbstract
 {
-    public function __construct($jarPath, $classifierPath, $javaOptions = array(), $separator = '/') {
-        parent::__construct($jarPath, $classifierPath, $javaOptions, $separator);
+    public function __construct($jarPath = null, $modelPath = null, $javaOptions = array(), $separator = '/') 
+    {
+        $posPath = 'taggers/stanford-postagger-2015-12-09'; 
+        if(!$jarPath) {
+            $jarPath = get_storage_path($posPath).'stanford-postagger-3.6.0.jar';
+        }
+
+        if(!$modelPath) {
+            $modelPath = get_storage_path($posPath.DIRECTORY_SEPARATOR."models")."english-left3words-distsim.tagger";
+        }
+
+        parent::__construct($jarPath, $modelPath, $javaOptions, $separator);
         // created the temp file
         $this->tmpFilePath = tempnam(sys_get_temp_dir(), "stanford_pos_");
     }   
