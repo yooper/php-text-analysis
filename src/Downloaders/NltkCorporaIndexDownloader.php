@@ -52,6 +52,10 @@ class NltkCorporaIndexDownloader
             {
                 $data = (array)$package;
                 extract($data['@attributes']);
+                // checksums may not exist on some remote packages
+                if(!isset($checksum)) {
+                    $checksum = null;
+                }                
                 $this->packages[] = new Package($id, $checksum, $name, $subdir, $unzip, $url);
             }            
         }

@@ -17,7 +17,6 @@ $app->add(new NltkPackageListCommand());
 $app->add(new NltkPackageInstallCommand());
 $app->add(new StopWordsCommand());
 $app->add(new VocabSizeCommand());
-$app->add(new \TextAnalysis\Console\Commands\StemmerExceptionListCommand());
 $app->add(new NltkPackageInstallAllCommand());
 
 $app->run();

@@ -12,7 +12,7 @@ class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefaultEnglish()
     {       
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
             return;
         }
         $stemmer = new SnowballStemmer('english', $exceptions = ['universities' => 'university']);
@@ -27,7 +27,7 @@ class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
     
     public function testSwedish()
     {       
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
             return;
         }
         $stemmer = new SnowballStemmer('swedish');
@@ -36,7 +36,7 @@ class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
     
     public function testException()
     {
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
             return;
         }      
         $this->setExpectedException('Exception');

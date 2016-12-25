@@ -160,7 +160,7 @@ abstract class StanfordAbstract
         if(getenv('JAVA_HOME')) {
             return getenv('JAVA_HOME');
         } else {
-            return 'java';
+            throw new RuntimeException('env JAVA_HOME must be set.');
         }
     }
     

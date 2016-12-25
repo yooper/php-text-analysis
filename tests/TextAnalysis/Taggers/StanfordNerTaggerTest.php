@@ -14,6 +14,8 @@ use TextAnalysis\Documents\TokensDocument;
  */
 class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
 {
+    protected $nerPath = 'taggers/stanford-ner-2015-12-09';
+
     protected $text = "Marquette County is a county located in the Upper Peninsula of the US state of Michigan. As of the 2010 census, the population was 67,077.";
             
     public function testJarNotFound()
@@ -29,7 +31,7 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
             return;
         }           
         
-        $tagger = new StanfordNerTagger(get_storage_path('ner').'stanford-ner.jar', "classifier.gz");
+        $tagger = new StanfordNerTagger(get_storage_path($this->nerPath).'stanford-ner.jar', "classifier.gz");
         $this->setExpectedException('RuntimeException', 'Classifier not found classifier.gz');
         $tagger->tag([]);        
     }
@@ -51,20 +53,16 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
 
     public function testStanfordNer()
     {
-        if( getenv('SKIP_TEST') || !getenv('JAVA_HOME')) {
+        if( getenv('SKIP_TEST')) {
             return;
         }        
-        
+    
         $document = new TokensDocument((new WhitespaceTokenizer())->tokenize($this->text));
-        
-        $jarPath = get_storage_path('ner').'stanford-ner.jar';
-        $classiferPath = get_storage_path('ner'.DIRECTORY_SEPARATOR."classifiers")."english.all.3class.distsim.crf.ser.gz";
-        
-        $tagger = new StanfordNerTagger($jarPath, $classiferPath);
+        $tagger = new StanfordNerTagger();
         $output = $tagger->tag($document->getDocumentData());
         
         $this->assertFileExists($tagger->getTmpFilePath());        
-        $this->assertEquals(138, filesize($tagger->getTmpFilePath()));        
+        $this->assertEquals(138, filesize($tagger->getTmpFilePath())); 
         $this->assertEquals(['Michigan','LOCATION'], $output[15], "Did you set JAVA_HOME env variable?");        
     }    
     

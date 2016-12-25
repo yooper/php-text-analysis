@@ -16,24 +16,35 @@ composer require yooper/php-text-analysis
 Documentation for the library resides in the wiki. 
 https://github.com/yooper/php-text-analysis/wiki
 
+
+
+
 Dictionary Installation
 =============
 
 Not required unless you use the dictionary stemmers
 
-*For Ubuntu*
+*For Ubuntu < 16*
 ```
 sudo apt-get install libpspell-dev 
 sudo apt-get install php5-pspell
 sudo apt-get install aspell-en
 sudo apt-get install php5-enchant
 ```
+*For Ubuntu >= 16*
+```
+sudo apt-get install libpspell-dev php7.0-pspell aspell-en php7.0-enchant
+```
+
+
 *For Centos* 
 ```
 sudo yum install php5-pspell
 sudo yum install aspell-en
 sudo yum install php5-enchant
 ```
+
+*PHP Pecl Stem* is not currently available in php 7.0. 
 
 
 Tokenize

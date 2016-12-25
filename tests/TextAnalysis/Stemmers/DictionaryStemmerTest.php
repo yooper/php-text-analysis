@@ -2,9 +2,9 @@
 
 namespace Tests\TextAnalysis\Stemmers;
 
-use TextAnalysis\Stemmers\SnowballStemmer;
 use TextAnalysis\Adapters\PspellAdapter;
 use TextAnalysis\Stemmers\DictionaryStemmer;
+use TextAnalysis\Stemmers\RegexStemmer;
 
 /**
  *
@@ -14,15 +14,14 @@ class DictionaryStemmerTest extends \PHPUnit_Framework_TestCase
 {
     public function testPspell()
     {       
-        if( getenv('SKIP_TEST')) {
+        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
             return;
         }
         
-        $stemmer = new DictionaryStemmer(new PspellAdapter(), new SnowballStemmer());           
+        $stemmer = new DictionaryStemmer(new PspellAdapter(), new RegexStemmer('ing$|s$|e$', 4));           
         $this->assertEquals("judge", $stemmer->stem("judges"));
         // some times approach does not work
-        $this->assertNotEquals('university', $stemmer->stem("university")); 
-        
+        $this->assertEquals('university', $stemmer->stem("universities"));         
         $this->assertEquals('hammock', $stemmer->stem("hammok")); 
     }
     
