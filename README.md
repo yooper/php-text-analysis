@@ -69,11 +69,11 @@ $tokens = $tokenizer->tokenize("Enter your text here");
 Frequency Distribution
 =============
 ```
-$tokenizer = new GeneralTokenizer()
+$tokenizer = new \TextAnalysis\Tokenizers\GeneralTokenizer();
 $tokens = $tokenizer->tokenize("time flies like an arrow and an arrow flies like time");
-$freqDist = new FreqDist($tokens);
-$freqDist->getHapaxes(); Get the Hapaxes
-$freqDist->getTotalTokens()
+$freqDist = new \TextAnalysis\Analysis\FreqDist($tokens);
+$freqDist->getHapaxes(); //Get the Hapaxes
+$freqDist->getTotalTokens();
 $freqDist->getTotalUniqueTokens();
 ```
 Check out the API for full documentation
