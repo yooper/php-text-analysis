@@ -12,34 +12,22 @@ class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
 {
     public function testDefaultEnglish()
     {       
-        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
-            return;
-        }
-        $stemmer = new SnowballStemmer('english', $exceptions = ['universities' => 'university']);
+        $stemmer = new SnowballStemmer('English');
         $this->assertEquals("judg", $stemmer->stem("judges"));
         $this->assertEquals('ski', $stemmer->stem('skis'));
-        $this->assertEquals('university', $stemmer->stem('universities'));
-        $this->assertEquals('news', $stemmer->stem('news'));
-        
-        
-        
+        $this->assertEquals('univers', $stemmer->stem('universities'));
+        $this->assertEquals('news', $stemmer->stem('news'));                        
     }
     
     public function testSwedish()
     {       
-        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
-            return;
-        }
-        $stemmer = new SnowballStemmer('swedish');
+        $stemmer = new SnowballStemmer('Swedish');
         $this->assertEquals("affärschef", $stemmer->stem("affärscheferna"));
     }    
     
     public function testException()
-    {
-        if( getenv('SKIP_TEST') || !extension_loaded('stem')) {
-            return;
-        }      
+    {     
         $this->setExpectedException('Exception');
-        $stemmer = new SnowballStemmer('ewok');
+        $stemmer = new SnowballStemmer('Wookie');
     }
 }
