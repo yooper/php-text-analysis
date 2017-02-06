@@ -9,8 +9,55 @@ namespace TextAnalysis\Tokenizers;
  */
 class SentenceTokenizer extends TokenizerAbstract
 {
+    /**
+     *
+     * @var string
+     */
+    protected $separator = null;
+    
+    public function __construct($separator = "\n\n") 
+    {
+        $this->separator = $separator;
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getSeparator()
+    {
+        return $this->separator;
+    }
+
+    
+    /**
+     * 
+     * @param string $string
+     * @return array
+     */
     public function tokenize($string) 
     {
+        $strings = explode($this->getSeparator(), $string);
+        $sentenceTokens = [];
+        foreach($strings as $str)
+        {
+            if(empty(trim($str))) {
+                continue;
+            }
+            $sentences = $this->tokenizeSentence($str);
+            foreach($sentences as $sentence)
+            {
+                $sentenceTokens[] = $sentence;
+            }
+        }
+        return $sentenceTokens;
+    }
+    
+    
+    protected function tokenizeSentence($string) 
+    {
+        
+        
         $before_regexes = array('/(?:(?:[\'\"„][\.!?…][\'\"”]\s)|(?:[^\.]\s[A-Z]\.\s)|(?:\b(?:St|Gen|Hon|Prof|Dr|Mr|Ms|Mrs|[JS]r|Col|Maj|Brig|Sgt|Capt|Cmnd|Sen|Rev|Rep|Revd)\.\s)|(?:\b(?:St|Gen|Hon|Prof|Dr|Mr|Ms|Mrs|[JS]r|Col|Maj|Brig|Sgt|Capt|Cmnd|Sen|Rev|Rep|Revd)\.\s[A-Z]\.\s)|(?:\bApr\.\s)|(?:\bAug\.\s)|(?:\bBros\.\s)|(?:\bCo\.\s)|(?:\bCorp\.\s)|(?:\bDec\.\s)|(?:\bDist\.\s)|(?:\bFeb\.\s)|(?:\bInc\.\s)|(?:\bJan\.\s)|(?:\bJul\.\s)|(?:\bJun\.\s)|(?:\bMar\.\s)|(?:\bNov\.\s)|(?:\bOct\.\s)|(?:\bPh\.?D\.\s)|(?:\bSept?\.\s)|(?:\b\p{Lu}\.\p{Lu}\.\s)|(?:\b\p{Lu}\.\s\p{Lu}\.\s)|(?:\bcf\.\s)|(?:\be\.g\.\s)|(?:\besp\.\s)|(?:\bet\b\s\bal\.\s)|(?:\bvs\.\s)|(?:\p{Ps}[!?]+\p{Pe} ))\Z/su',
             '/(?:(?:[\.\s]\p{L}{1,2}\.\s))\Z/su',
             '/(?:(?:[\[\(]*\.\.\.[\]\)]* ))\Z/su',
@@ -75,8 +122,6 @@ class SentenceTokenizer extends TokenizerAbstract
         // perform some cleanup, and re-index the array
         return array_values(array_filter(array_map('trim',$sentences)));
     }
-    
-  
-       
+     
 }
 
