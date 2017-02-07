@@ -27,8 +27,7 @@
         "php": ">=5.5",
         "yooper/stop-words": "^1.0",
         "symfony/console": ">=2.7",
-        "camspiers/porter-stemmer": "1.0.*",
-        "wamania/php-stemmer": "dev-master"
+        "camspiers/porter-stemmer": "1.0.*"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*",
