@@ -54,8 +54,7 @@ class DownloadPackageFactory
         if(empty($this->getPackage()->getChecksum())) {
             return true;
         }
-        
-        return $this->getPackage()->getChecksum() === md5($this->getDownloadFullPath());
+        return $this->getPackage()->getChecksum() === md5_file($this->getDownloadFullPath());
     }
     
     /**

@@ -2,7 +2,6 @@
 
 namespace TextAnalysis\Corpus;
 
-
 /**
  * Abstract class for making corpus readers
  */
@@ -29,7 +28,7 @@ abstract class ReadCorpusAbstract
     public function __construct($dir, $lang = 'eng') 
     {
         $this->dir = $dir;
-        $this->lang = $lang;
+        $this->lang = $lang;               
     }
     
     /**
