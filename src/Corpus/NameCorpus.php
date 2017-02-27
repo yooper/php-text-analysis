@@ -11,7 +11,17 @@ use PDO;
  */
 class NameCorpus extends ReadCorpusAbstract
 {
+    /**
+     *
+     * @var PDO
+     */
     protected $pdo;
+    
+    /**
+     *
+     * @var array
+     */
+    protected $cache = [];
     
     public function __construct($dir = null, $lang = 'eng') 
     {
@@ -48,6 +58,20 @@ class NameCorpus extends ReadCorpusAbstract
     }
     
     /**
+     * 
+     * @param string $name
+     * @return bool
+     */
+    public function isFullName($name) : bool
+    {
+        $tokens = explode(" ", $name);
+        if(count($tokens) < 2) { 
+            return false;
+        }
+        return $this->isFirstName(current($tokens)) && $this->isLastName(end($tokens));
+    }
+    
+    /**
      * Check if the name exists
      * @param string $tableName
      * @param string $name
@@ -55,10 +79,16 @@ class NameCorpus extends ReadCorpusAbstract
      */
     protected function isName($tableName, $name) : bool
     {
-        $stmt = $this->getPdo()->prepare("SELECT name FROM $tableName WHERE name = LOWER(:name) LIMIT 1"); 
-        $stmt->bindParam(':name', $name);
-        $stmt->execute();
-        return !empty($stmt->fetchColumn());         
+        $key = "{$tableName}_{$name}";
+        if(!isset($this->cache[$key])) {
+        
+            $stmt = $this->getPdo()->prepare("SELECT name FROM $tableName WHERE name = LOWER(:name) LIMIT 1"); 
+            $stmt->bindParam(':name', $name);
+            $stmt->execute();
+            $r = !empty($stmt->fetchColumn());
+            $this->cache[$key] = $r;
+        }
+        return $this->cache[$key];
     }
     
     
@@ -71,7 +101,14 @@ class NameCorpus extends ReadCorpusAbstract
             $this->pdo = new PDO("sqlite:".$this->getDir().$this->getFileNames()[0]);
         }
         return $this->pdo;
-    }    
+    }
+
+    public function __destruct() 
+    {
+        unset($this->pdo);
+        unset($this->cache);
+    }
+    
 }
 
     

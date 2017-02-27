@@ -34,5 +34,19 @@ class NameCorpusTest extends \PHPUnit_Framework_TestCase
         $corpus = new NameCorpus();
         $this->assertTrue($corpus->isLastName('Williamson'));
         $this->assertFalse($corpus->isLastName('baggins'));                          
-    }    
+    }   
+    
+    public function testFullNames()
+    {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }    
+        
+        $corpus = new NameCorpus();
+        $this->assertTrue($corpus->isFullName('Brad Von Williamson'));
+        $this->assertFalse($corpus->isFullName('Jimbo'));        
+        $this->assertTrue($corpus->isFullName('Bradley Thomas'));
+        
+    }       
+    
 }
