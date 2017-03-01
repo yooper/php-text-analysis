@@ -21,7 +21,13 @@ class NameCorpus extends ReadCorpusAbstract
      *
      * @var array
      */
-    protected $cache = [];
+    protected $firstNameCache = [];
+    
+    /**
+     *
+     * @var array
+     */
+    protected $lastNameCache = [];
     
     public function __construct($dir = null, $lang = 'eng') 
     {
@@ -44,7 +50,23 @@ class NameCorpus extends ReadCorpusAbstract
      */
     public function isFirstName($name) : bool
     {
-        return $this->isName('names_by_state_and_year', $name);
+        return !empty($this->getFirstName($name));
+    }
+    
+    /**
+     * @todo make this more flexible
+     * @param string $name
+     * @return array
+     */
+    public function getFirstName($name) : array
+    {
+        if(!isset($this->firstNameCache[$name])) {
+            $stmt = $this->getPdo()->prepare("SELECT * FROM us_names_by_state_and_year WHERE name = LOWER(:name) LIMIT 1"); 
+            $stmt->bindParam(':name', $name);
+            $stmt->execute();
+            $this->firstNameCache[$name] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?? [];  
+        }
+        return $this->firstNameCache[$name];
     }
     
     /**
@@ -54,7 +76,23 @@ class NameCorpus extends ReadCorpusAbstract
     */    
     public function isLastName($name) : bool
     {
-        return $this->isName('surnames', $name);
+        return !empty($this->getLastName($name));
+    }
+    
+    /**
+     * 
+     * @param string $name
+     * @return array
+     */
+    public function getLastName($name) : array
+    {
+        if(!isset($this->lastNameCache[$name])) {        
+            $stmt = $this->getPdo()->prepare("SELECT * FROM surnames WHERE name = LOWER(:name)"); 
+            $stmt->bindParam(':name', $name);
+            $stmt->execute();
+            $this->lastNameCache[$name] = $stmt->fetchAll(PDO::FETCH_ASSOC)[0] ?? [];            
+        }
+        return $this->lastNameCache[$name];
     }
     
     /**
@@ -68,31 +106,11 @@ class NameCorpus extends ReadCorpusAbstract
         if(count($tokens) < 2) { 
             return false;
         }
-        return $this->isFirstName(current($tokens)) && $this->isLastName(end($tokens));
-    }
+        return !empty($this->isFirstName(current($tokens))) && !empty($this->isLastName(end($tokens)));
+    }    
     
     /**
-     * Check if the name exists
-     * @param string $tableName
-     * @param string $name
-     * @return boolean
-     */
-    protected function isName($tableName, $name) : bool
-    {
-        $key = "{$tableName}_{$name}";
-        if(!isset($this->cache[$key])) {
-        
-            $stmt = $this->getPdo()->prepare("SELECT name FROM $tableName WHERE name = LOWER(:name) LIMIT 1"); 
-            $stmt->bindParam(':name', $name);
-            $stmt->execute();
-            $r = !empty($stmt->fetchColumn());
-            $this->cache[$key] = $r;
-        }
-        return $this->cache[$key];
-    }
-    
-    
-    /**
+     * Return the raw pdo
      * @return PDO
      */
     public function getPdo() : PDO
@@ -106,7 +124,8 @@ class NameCorpus extends ReadCorpusAbstract
     public function __destruct() 
     {
         unset($this->pdo);
-        unset($this->cache);
+        unset($this->firstNameCache);
+        unset($this->lastNameCache);
     }
     
 }

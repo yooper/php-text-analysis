@@ -20,10 +20,23 @@ class NameCorpusTest extends \PHPUnit_Framework_TestCase
         }
         
         $corpus = new NameCorpus();
-        $this->assertTrue($corpus->isFirstName('Dan'));
-        $this->assertFalse($corpus->isFirstName('very'));
-        
+        $this->assertTrue($corpus->isFirstName('Mike'));        
+        $this->assertFalse($corpus->isFirstName('very'));        
     }
+
+    public function testGetFirstName()
+    {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }    
+        
+        $corpus = new NameCorpus();
+        $firstName = $corpus->getFirstName('Mike');
+        $this->assertNotEmpty($firstName);
+        
+        $this->assertEmpty($corpus->getFirstName('very'));       
+    }
+    
     
     public function testLastNames()
     {
@@ -33,8 +46,23 @@ class NameCorpusTest extends \PHPUnit_Framework_TestCase
         
         $corpus = new NameCorpus();
         $this->assertTrue($corpus->isLastName('Williamson'));
-        $this->assertFalse($corpus->isLastName('baggins'));                          
-    }   
+        $this->assertFalse($corpus->isLastName('Baggins'));                          
+    }
+    
+    public function testGetLastName()
+    {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }    
+        
+        $corpus = new NameCorpus();
+        $lastName = $corpus->getLastName('Williamson');
+        $this->assertEquals(245, $lastName['rank']); 
+
+        $lastName = $corpus->getLastName('Baggins');
+        $this->assertEmpty($lastName);        
+    }
+    
     
     public function testFullNames()
     {
@@ -45,8 +73,9 @@ class NameCorpusTest extends \PHPUnit_Framework_TestCase
         $corpus = new NameCorpus();
         $this->assertTrue($corpus->isFullName('Brad Von Williamson'));
         $this->assertFalse($corpus->isFullName('Jimbo'));        
-        $this->assertTrue($corpus->isFullName('Bradley Thomas'));
-        
-    }       
+        $this->assertTrue($corpus->isFullName('Bradley Thomas'));        
+    }  
+    
+    
     
 }
