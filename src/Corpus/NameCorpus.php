@@ -3,6 +3,7 @@
 namespace TextAnalysis\Corpus;
 
 use PDO;
+use Yooper\Nicknames;
 
 /**
  * Opens the US names sqlite database 
@@ -19,6 +20,12 @@ class NameCorpus extends ReadCorpusAbstract
     
     /**
      *
+     * @var Nicknames
+     */
+    protected $nickNames;
+    
+    /**
+     *
      * @var array
      */
     protected $firstNameCache = [];
@@ -31,12 +38,23 @@ class NameCorpus extends ReadCorpusAbstract
     
     public function __construct($dir = null, $lang = 'eng') 
     {
+        $this->nickNames = new Nicknames();
+        
         if(!$dir) { 
             $dir = get_storage_path('corpora');
         }
         parent::__construct($dir, $lang);
     }
     
+    public function getNickNameExact($name) : string
+    {
+        return $this->nickNames->query($name);
+    }
+    
+    public function getNickNameFuzzy($name) : array
+    {
+        return $this->nickNames->fuzzy($name);
+    }
     
     public function getFileNames(): array
     {
@@ -107,7 +125,9 @@ class NameCorpus extends ReadCorpusAbstract
             return false;
         }
         return !empty($this->isFirstName(current($tokens))) && !empty($this->isLastName(end($tokens)));
-    }    
+    }   
+    
+    
     
     /**
      * Return the raw pdo

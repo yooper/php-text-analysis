@@ -28,7 +28,8 @@
         "yooper/stop-words": "^1.0",
         "symfony/console": ">=2.7",
         "camspiers/porter-stemmer": "1.0.*",
-        "wamania/php-stemmer": "1.2"
+        "wamania/php-stemmer": "1.2",
+        "yooper/nicknames": "1.0.1"
     },
     "require-dev": {
         "phpunit/phpunit": "5.*",
