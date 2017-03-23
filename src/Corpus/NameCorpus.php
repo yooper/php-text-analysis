@@ -79,7 +79,7 @@ class NameCorpus extends ReadCorpusAbstract
     public function getFirstName($name) : array
     {
         if(!isset($this->firstNameCache[$name])) {
-            $stmt = $this->getPdo()->prepare("SELECT * FROM us_names_by_state_and_year WHERE name = LOWER(:name) LIMIT 1"); 
+            $stmt = $this->getPdo()->prepare("SELECT * FROM us_names_by_year WHERE name = LOWER(:name) LIMIT 1"); 
             $stmt->bindParam(':name', $name);
             $stmt->execute();
             $this->firstNameCache[$name] = $stmt->fetchAll(PDO::FETCH_ASSOC) ?? [];  
@@ -108,7 +108,8 @@ class NameCorpus extends ReadCorpusAbstract
             $stmt = $this->getPdo()->prepare("SELECT * FROM surnames WHERE name = LOWER(:name)"); 
             $stmt->bindParam(':name', $name);
             $stmt->execute();
-            $this->lastNameCache[$name] = $stmt->fetchAll(PDO::FETCH_ASSOC)[0] ?? [];            
+            $r = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->lastNameCache[$name] =  (!$r) ? [] : $r;            
         }
         return $this->lastNameCache[$name];
     }
@@ -146,6 +147,7 @@ class NameCorpus extends ReadCorpusAbstract
         unset($this->pdo);
         unset($this->firstNameCache);
         unset($this->lastNameCache);
+        unset($this->nickNames);
     }
     
 }
