@@ -31,8 +31,7 @@ class QuotesFilter implements ITokenTransformation
     public function __construct(array $search = ["\'",'\"','`','“','”','’'])        
     {
         $this->search = $search;        
-        $this->regex = "/([".implode("", $this->search)."])/";
-        
+        $this->regex = "/([".implode("", $this->search)."])/u";
     }
     
     /**
