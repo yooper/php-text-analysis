@@ -67,6 +67,9 @@ class Rake
      */
     public function getPhrases()
     {   
+        if($this->nGramSize==1)
+                return $this->getTokens();
+
         $phrases = [];
 
         for($index = $this->nGramSize; $index >= 2; $index--)
