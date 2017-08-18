@@ -2,7 +2,11 @@ php-text-analysis
 =============
 ![alt text](https://travis-ci.org/yooper/php-text-analysis.svg?branch=master "Build status")
 
-![Total Downloads](https://img.shields.io/packagist/dt/php-text-analysis/php-text-analysis.svg)
+[![Latest Stable Version](https://poser.pugx.org/yooper/php-text-analysis/v/stable)](https://packagist.org/packages/yooper/php-text-analysis)
+
+[![Total Downloads](https://poser.pugx.org/yooper/php-text-analysis/downloads)](https://packagist.org/packages/yooper/php-text-analysis)
+
+[![Latest Unstable Version](https://poser.pugx.org/yooper/php-text-analysis/v/unstable)](https://packagist.org/packages/yooper/php-text-analysis)
 
 PHP Text Analysis is a library for performing Information Retrieval (IR) and Natural Language Processing (NLP) tasks using the PHP language. All the documentation for this project can be found in the wiki. 
 
