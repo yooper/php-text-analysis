@@ -37,7 +37,7 @@ class TfIdf
     protected function buildIndex(ICollection $collection)
     {                
         foreach($collection as $id => $document){
-            $freqDist = new FreqDist($document->getDocumentData());
+            $freqDist = freq_dist($document->getDocumentData());
             foreach($freqDist->getKeyValuesByFrequency() as $key => $freq) { 
                 if(!isset($this->idf[$key])) { 
                     $this->idf[$key] = 0;

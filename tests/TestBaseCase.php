@@ -36,6 +36,11 @@ class TestBaseCase extends \PHPUnit_Framework_TestCase
         }        
     }
     
+    public function getText() : string
+    {
+        return self::$text;
+    }
+    
     /**
      * 
      * @param string $className

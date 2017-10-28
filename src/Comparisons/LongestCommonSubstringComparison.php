@@ -13,7 +13,7 @@ use TextAnalysis\Utilities\Text;
 class LongestCommonSubstringComparison implements ISimilarity, IDistance
 {
     /**
-     * Using caching to improve preformance on text2 inputs 
+     * Using caching to improve performance on text2 inputs 
      * @var boolean
      */
     protected $useCache = false;
