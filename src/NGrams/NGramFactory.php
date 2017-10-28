@@ -23,7 +23,7 @@ class NGramFactory
      * @param int $nGramSize
      * @return  array return an array of the ngrams
      */
-    static public function create(array $tokens, $nGramSize = self::BIGRAM, $separator = ' ')
+    static public function create(array $tokens, $nGramSize = self::BIGRAM, $separator = ' ') : array
     {
         $separatorLength = strlen($separator);
         $length = count($tokens) - $nGramSize + 1;

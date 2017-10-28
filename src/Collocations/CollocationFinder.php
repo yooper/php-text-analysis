@@ -27,8 +27,8 @@ class CollocationFinder
      */
     public function getCollocations()
     {
-        $nGramTokens = NGramFactory::create($this->tokens, $this->nGramSize);
-        return (new FreqDist($nGramTokens))->getKeyValuesByFrequency();
+        $nGramTokens = ngrams($this->tokens, $this->nGramSize);
+        return freq_dist($nGramTokens)->getKeyValuesByFrequency();
     }
     
     /**
@@ -37,8 +37,8 @@ class CollocationFinder
      */
     public function getCollocationsByPmi()
     {
-        $nGramFreqDist = new FreqDist(NGramFactory::create($this->tokens, $this->nGramSize));
-        $unigramsFreqDist = new FreqDist($this->tokens);
+        $nGramFreqDist = freq_dist(ngrams($this->tokens, $this->nGramSize));
+        $unigramsFreqDist = freq_dist($this->tokens);
         
         $dataSet = [];
         foreach($nGramFreqDist->getKeys() as $nGramToken)

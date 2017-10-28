@@ -3,7 +3,6 @@
 namespace Tests\TextAnalysis\Filters;
 
 use TextAnalysis\Filters\UrlFilter;
-use TextAnalysis\Tokenizers\GeneralTokenizer;
 
 /**
  * Description of UrlFilterTest
