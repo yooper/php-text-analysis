@@ -82,3 +82,13 @@ function ends_with(string $haystack, string $needle) : bool
     return \TextAnalysis\Utilities\Text::endsWith($haystack, $needle);
 }
 
+/**
+ * Returns an instance of the TextCorpus
+ * @param string $text
+ * @return \TextAnalysis\Corpus\TextCorpus
+ */
+function text(string $text) : \TextAnalysis\Corpus\TextCorpus
+{
+    return new \TextAnalysis\Corpus\TextCorpus($text);
+}
+

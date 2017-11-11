@@ -12,6 +12,11 @@ use TextAnalysis\Corpus\TextCorpus;
  */
 class TextCorpusTest extends \TestBaseCase
 {
+    public function testInstanceOf()
+    {
+        $this->assertInstanceOf(TextCorpus::class, text($this->getText()));
+    }
+    
     public function testConcordance()
     {
         $corpus = new TextCorpus($this->getText());
