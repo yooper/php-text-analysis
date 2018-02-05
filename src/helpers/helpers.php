@@ -111,3 +111,47 @@ if (! function_exists('text')) {
 	}
 }
 
+/**
+ * Check if the given array has the given needle, using a case insensitive search. 
+ * Keeps a local copy of the normalized haystack for quicker lookup on the same array
+ * @staticvar array $localCopy
+ * @staticvar string $checksum
+ * @param string $needle
+ * @param array $haystack
+ * @return bool
+ */
+function in_arrayi(string $needle, array $haystack) : bool
+{
+    static $localCopy = [];
+    static $checksum = null;
+    
+    $haystackChecksum = md5(json_encode($haystack));
+    if($checksum != $haystackChecksum) {
+        $checksum = $haystackChecksum;
+        $localCopy = array_fill_keys(array_map('strtolower', $haystack), true);
+    }    
+    return isset($localCopy[strtolower($needle)]);    
+}
+
+/**
+ * Get the index of the needle using a case insensitive search. Keeps a local
+ * copy of the normalized haystack for quicker lookup on the same array
+ * @staticvar array $localCopy
+ * @staticvar string $checksum
+ * @param string $needle
+ * @param array $haystack
+ * @return bool
+ */
+function array_searchi(string $needle, array $haystack)
+{
+    static $localCopy = [];
+    static $checksum = null;
+    
+    $haystackChecksum = md5(json_encode($haystack));
+    if($checksum != $haystackChecksum) {
+        $checksum = $haystackChecksum;
+        $localCopy = array_map('strtolower', $haystack);
+    }    
+    return array_search($needle, $localCopy); 
+}
+
