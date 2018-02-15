@@ -29,7 +29,8 @@
         "symfony/console": "~2.7",
         "camspiers/porter-stemmer": "~1",
         "wamania/php-stemmer": "~1",
-        "yooper/nicknames": "~1"
+        "yooper/nicknames": "~1",
+        "php-ai/php-ml": "^0.4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~5",
