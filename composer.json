@@ -2,7 +2,7 @@
     "name": "yooper/php-text-analysis",
     "description": "PHP Text Analysis is a library for performing Information Retrieval (IR) and Natural Language Processing (NLP) tasks using the PHP language",
     "keywords": ["nlp","ir","text analysis","natural language processing"],
-    "license": "Apache 2",
+    "license": "Apache-2.0",
     "authors": [
     {
         "name": "yooper",
@@ -24,7 +24,7 @@
         }
     },
     "require" : {
-        "php": ">=7.0",
+        "php": ">=7",
         "yooper/stop-words": "~1",
         "symfony/console": "~2.7|~3.4|~4.0",
         "camspiers/porter-stemmer": "~1",
