@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+# run the library in an interactive mode for doing analysis
+php -a -d auto_prepend_file=./vendor/autoload.php
+

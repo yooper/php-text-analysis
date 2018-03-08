@@ -155,3 +155,36 @@ function array_searchi(string $needle, array $haystack)
     return array_search($needle, $localCopy); 
 }
 
+
+/**
+ * Load a book into memory
+ * @param string $filename
+ * @return string
+ */
+function gutenberg(string $filename) : string
+{
+    return file_get_contents(get_storage_path("corpora/gutenberg").$filename);
+}
+
+/**
+ * Return a list of books available
+ * @return array
+ */
+function gutenberg_list() : array
+{
+    return scan_dir(get_storage_path("corpora/gutenberg/")); 
+}
+
+/**
+ * Shortcut function for getting contents of directory
+ * @param string $dir
+ * @return array
+ */
+function scan_dir(string $dir) : array
+{
+    return array_diff(scandir($dir), ['..', '.']);    
+}
+
+
+
+
