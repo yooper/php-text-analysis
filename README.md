@@ -6,8 +6,19 @@ php-text-analysis
 
 [![Total Downloads](https://poser.pugx.org/yooper/php-text-analysis/downloads)](https://packagist.org/packages/yooper/php-text-analysis)
 
+PHP Text Analysis is a library for performing Information Retrieval (IR) and Natural Language Processing (NLP) tasks using the PHP language. 
+All the documentation for this project can be found in the book and wiki. 
 
-PHP Text Analysis is a library for performing Information Retrieval (IR) and Natural Language Processing (NLP) tasks using the PHP language. All the documentation for this project can be found in the wiki. 
+PHP Text Analysis Book & Wiki
+=============
+
+A book is in the works and your contributions are needed. You can find the book
+at https://github.com/yooper/php-text-analysis-book
+
+
+Also, documentation for the library resides in the wiki, too. 
+https://github.com/yooper/php-text-analysis/wiki
+
 
 Installation Instructions
 =============
@@ -16,9 +27,6 @@ Add PHP Text Analysis to your project
 ```
 composer require yooper/php-text-analysis
 ```
-Documentation for the library resides in the wiki. 
-https://github.com/yooper/php-text-analysis/wiki
-
 
 ### Tokenization
 ```php
@@ -63,9 +71,5 @@ Customize the ngrams
 $trigrams = ngrams($tokens,3, '|');
 ```
  
-Dictionary Installation
-=============
-
-To do
 
 
