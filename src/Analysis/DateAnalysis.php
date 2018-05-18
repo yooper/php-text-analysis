@@ -28,7 +28,7 @@ class DateAnalysis
      * 
      * @param type $text
      */
-    public function __construct($text) 
+    public function __construct(string $text) 
     {
         $tokenizer = new SentenceTokenizer();
         $this->sentences = $tokenizer->tokenize( $this->normalize($text)) ;        
@@ -39,7 +39,7 @@ class DateAnalysis
      * ie Mar. to March
      * @param string $text
      */
-    protected function normalize($text)
+    protected function normalize(string $text) : string
     {
         $search = ['jan.','feb.','mar.','apr.','may.','jun.','jul.','aug.','sep.','oct.','nov.','dec.'];
         $replace = [
@@ -62,7 +62,7 @@ class DateAnalysis
     /**
      * @return DateTime[]
      */
-    public function getDates()
+    public function getDates() : array
     {        
         // return the cached copy
         if(empty($this->dates)) {

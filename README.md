@@ -71,5 +71,20 @@ Customize the ngrams
 $trigrams = ngrams($tokens,3, '|');
 ```
  
+### Stemming
+By default stem method uses the Porter Stemmer.
+```php
+$stemmedTokens = stem($tokens);
+```
+You can customize which type of stemmer to use by passing in the name of the stemmer class name
+```php
+$stemmedTokens = stem($tokens, \TextAnalysis\Stemmers\MorphStemmer::class);
+```
 
-
+### Keyword Extract with Rake
+There is a short cut method for using the Rake algorithm. You will need to clean
+your data prior to using. Second parameter is the ngram size of your keywords to extract.
+```php
+$rake = rake($tokens, 3);
+$results = $rake->getKeywordScores();
+```

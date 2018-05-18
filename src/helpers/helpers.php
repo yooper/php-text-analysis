@@ -111,6 +111,38 @@ if (! function_exists('text')) {
 	}
 }
 
+
+if (! function_exists('rake')) {
+    /**
+    * Returns an instance of the Rake
+    *
+    * @param array $tokens
+    *
+    * @return \TextAnalysis\Analysis\Keywords\Rake
+    */
+    function rake(array $tokens, int $ngramSize = 3): \TextAnalysis\Analysis\Keywords\Rake 
+    {
+        return new \TextAnalysis\Analysis\Keywords\Rake(new \TextAnalysis\Documents\TokensDocument($tokens), $ngramSize);
+    }
+}
+
+if (! function_exists('stem')) {
+    /**
+    * Returns an array of stemmed tokens
+    *
+    * @param array $tokens
+    *
+    * @return \TextAnalysis\Analysis\Keywords\Rake
+    */
+    function stem(array $tokens, string $stemmerClassName = \TextAnalysis\Stemmers\PorterStemmer::class): array 
+    {
+	$stemmer = new $stemmerClassName();
+        return array_map(function($token) use($stemmer){ return $stemmer->stem($token); }, $tokens);
+    }
+}
+
+
+
 /**
  * Check if the given array has the given needle, using a case insensitive search. 
  * Keeps a local copy of the normalized haystack for quicker lookup on the same array

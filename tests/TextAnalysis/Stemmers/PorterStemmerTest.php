@@ -18,4 +18,10 @@ class PorterStemmerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('univers', $stemmer->stem('universities'));
         $this->assertEquals('judg',$stemmer->stem('judges'));
     }
+    
+    public function testSimplifiedStemmer()
+    {
+        $this->assertEquals(['univers','judg'], stem(['universities', 'judges']));
+    }    
+    
 }
