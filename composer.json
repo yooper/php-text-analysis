@@ -13,7 +13,7 @@
         "psr-4": {
             "TextAnalysis\\": "src/"
 	},
-        "files": ["src/helpers/storage.php", "src/helpers/print.php", "src/helpers/simplified.php", "src/helpers/helpers.php"]
+        "files": ["src/helpers/storage.php", "src/helpers/print.php", "src/helpers/simplified.php", "src/helpers/helpers.php", "src/helpers/interactive_help.php"]
     },
     "autoload-dev": {
         "files": ["tests/TestBaseCase.php"]

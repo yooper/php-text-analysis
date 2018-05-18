@@ -2,20 +2,25 @@
 
 namespace TextAnalysis\Collocations;
 
-use TextAnalysis\NGrams\NGramFactory;
-use TextAnalysis\Analysis\FreqDist;
-
 /**
  * Helps find popular phrases in the given set of tokens
  * @author yooper
  */
 class CollocationFinder 
 {
+    /**
+     * The ngram size 
+     * @var int
+     */
     protected $nGramSize = 2;
     
+    /**
+     *
+     * @var array
+     */
     protected $tokens = [];
     
-    public function __construct(array $tokens, $nGramSize = 2) 
+    public function __construct(array $tokens, int $nGramSize = 2) 
     {
         $this->tokens = $tokens;
         $this->nGramSize = $nGramSize;

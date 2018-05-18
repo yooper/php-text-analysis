@@ -1,0 +1,6 @@
+#!/bin/bash
+# run the library in an interactive mode for doing analysis
+echo "Welcome to the PHP Text Analysis Interactive Console"
+echo "Type help(); to get a list of available functions"
+php -a -d auto_prepend_file=./vendor/autoload.php
+
