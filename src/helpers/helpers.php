@@ -90,7 +90,6 @@ if (! function_exists('ends_with')) {
 	/**
 	 * @param string $haystack
 	 * @param string $needle
-	 *
 	 * @return bool
 	 */
 	function ends_with( string $haystack, string $needle ): bool {
@@ -103,7 +102,6 @@ if (! function_exists('text')) {
 	 * Returns an instance of the TextCorpus
 	 *
 	 * @param string $text
-	 *
 	 * @return \TextAnalysis\Corpus\TextCorpus
 	 */
 	function text( string $text ): \TextAnalysis\Corpus\TextCorpus {
@@ -116,8 +114,7 @@ if (! function_exists('rake')) {
     /**
     * Returns an instance of the Rake
     *
-    * @param array $tokens
-    *
+    * @param string[] $tokens
     * @return \TextAnalysis\Analysis\Keywords\Rake
     */
     function rake(array $tokens, int $ngramSize = 3): \TextAnalysis\Analysis\Keywords\Rake 
@@ -130,9 +127,8 @@ if (! function_exists('stem')) {
     /**
     * Returns an array of stemmed tokens
     *
-    * @param array $tokens
-    *
-    * @return \TextAnalysis\Analysis\Keywords\Rake
+    * @param string[] $tokens
+    * @return string[]
     */
     function stem(array $tokens, string $stemmerClassName = \TextAnalysis\Stemmers\PorterStemmer::class): array 
     {
@@ -214,7 +210,52 @@ function gutenberg_list() : array
  */
 function scan_dir(string $dir) : array
 {
-    return array_diff(scandir($dir), ['..', '.']);    
+    $filePaths = array_diff(scandir($dir), ['..', '.']);
+    return array_map(function($filePath) use ($dir){ return realpath($dir.DIRECTORY_SEPARATOR.$filePath); }, $filePaths);
+}
+
+/**
+ * Shortcut function for getting naive bayes implementation
+ * @return \TextAnalysis\Classifiers\NaiveBayes
+ */
+function naive_bayes() : \TextAnalysis\Classifiers\NaiveBayes
+{
+    return new \TextAnalysis\Classifiers\NaiveBayes;
+}
+
+/**
+ * Return an array of filtered tokens
+ * @param array $tokens
+ * @param string $filterType
+ * @return string[]
+ */
+function filter_tokens(array $tokens, string $filterType) : array
+{
+    $className = "\\TextAnalysis\\Filters\\{$filterType}";
+    $filter = new $className();
+    return array_values( array_map(function($token) use($filter){ return $filter->transform($token);}, $tokens));
+}
+
+/**
+ * Filter out stop words
+ * @param array $tokens
+ * @param array $stopwords
+ * @return array
+ */
+function filter_stopwords(array $tokens, array $stopwords) : array
+{
+    $filter = new \TextAnalysis\Filters\StopWordsFilter($stopwords);
+    return array_values( array_map(function($token) use($filter){ return $filter->transform($token);}, $tokens));    
+}
+
+/**
+ * Read a file into memory that is new line delimited
+ * @param string $filePath
+ * @return array
+ */
+function get_stop_words(string $filePath) : array
+{
+    return array_map('trim', file($filePath));    
 }
 
 
