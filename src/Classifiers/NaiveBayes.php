@@ -2,104 +2,87 @@
 
 namespace TextAnalysis\Classifiers;
 
-use Phpml\Classification\NaiveBayes as NB;
-
 /**
- * Uses the PHP ml's library to provide an naive bayes classifier
- *
- * @author developer
+ * Implementation of Naive Bayes algorithm, borrowed heavily from 
+ * https://github.com/fieg/bayes
+ * @author yooper
  */
-class NaiveBayes 
-{
+class NaiveBayes implements \TextAnalysis\Interfaces\IClassifier
+{        
     /**
-     *
-     * @var NB
-     */
-    protected $classifier = null;
-    
-    /**
-     * Map the tokens to ints to work with PHP ML
+     * Track token and counts for a given label
      * @var array
      */
-    protected $tokenMap = [];
-    
-    /**
-     * Stores the samples until its time to predict
-     * @var array
-     */
-    protected $buffer = [];
-    
-    /**
-     *
-     * @var int
-     */
-    protected $maxTokens = 0;
-        
-    protected function mapToken(string $token)
-    {
-        if(!isset($this->tokenMap[$token])) {
-            $this->tokenMap[$token] = random_int(PHP_INT_MIN , PHP_INT_MAX);
-        }      
-        return $this->tokenMap[$token];
-    }
-    
-    protected function getMappedTokens(array $tokens)
-    {
-        return array_map([$this,'mapToken'], $tokens);
-    }
-    
-    
-    public function train(string $label, array $tokens)
-    {                
-        $this->maxTokens = max($this->maxTokens, count($tokens));
-        $this->buffer[] = [$label, $tokens];              
-    }
-    
-    
-    protected function trainModel()
-    {
-        if(empty($this->buffer)) {
-            return;
-        }
-       
-        foreach($this->buffer as $row)
-        {
-            $tokens = $row[1];
-            if(count($tokens) < $this->maxTokens) {
-                $partial = array_fill($this->maxTokens-1, $this->maxTokens, function(){ return random_int(PHP_INT_MIN , PHP_INT_MAX); });
+    protected $labels = [];
                 
-            }
-            $this->getClassifier()->train([$this->getMappedTokens($row[1])], [$row[0]]);        
-        }                    
-    }
-    
-    
-    public function predict(array $tokens)
-    {
-        if(!$this->getIsTrained())
-        {
-
-        }
-        return $this->getClassifier()->predict($this->getMappedTokens($tokens));
-    }
+    /**
+     * Track the number of docs with the given label
+     * @var array[int]
+     */
+    protected $labelCount = [];
     
     /**
-     * 
-     * @return NB
+     * Track the token counts
+     * @var array[int]
      */
-    public function getClassifier() : NB
+    protected $tokenCount = [];
+            
+    public function train(string $label, array $tokens)
     {
-        if(!$this->classifier) {
-            $this->classifier = new NB();
+        $freqDist = array_count_values($tokens);        
+        if(!isset($this->labels[$label])) {
+            $this->labels[$label] = [];
+            $this->labelCount[$label] = 0;            
         }
-        return $this->classifier;
+        
+        $this->labelCount[$label]++;          
+        foreach($freqDist as $token => $count)
+        {
+            isset($this->tokenCount[$token]) ? $this->tokenCount[$token] += $count : $this->tokenCount[$token] = $count;            
+            isset($this->labels[$label][$token]) ? $this->labels[$label][$token] += $count : $this->labels[$label][$token] = $count;
+        }         
+    }
+    
+    public function predict(array $tokens) 
+    {
+        $totalDocs = $this->getDocCount();
+        $scores = [];
+        
+        foreach ($this->labelCount as $label => $docCount) 
+        {
+            $sum = 0;
+            $inversedDocCount = $totalDocs - $docCount;
+            $docCountReciprocal = 1 / $docCount;
+            $inversedDocCountReciprocal = 1 / $inversedDocCount;
+            
+            foreach ($tokens as $token) 
+            {
+                $totalTokenCount = $this->tokenCount[$token] ?? 1; // prevent division by zero
+                $tokenCount = $this->labels[$label][$token] ?? 0;
+                $inversedTokenCount = $totalTokenCount - $tokenCount;
+                $tokenProbabilityPositive = $tokenCount * $docCountReciprocal;
+                $tokenProbabilityNegative = $inversedTokenCount * $inversedDocCountReciprocal;
+                $probability = $tokenProbabilityPositive / ($tokenProbabilityPositive + $tokenProbabilityNegative);
+                $probability = (0.5 + ($totalTokenCount * $probability)) / (1 + $totalTokenCount);
+                $sum += log(1 - $probability) - log($probability);
+            }
+            $scores[$label] = 1 / (1 + exp($sum));
+        }
+        arsort($scores, SORT_NUMERIC);
+        return $scores;                
+    }
+    
+    public function getDocCount() : int
+    {
+        return array_sum( array_values( $this->labelCount)) ?? 0;
     }
     
     public function __destruct() 
     {
-        unset($this->buffer);
-        unset($this->classifier);
-        unset($this->tokenMap);
-        unset($this->isTrained);
+        unset($this->labelCount);
+        unset($this->labels);
+        unset($this->tokenCount);
     }
+    
+   
 }
