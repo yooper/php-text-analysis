@@ -133,7 +133,11 @@ if (! function_exists('stem')) {
     function stem(array $tokens, string $stemmerClassName = \TextAnalysis\Stemmers\PorterStemmer::class): array 
     {
 	$stemmer = new $stemmerClassName();
-        return array_map(function($token) use($stemmer){ return $stemmer->stem($token); }, $tokens);
+        foreach($tokens as &$token)
+        {
+            $token = $stemmer->stem($token);
+        }
+        return $tokens;
     }
 }
 
@@ -229,11 +233,15 @@ function naive_bayes() : \TextAnalysis\Classifiers\NaiveBayes
  * @param string $filterType
  * @return string[]
  */
-function filter_tokens(array $tokens, string $filterType) : array
+function filter_tokens(array &$tokens, string $filterType) : array
 {
     $className = "\\TextAnalysis\\Filters\\{$filterType}";
     $filter = new $className();
-    return array_values( array_map(function($token) use($filter){ return $filter->transform($token);}, $tokens));
+    foreach($tokens as &$token)
+    {
+        $token = $filter->transform($token);
+    }
+    return array_values($tokens);
 }
 
 /**
@@ -242,10 +250,14 @@ function filter_tokens(array $tokens, string $filterType) : array
  * @param array $stopwords
  * @return array
  */
-function filter_stopwords(array $tokens, array $stopwords) : array
+function filter_stopwords(array &$tokens, array &$stopwords) : array
 {
-    $filter = new \TextAnalysis\Filters\StopWordsFilter($stopwords);
-    return array_values( array_map(function($token) use($filter){ return $filter->transform($token);}, $tokens));    
+    $filter = new \TextAnalysis\Filters\StopWordsFilter($stopwords);      
+    foreach($tokens as &$token)
+    {
+        $token = $filter->transform($token);
+    }
+    return array_values($tokens);
 }
 
 /**
@@ -255,9 +267,35 @@ function filter_stopwords(array $tokens, array $stopwords) : array
  */
 function get_stop_words(string $filePath) : array
 {
-    return array_map('trim', file($filePath));    
+    $rows = file($filePath);
+    array_walk($rows, function(&$value){ $value = trim($value); });
+    return $rows;
 }
 
+/**
+ * Return the polarity scores from the vader algorithm
+ * @param array $tokens
+ * @return array
+ */
+function vader(array $tokens) : array
+{
+    return (new \TextAnalysis\Sentiment\Vader())->getPolarityScores($tokens);
+}
 
+/**
+ * Filter out all null and empty strings
+ * @param array $tokens
+ * @return string[]
+ */
+function filter_empty(array $tokens) : array
+{
+    foreach($tokens as &$token)
+    {
+        if(empty(trim($token))) {
+            $token = NULL;
+        }
+    }    
+    return array_filter($tokens);
+}
 
 

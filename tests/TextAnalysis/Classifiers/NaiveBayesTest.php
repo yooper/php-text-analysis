@@ -40,7 +40,8 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
         } 
         
         $movieReviewTokens = tokenize($this->getMovieReview());
-        $movieReviewTokens = filter_stopwords($movieReviewTokens, get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt"));
+        $stopWords = get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt");
+        $movieReviewTokens = filter_stopwords($movieReviewTokens, $stopWords);
         $movieReviewTokens = filter_tokens($movieReviewTokens, 'PunctuationFilter');
         $movieReviewTokens = filter_tokens($movieReviewTokens, 'QuotesFilter');
         $movieReviewTokens = stem($movieReviewTokens);                   
@@ -50,12 +51,19 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
     
     protected function getTokenizedReviews(string $filePath) : array
     {
+        static $stopWords = null;
+        
+        if(!$stopWords) {
+            $stopWords = get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt");
+        }
+        
         $tokens = tokenize(file_get_contents($filePath));
-        $tokens = filter_stopwords($tokens, get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt"));
         $tokens = filter_tokens($tokens, 'PunctuationFilter');
         $tokens = filter_tokens($tokens, 'QuotesFilter');
+        $tokens = filter_stopwords($tokens, $stopWords);        
         $tokens = stem($tokens);
-        return $tokens;                
+        $tokens = filter_empty($tokens);
+        return $tokens;
     }
     
     /**

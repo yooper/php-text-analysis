@@ -88,3 +88,21 @@ your data prior to using. Second parameter is the ngram size of your keywords to
 $rake = rake($tokens, 3);
 $results = $rake->getKeywordScores();
 ```
+
+### Sentiment Analysis with Vader
+Need Sentiment Analysis ? Use Vader, https://github.com/cjhutto/vaderSentiment .
+The PHP implementation can be invoked easily. 
+```php
+$sentimentScores = vader($tokens);
+```
+
+### Document Classification with Naive Bayes
+```php
+$nb = naive_bayes();
+$nb->train('mexican', tokenize('taco nacho enchilada burrito'));        
+$nb->train('american', tokenize('hamburger burger fries pop'));  
+$nb->predict(tokenize('my favorite food is a burrito'));
+```
+
+
+
