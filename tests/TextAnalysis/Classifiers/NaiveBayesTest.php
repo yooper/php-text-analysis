@@ -41,9 +41,9 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
         
         $movieReviewTokens = tokenize($this->getMovieReview());
         $stopWords = get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt");
-        $movieReviewTokens = filter_stopwords($movieReviewTokens, $stopWords);
-        $movieReviewTokens = filter_tokens($movieReviewTokens, 'PunctuationFilter');
-        $movieReviewTokens = filter_tokens($movieReviewTokens, 'QuotesFilter');
+        filter_stopwords($movieReviewTokens, $stopWords);
+        filter_tokens($movieReviewTokens, 'PunctuationFilter');
+        filter_tokens($movieReviewTokens, 'QuotesFilter');
         $movieReviewTokens = stem($movieReviewTokens);                   
         $this->assertEquals('positive', array_keys($nb->predict($movieReviewTokens))[0]);
         
@@ -58,9 +58,9 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
         }
         
         $tokens = tokenize(file_get_contents($filePath));
-        $tokens = filter_tokens($tokens, 'PunctuationFilter');
-        $tokens = filter_tokens($tokens, 'QuotesFilter');
-        $tokens = filter_stopwords($tokens, $stopWords);        
+        filter_tokens($tokens, 'PunctuationFilter');
+        filter_tokens($tokens, 'QuotesFilter');
+        filter_stopwords($tokens, $stopWords);        
         $tokens = stem($tokens);
         $tokens = filter_empty($tokens);
         return $tokens;
