@@ -25,9 +25,7 @@ class Simple
         {
             $scoreKeepers[] = new ScoreKeeper($sentenceTokens[$index], $index);
         }
-               
-        $sentenceCounter = array_fill_keys($sentenceTokens, 0);
-        
+                       
         foreach($tokenCounts as $token => $freq)
         {
             foreach($scoreKeepers as $sentenceKeeper)

@@ -21,9 +21,14 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
     
     public function testMovieReviews()
     {
-        if( getenv('SKIP_TEST') || !is_dir(get_storage_path('corpora/movie_reviews'))) {
+        if( getenv('SKIP_TEST')) {
             return;
         }            
+        try {
+            get_storage_path('corpora/movie_reviews');
+        } catch(\Exception $ex) {
+            return;
+        }
         
         $posFilePaths = scan_dir(get_storage_path('corpora/movie_reviews/pos'));        
         $nb = naive_bayes();
