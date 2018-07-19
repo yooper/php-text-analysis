@@ -23,7 +23,7 @@ class NaiveBayes implements \TextAnalysis\Interfaces\IClassifier
     
     /**
      * Track the token counts
-     * @var array[int]
+     * @var int[]
      */
     protected $tokenCount = [];
             

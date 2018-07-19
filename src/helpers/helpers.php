@@ -133,7 +133,11 @@ if (! function_exists('stem')) {
     function stem(array $tokens, string $stemmerClassName = \TextAnalysis\Stemmers\PorterStemmer::class): array 
     {
 	$stemmer = new $stemmerClassName();
-        return array_map(function($token) use($stemmer){ return $stemmer->stem($token); }, $tokens);
+        foreach($tokens as &$token)
+        {
+            $token = $stemmer->stem($token);
+        }
+        return $tokens;
     }
 }
 
@@ -224,28 +228,32 @@ function naive_bayes() : \TextAnalysis\Classifiers\NaiveBayes
 }
 
 /**
- * Return an array of filtered tokens
+ * Pass the tokens in by reference and modify them
  * @param array $tokens
  * @param string $filterType
- * @return string[]
  */
-function filter_tokens(array $tokens, string $filterType) : array
+function filter_tokens(array &$tokens, string $filterType)
 {
     $className = "\\TextAnalysis\\Filters\\{$filterType}";
     $filter = new $className();
-    return array_values( array_map(function($token) use($filter){ return $filter->transform($token);}, $tokens));
+    foreach($tokens as &$token)
+    {
+        $token = $filter->transform($token);
+    }
 }
 
 /**
  * Filter out stop words
  * @param array $tokens
  * @param array $stopwords
- * @return array
  */
-function filter_stopwords(array $tokens, array $stopwords) : array
+function filter_stopwords(array &$tokens, array &$stopwords)
 {
-    $filter = new \TextAnalysis\Filters\StopWordsFilter($stopwords);
-    return array_values( array_map(function($token) use($filter){ return $filter->transform($token);}, $tokens));    
+    $filter = new \TextAnalysis\Filters\StopWordsFilter($stopwords);      
+    foreach($tokens as &$token)
+    {
+        $token = $filter->transform($token);
+    }
 }
 
 /**
@@ -255,9 +263,89 @@ function filter_stopwords(array $tokens, array $stopwords) : array
  */
 function get_stop_words(string $filePath) : array
 {
-    return array_map('trim', file($filePath));    
+    $rows = file($filePath);
+    array_walk($rows, function(&$value){ $value = trim($value); });
+    return $rows;
 }
 
+/**
+ * Return the polarity scores from the vader algorithm
+ * @param array $tokens
+ * @return array
+ */
+function vader(array $tokens) : array
+{
+    return (new \TextAnalysis\Sentiment\Vader())->getPolarityScores($tokens);
+}
+
+/**
+ * Filter out all null and empty strings
+ * @param array $tokens
+ * @return string[]
+ */
+function filter_empty(array $tokens) : array
+{
+    foreach($tokens as &$token)
+    {
+        if(empty(trim($token))) {
+            $token = NULL;
+        }
+    }    
+    return array_filter($tokens);
+}
+
+function score_keeper_sort($a, $b)
+{
+    if ($a->getScore() == $b->getScore()) {
+        return 0;
+    }
+    return ($a->getScore() < $b->getScore()) ? 1 : -1;
+}
+
+/**
+ * Apply common filters and
+ * @param string $text
+ * @param array $stopwords
+ * @return array
+ */
+function summary_simple(string $text, array $stopwords = []) : array
+{
+    $sentenceTokensOriginal = (new \TextAnalysis\Tokenizers\VanderleeTokenizer())->tokenize(strtolower($text));
+
+    //create copy
+    $sentenceTokens = $sentenceTokensOriginal;
+    if(!empty($stopwords)) {
+        foreach($sentenceTokens as &$sentence)
+        {
+            $sentence = str_replace($stopwords, " ", $sentence);
+        }
+    }
+        
+    filter_tokens($sentenceTokens, 'TrimFilter');
+    filter_tokens($sentenceTokens, 'QuotesFilter');
+    filter_tokens($sentenceTokens, 'CharFilter');        
+        
+    $wordTokens = tokenize($text);
+    foreach(['LowerCaseFilter','PunctuationFilter','QuotesFilter','PossessiveNounFilter','CharFilter'] as $filterType)
+    {
+        filter_tokens($wordTokens, $filterType);
+    }
+     
+    if(!empty($stopwords)) {
+        filter_stopwords($wordTokens, $stopwords);
+    }
+    
+    $summarizer = new \TextAnalysis\Analysis\Summarize\Simple();
+    $scores = $summarizer->summarize(filter_empty( $wordTokens ), $sentenceTokens);
+
+    // reorder sentences in the best order
+    $bestSentences = [];
+    foreach($scores as $score)
+    {
+        $bestSentences[] = $sentenceTokensOriginal[$score->getIndex()];
+    }    
+    return $bestSentences;
+}
 
 
 

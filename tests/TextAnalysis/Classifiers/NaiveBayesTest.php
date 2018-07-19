@@ -21,9 +21,14 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
     
     public function testMovieReviews()
     {
-        if( getenv('SKIP_TEST') || !is_dir(get_storage_path('corpora/movie_reviews'))) {
+        if( getenv('SKIP_TEST')) {
             return;
         }            
+        try {
+            get_storage_path('corpora/movie_reviews');
+        } catch(\Exception $ex) {
+            return;
+        }
         
         $posFilePaths = scan_dir(get_storage_path('corpora/movie_reviews/pos'));        
         $nb = naive_bayes();
@@ -40,9 +45,10 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
         } 
         
         $movieReviewTokens = tokenize($this->getMovieReview());
-        $movieReviewTokens = filter_stopwords($movieReviewTokens, get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt"));
-        $movieReviewTokens = filter_tokens($movieReviewTokens, 'PunctuationFilter');
-        $movieReviewTokens = filter_tokens($movieReviewTokens, 'QuotesFilter');
+        $stopWords = get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt");
+        filter_stopwords($movieReviewTokens, $stopWords);
+        filter_tokens($movieReviewTokens, 'PunctuationFilter');
+        filter_tokens($movieReviewTokens, 'QuotesFilter');
         $movieReviewTokens = stem($movieReviewTokens);                   
         $this->assertEquals('positive', array_keys($nb->predict($movieReviewTokens))[0]);
         
@@ -50,12 +56,19 @@ class NaiveBayesTest extends \PHPUnit_Framework_TestCase
     
     protected function getTokenizedReviews(string $filePath) : array
     {
+        static $stopWords = null;
+        
+        if(!$stopWords) {
+            $stopWords = get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt");
+        }
+        
         $tokens = tokenize(file_get_contents($filePath));
-        $tokens = filter_stopwords($tokens, get_stop_words(VENDOR_DIR."yooper/stop-words/data/stop-words_english_1_en.txt"));
-        $tokens = filter_tokens($tokens, 'PunctuationFilter');
-        $tokens = filter_tokens($tokens, 'QuotesFilter');
+        filter_tokens($tokens, 'PunctuationFilter');
+        filter_tokens($tokens, 'QuotesFilter');
+        filter_stopwords($tokens, $stopWords);        
         $tokens = stem($tokens);
-        return $tokens;                
+        $tokens = filter_empty($tokens);
+        return $tokens;
     }
     
     /**
