@@ -2,7 +2,7 @@
 <?php
 // application.php
 
-require __DIR__.'/vendor/autoload.php';
+require 'vendor/autoload.php';
 
 use TextAnalysis\Console\Commands\NltkPackageListCommand;
 use TextAnalysis\Console\Commands\NltkPackageInstallCommand;

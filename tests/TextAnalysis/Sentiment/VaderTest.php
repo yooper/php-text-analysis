@@ -10,6 +10,7 @@ use TextAnalysis\Sentiment\Vader;
  */
 class VaderTest extends \PHPUnit_Framework_TestCase
 {
+    
     public function testGetLexicon()
     {       
         if( getenv('SKIP_TEST')) {
@@ -104,6 +105,13 @@ class VaderTest extends \PHPUnit_Framework_TestCase
             $result = $vader->getPolarityScores(tokenize($test['sent']));
         }
         
+    }
+    
+    public function testIssue44OffsetError()
+    {
+        $vader = new Vader;
+        $result = $vader->getPolarityScores([ 'great', 'for', 'the', 'jawbone']);
+        $this->assertEquals(0.577, $result['pos']);
     }
         
 }

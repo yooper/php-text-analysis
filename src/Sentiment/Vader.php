@@ -285,6 +285,10 @@ class Vader
      */
     public function leastCheck(float $valence, array $tokens, int $index) : float
     {
+        if($index === 0) {
+            return $valence;
+        }
+        
         $inLexicon = isset($this->getLexicon()[strtolower($tokens[$index-1])]);
         
         if($inLexicon) {

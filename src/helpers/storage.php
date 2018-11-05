@@ -6,7 +6,7 @@
     */
     function get_storage_path( $subDirName = null ) 
     {            
-        $path = dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR;
+        $path = 'storage' . DIRECTORY_SEPARATOR;
 
         if ( ! empty( $path ) ) {
             $path .= $subDirName;
