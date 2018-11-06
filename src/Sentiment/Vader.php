@@ -24,9 +24,9 @@ class Vader
     CONST N_SCALAR = -0.74;
 
     // for removing punctuation    
-    CONST PUNC_LIST = [".", "!", "?", ",", ";", ":", "-", "'", "\"", "!!", "!!!", "??", "???", "?!?", "!?!", "?!?!", "!?!?"];
+    public $puncList = [".", "!", "?", ",", ";", ":", "-", "'", "\"", "!!", "!!!", "??", "???", "?!?", "!?!", "?!?!", "!?!?"];
     
-    CONST NEGATE = ["aint", "arent", "cannot", "cant", "couldnt", "darent", "didnt", "doesnt",
+    public $negate = ["aint", "arent", "cannot", "cant", "couldnt", "darent", "didnt", "doesnt",
         "ain't", "aren't", "can't", "couldn't", "daren't", "didn't", "doesn't",
         "dont", "hadnt", "hasnt", "havent", "isnt", "mightnt", "mustnt", "neither",
         "don't", "hadn't", "hasn't", "haven't", "isn't", "mightn't", "mustn't",
@@ -38,7 +38,7 @@ class Vader
     // booster/dampener 'intensifiers' or 'degree adverbs'
     // http://en.wiktionary.org/wiki/Category:English_degree_adverbs
 
-    CONST BOOSTER_DICT = [
+    protected $boosterDict = [
          "absolutely"=> Vader::B_INCR, "amazingly"=> Vader::B_INCR, "awfully"=> Vader::B_INCR, "completely"=> Vader::B_INCR, "considerably"=> Vader::B_INCR,
          "decidedly"=> Vader::B_INCR, "deeply"=> Vader::B_INCR, "effing"=> Vader::B_INCR, "enormously"=> Vader::B_INCR,
          "entirely"=> Vader::B_INCR, "especially"=> Vader::B_INCR, "exceptionally"=> Vader::B_INCR, "extremely"=> Vader::B_INCR,
@@ -59,7 +59,7 @@ class Vader
     ];
     
     // check for special case idioms using a sentiment-laden keyword known to VADER
-    CONST SPECIAL_CASE_IDIOMS = [
+    public $specialCaseIdioms = [
         "the shit"=> 3, "the bomb"=> 3, "bad ass"=> 1.5, "yeah right"=> -2,
         "cut the mustard"=> 2, "kiss of death"=> -1.5, "hand to mouth"=> -2
     ];
@@ -71,6 +71,34 @@ class Vader
     protected $lexicon = [];
     
     /**
+     * Initializes and loads the lexicon
+     */
+    public function __construct() 
+    {
+        $this->getLexicon(); // populate the lexicon
+    }
+
+    /**
+     * Add a new token and score to the lexicon
+     * @param string $token
+     * @param float $meanSentimentRating
+     */
+    public function addToLexicon(string $token, float $meanSentimentRating)
+    {
+        $this->lexicon[$token] = $meanSentimentRating;
+    }
+    
+    /**
+     * Remove a token from the lexicon
+     * @param string $token
+     */
+    public function deleteFromLexicon(string $token)
+    {
+        unset($this->lexicon[$token]);
+    }
+    
+    
+    /**
      *      
      * Determine if input contains negation words
      * @param array $tokens
@@ -79,10 +107,9 @@ class Vader
      */    
     public function isNegated(array $tokens, bool $includeNt = true) : bool
     {
-        $negatedWords = Vader::NEGATE;
         foreach($tokens as $word)
         {
-            if(in_array($word, $negatedWords) || 
+            if(in_array($word, $this->negate) || 
                     ($includeNt && strpos($word, "n't") !== false) ||
                     ( strpos($word, 'least') > 0 && strpos($word, 'at') !== 0 ) ) {
                 return true;
@@ -119,9 +146,9 @@ class Vader
     {
         $scalar = 0.0;
         $wordLower = strtolower($word);
-        if(isset(Vader::BOOSTER_DICT[$wordLower]))
+        if(isset($this->boosterDict[$wordLower]))
         {
-            $scalar = Vader::BOOSTER_DICT[$wordLower];
+            $scalar = $this->boosterDict[$wordLower];
             if($valence < 0) {
                 $scalar *= -1;
             }
@@ -150,7 +177,7 @@ class Vader
             $valence = 0.0;
             $lcToken = strtolower($tokens[$index]);
             if( $lcToken === "kind" && strtolower($tokens[$index+1]) === 'of' ||
-                isset(self::BOOSTER_DICT[$lcToken]) ) {   
+                isset(self::$this->boosterDict[$lcToken]) ) {   
                 
                 $sentiments[] = $valence;
             } else {
@@ -263,12 +290,12 @@ class Vader
 
         foreach( $bigrams + $trigrams as $ngram)
         {
-            if(isset(self::SPECIAL_CASE_IDIOMS[$ngram])) {
-                $valence = self::SPECIAL_CASE_IDIOMS[$ngram];
+            if(isset(self::$this->specialCaseIdioms[$ngram])) {
+                $valence = self::$this->specialCaseIdioms[$ngram];
             }
             
-            if(isset(self::BOOSTER_DICT[$ngram])) {
-                $valence += self::BOOSTER_DICT[$ngram];
+            if(isset(self::$this->boosterDict[$ngram])) {
+                $valence += self::$this->boosterDict[$ngram];
             }
         }
 
