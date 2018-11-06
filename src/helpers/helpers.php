@@ -90,7 +90,6 @@ if (! function_exists('ends_with')) {
 	/**
 	 * @param string $haystack
 	 * @param string $needle
-	 *
 	 * @return bool
 	 */
 	function ends_with( string $haystack, string $needle ): bool {
@@ -103,7 +102,6 @@ if (! function_exists('text')) {
 	 * Returns an instance of the TextCorpus
 	 *
 	 * @param string $text
-	 *
 	 * @return \TextAnalysis\Corpus\TextCorpus
 	 */
 	function text( string $text ): \TextAnalysis\Corpus\TextCorpus {
@@ -116,8 +114,7 @@ if (! function_exists('rake')) {
     /**
     * Returns an instance of the Rake
     *
-    * @param array $tokens
-    *
+    * @param string[] $tokens
     * @return \TextAnalysis\Analysis\Keywords\Rake
     */
     function rake(array $tokens, int $ngramSize = 3): \TextAnalysis\Analysis\Keywords\Rake 
@@ -130,14 +127,17 @@ if (! function_exists('stem')) {
     /**
     * Returns an array of stemmed tokens
     *
-    * @param array $tokens
-    *
-    * @return \TextAnalysis\Analysis\Keywords\Rake
+    * @param string[] $tokens
+    * @return string[]
     */
     function stem(array $tokens, string $stemmerClassName = \TextAnalysis\Stemmers\PorterStemmer::class): array 
     {
 	$stemmer = new $stemmerClassName();
-        return array_map(function($token) use($stemmer){ return $stemmer->stem($token); }, $tokens);
+        foreach($tokens as &$token)
+        {
+            $token = $stemmer->stem($token);
+        }
+        return $tokens;
     }
 }
 
@@ -214,9 +214,138 @@ function gutenberg_list() : array
  */
 function scan_dir(string $dir) : array
 {
-    return array_diff(scandir($dir), ['..', '.']);    
+    $filePaths = array_diff(scandir($dir), ['..', '.']);
+    return array_map(function($filePath) use ($dir){ return realpath($dir.DIRECTORY_SEPARATOR.$filePath); }, $filePaths);
 }
 
+/**
+ * Shortcut function for getting naive bayes implementation
+ * @return \TextAnalysis\Classifiers\NaiveBayes
+ */
+function naive_bayes() : \TextAnalysis\Classifiers\NaiveBayes
+{
+    return new \TextAnalysis\Classifiers\NaiveBayes;
+}
+
+/**
+ * Pass the tokens in by reference and modify them
+ * @param array $tokens
+ * @param string $filterType
+ */
+function filter_tokens(array &$tokens, string $filterType)
+{
+    $className = "\\TextAnalysis\\Filters\\{$filterType}";
+    $filter = new $className();
+    foreach($tokens as &$token)
+    {
+        $token = $filter->transform($token);
+    }
+}
+
+/**
+ * Filter out stop words
+ * @param array $tokens
+ * @param array $stopwords
+ */
+function filter_stopwords(array &$tokens, array &$stopwords)
+{
+    $filter = new \TextAnalysis\Filters\StopWordsFilter($stopwords);      
+    foreach($tokens as &$token)
+    {
+        $token = $filter->transform($token);
+    }
+}
+
+/**
+ * Read a file into memory that is new line delimited
+ * @param string $filePath
+ * @return array
+ */
+function get_stop_words(string $filePath) : array
+{
+    $rows = file($filePath);
+    array_walk($rows, function(&$value){ $value = trim($value); });
+    return $rows;
+}
+
+/**
+ * Return the polarity scores from the vader algorithm
+ * @param array $tokens
+ * @return array
+ */
+function vader(array $tokens) : array
+{
+    return (new \TextAnalysis\Sentiment\Vader())->getPolarityScores($tokens);
+}
+
+/**
+ * Filter out all null and empty strings
+ * @param array $tokens
+ * @return string[]
+ */
+function filter_empty(array $tokens) : array
+{
+    foreach($tokens as &$token)
+    {
+        if(empty(trim($token))) {
+            $token = NULL;
+        }
+    }    
+    return array_filter($tokens);
+}
+
+function score_keeper_sort($a, $b)
+{
+    if ($a->getScore() == $b->getScore()) {
+        return 0;
+    }
+    return ($a->getScore() < $b->getScore()) ? 1 : -1;
+}
+
+/**
+ * Apply common filters and
+ * @param string $text
+ * @param array $stopwords
+ * @return array
+ */
+function summary_simple(string $text, array $stopwords = []) : array
+{
+    $sentenceTokensOriginal = (new \TextAnalysis\Tokenizers\VanderleeTokenizer())->tokenize(strtolower($text));
+
+    //create copy
+    $sentenceTokens = $sentenceTokensOriginal;
+    if(!empty($stopwords)) {
+        foreach($sentenceTokens as &$sentence)
+        {
+            $sentence = str_replace($stopwords, " ", $sentence);
+        }
+    }
+        
+    filter_tokens($sentenceTokens, 'TrimFilter');
+    filter_tokens($sentenceTokens, 'QuotesFilter');
+    filter_tokens($sentenceTokens, 'CharFilter');        
+        
+    $wordTokens = tokenize($text);
+    foreach(['LowerCaseFilter','PunctuationFilter','QuotesFilter','PossessiveNounFilter','CharFilter'] as $filterType)
+    {
+        filter_tokens($wordTokens, $filterType);
+    }
+     
+    if(!empty($stopwords)) {
+        filter_stopwords($wordTokens, $stopwords);
+    }
+    
+    $summarizer = new \TextAnalysis\Analysis\Summarize\Simple();
+    $scores = $summarizer->summarize(filter_empty( $wordTokens ), $sentenceTokens);
+
+    // reorder sentences in the best order
+    $bestSentences = [];
+    foreach($scores as $score)
+    {
+        $bestSentences[] = $sentenceTokensOriginal[$score->getIndex()];
+    }    
+    return $bestSentences;
+}
 
 
 

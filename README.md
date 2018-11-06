@@ -7,6 +7,19 @@ php-text-analysis
 [![Total Downloads](https://poser.pugx.org/yooper/php-text-analysis/downloads)](https://packagist.org/packages/yooper/php-text-analysis)
 
 PHP Text Analysis is a library for performing Information Retrieval (IR) and Natural Language Processing (NLP) tasks using the PHP language. 
+There are tools in this library that can perform:
+
+* document classification
+* sentiment analysis
+* compare documents
+* frequency analysis
+* tokenization
+* stemming
+* collocations with Pointwise Mutual Information
+* lexical diversity
+* corpus analysis
+* text summarization
+
 All the documentation for this project can be found in the book and wiki. 
 
 PHP Text Analysis Book & Wiki
@@ -88,3 +101,25 @@ your data prior to using. Second parameter is the ngram size of your keywords to
 $rake = rake($tokens, 3);
 $results = $rake->getKeywordScores();
 ```
+
+### Sentiment Analysis with Vader
+Need Sentiment Analysis with PHP Use Vader, https://github.com/cjhutto/vaderSentiment .
+The PHP implementation can be invoked easily. Just normalize your data before hand.
+```php
+$sentimentScores = vader($tokens);
+```
+
+### Document Classification with Naive Bayes
+Need to do some docucment classification with PHP, trying using the Naive Bayes
+implementation. An example of classifying movie reviews can be found in the unit
+tests
+
+```php
+$nb = naive_bayes();
+$nb->train('mexican', tokenize('taco nacho enchilada burrito'));        
+$nb->train('american', tokenize('hamburger burger fries pop'));  
+$nb->predict(tokenize('my favorite food is a burrito'));
+```
+
+
+
