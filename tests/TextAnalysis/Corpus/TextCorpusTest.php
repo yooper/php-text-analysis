@@ -24,6 +24,13 @@ class TextCorpusTest extends \TestBaseCase
         $this->assertCount(34, $results);
     }
     
+    public function testConcordancePtBr()
+    {
+        $corpus = new TextCorpus($this->getText('ptbr'));
+        $results = $corpus->concordance("José",20, true, 'equal');
+        $this->assertCount(160, $results);
+    }
+
     public function testTokenizer()
     {
         $corpus = new TextCorpus($this->getText());
