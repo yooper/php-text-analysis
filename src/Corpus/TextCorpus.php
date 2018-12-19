@@ -73,29 +73,63 @@ class TextCorpus
     /**
      * See https://stackoverflow.com/questions/15737408/php-find-all-occurrences-of-a-substring-in-a-string
      * @param string $needle
-     * @param int $spacing The amount of space left and right of the found needle
+     * @param int $contextLength The amount of space left and right of the found needle
+     * @param bool $ignorecase
+     * @param int $position. Available options: contain, begin, end, equal.
      * @return array
      */
-    public function concordance(string $needle, int $spacing = 20) : array
+    public function concordance(string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain') : array
     {
-        $position = 0;
+        // temporary solution to handle unicode chars
+        $this->text = utf8_decode($this->text);
+        $needle = utf8_decode($needle);
+        
         $found = [];
-        $text = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->text));
+        $text = ' ' . trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->text)) . ' ';
         $needleLength = strlen($needle);
         $textLength = strlen($text);
-        $bufferLength = $needleLength + 2 * $spacing;
-                        
-        while (($position = stripos($text, $needle, $position))!== false) 
-        {
-            $left = max($position - $spacing, 0);                        
-            if($needleLength + $spacing + $position > $textLength) {
-                $tmp = substr($text, $left); 
-            } else { 
-                $tmp = substr($text, $left, $bufferLength);
-            }            
-            $found[] = $tmp;
-            $position += $needleLength;
+        $bufferLength = $needleLength + 2 * $contextLength;
+
+        // \p{L} or \p{Letter}: any kind of letter from any language.
+
+        $special_chars = "\/\-_\'";
+        $word_part = '\p{L}'.$special_chars;
+
+        switch ($position) {
+            case 'equal':
+                $pattern = "/[^$word_part]($needle)[^$word_part]/";
+                break;
+            case 'begin':
+                $pattern = "/[^$word_part]($needle)[$special_chars]?[\p{L}]*|^($needle)/";
+                break;
+            case 'end':
+                $pattern = "/[\p{L}]*[$special_chars]?[\p{L}]*($needle)[^$word_part]/";
+                break;
+            case 'contain':
+                $pattern = "/($needle)/";
+                break;
+            default:
+                $pattern = "/($needle)/";
+                break;
         }
+
+        $case = $ignorecase ? 'i' : '';
+        preg_match_all($pattern.$case, $text, $matches, PREG_OFFSET_CAPTURE);
+
+        // Getting excerpts
+        foreach($matches[1] as $match) {
+
+            $needlePosition = $match[1];
+            $left = max($needlePosition - $contextLength, 0);
+
+            if($needleLength + $contextLength + $needlePosition > $textLength) {
+                $tmp = substr($text, $left);
+            } else {
+                $tmp = substr($text, $left, $bufferLength);
+            }
+            $found[] = utf8_encode($tmp);
+        }
+
         return $found;
     }
     

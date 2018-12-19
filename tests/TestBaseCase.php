@@ -17,6 +17,7 @@ class TestBaseCase extends \PHPUnit_Framework_TestCase
      * @var string 
      */
     static protected $text = null;
+    static protected $text_ptbr = null;
 
     /**
      *
@@ -33,14 +34,25 @@ class TestBaseCase extends \PHPUnit_Framework_TestCase
         //load the text file
         if(is_null(self::$text)) { 
             self::$text = file_get_contents(TESTS_PATH.DS.'data'.DS.'books'.DS.'tom_sawyer.txt');
+            self::$text_ptbr = file_get_contents(TESTS_PATH.DS.'data'.DS.'books'.DS.'/ptbr/Dom_Casmurro.txt');
         }        
     }
     
-    public function getText() : string
+    public function getText(string $language = 'en') : string
     {
-        return self::$text;
+        switch($language) {
+            case 'ptbr':
+                return self::$text_ptbr;
+                break;
+            case 'en':
+                return self::$text;
+                break;
+            default:
+                return self::$text;
+                break;
+        }
     }
-    
+
     /**
      * 
      * @param string $className
