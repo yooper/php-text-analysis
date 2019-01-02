@@ -4,30 +4,31 @@ namespace TextAnalysis\Corpus;
 
 use TextAnalysis\Tokenizers\GeneralTokenizer;
 use TextAnalysis\LexicalDiversity\Naive;
+use TextAnalysis\Utilities\Text;
 
 /**
  * Explore the text corpus
  * @author yooper
  */
-class TextCorpus 
+class TextCorpus
 {
     /**
      *
      * @var string
      */
     protected $text;
-    
+
     /**
      *
      * @var array
      */
     protected $tokens = [];
-    
-    public function __construct(string $text) 
+
+    public function __construct(string $text)
     {
         $this->text = $text;
     }
-    
+
     /**
      * Returns the original text
      * @return string
@@ -36,15 +37,15 @@ class TextCorpus
     {
         return $this->text;
     }
-    
+
     public function getTokens(string $tokenizerClassName = GeneralTokenizer::class) : array
     {
-        if(empty($this->tokens)) {            
+        if(empty($this->tokens)) {
             $this->tokens = tokenize($this->getText(), $tokenizerClassName);
         }
         return $this->tokens;
     }
-    
+
     /**
      * Return a list of positions that the needs were found in the text
      * @param array $needles
@@ -59,7 +60,7 @@ class TextCorpus
         }
         return $found;
     }
-    
+
     /**
      * Compute the lexical diversity, the default uses a naive algorithm
      * @param string $lexicalDiversityClassName
@@ -69,7 +70,7 @@ class TextCorpus
     {
         return lexical_diversity($this->getTokens(), $lexicalDiversityClassName);
     }
-    
+
     /**
      * See https://stackoverflow.com/questions/15737408/php-find-all-occurrences-of-a-substring-in-a-string
      * @param string $needle
@@ -83,7 +84,7 @@ class TextCorpus
         // temporary solution to handle unicode chars
         $this->text = utf8_decode($this->text);
         $needle = utf8_decode($needle);
-        
+
         $found = [];
         $text = ' ' . trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->text)) . ' ';
         $needleLength = strlen($needle);
@@ -132,7 +133,71 @@ class TextCorpus
 
         return $found;
     }
-    
+
+    public function occurrences(string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain', bool $mark = false) : array
+    {
+        // temporary solution to handle unicode chars
+        $this->text = utf8_decode($this->text);
+        $needle = utf8_decode($needle);
+
+        $found = [];
+        $text = ' ' . trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->text)) . ' ';
+        $needleLength = strlen($needle);
+        $textLength = strlen($text);
+        $bufferLength = $needleLength + 2 * $contextLength;
+
+        // \p{L} or \p{Letter}: any kind of letter from any language.
+
+        $special_chars = "\/\-_\'";
+        $word_part = '\p{L}'.$special_chars;
+
+        switch ($position) {
+            case 'equal':
+                $pattern = "/[^$word_part]($needle)[^$word_part]/";
+                break;
+            case 'begin':
+                $pattern = "/[^$word_part]($needle)[$special_chars]?[\p{L}]*|^($needle)/";
+                break;
+            case 'end':
+                $pattern = "/[\p{L}]*[$special_chars]?[\p{L}]*($needle)[^$word_part]/";
+                break;
+            case 'contain':
+                $pattern = "/($needle)/";
+                break;
+            default:
+                $pattern = "/($needle)/";
+                break;
+        }
+
+        $case = $ignorecase ? 'i' : '';
+        preg_match_all($pattern.$case, $text, $matches, PREG_OFFSET_CAPTURE);
+
+        $positions = array_column($matches[1], 1);
+
+        $excerpts = array_map(function($needlePos) use ($needleLength, $text, $contextLength, $mark) {
+            return $this->extractExcerptTerm($needlePos, $needleLength, $text, $contextLength, $mark);
+        }, $positions);
+
+        return $excerpts;
+    }
+
+    /**
+    * Mark the neddle and get its context
+    *
+    * @return String
+    */
+    private function extractExcerptTerm(int $needlePos, int $needleLength, String $text, int $contextLength, bool $mark = false)
+    {
+        //marking the term
+        $text = ($mark) ? Text::markString($text, $needlePos, $needleLength, ['{{','}}']) : $text;
+        $needleLength = ($mark) ? $needleLength+4 : $needleLength;
+
+        //extracts the excerpt
+        $text = Text::getExcerpt($text, $needlePos, $needleLength, $contextLength);
+
+        return utf8_encode($text);
+    }
+
     /**
      * Get percentage of times the needle shows up in the text
      * @param string $needle
@@ -143,7 +208,7 @@ class TextCorpus
         $freqDist = freq_dist($this->getTokens());
         return $freqDist->getKeyValuesByFrequency()[$needle] / $freqDist->getTotalTokens();
     }
-    
+
     /**
      * Performs a case insensitive search for the needle
      * @param string $needle
@@ -153,7 +218,7 @@ class TextCorpus
     {
         return substr_count(strtolower($this->getText()), strtolower($needle));
     }
-    
+
     /**
      * Return all the position of the needle found in the text
      * @param string $needle
@@ -166,7 +231,7 @@ class TextCorpus
         $needle = strtolower($needle);
         $text = strtolower($this->getText());
         $needleLength = strlen($needle);
-        while (($lastPos = stripos($text, $needle, $lastPos))!== false) 
+        while (($lastPos = stripos($text, $needle, $lastPos))!== false)
         {
             $positions[] = $lastPos;
             $lastPos += $needleLength;
@@ -177,8 +242,8 @@ class TextCorpus
     {
         return $this->text;
     }
-    
-    public function __destruct() 
+
+    public function __destruct()
     {
         unset($this->text);
         unset($this->tokens);
