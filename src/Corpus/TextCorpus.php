@@ -137,11 +137,11 @@ class TextCorpus
     public function occurrences(string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain', bool $mark = false) : array
     {
         // temporary solution to handle unicode chars
-        $this->text = utf8_decode($this->text);
+        $text = utf8_decode($this->text);
         $needle = utf8_decode($needle);
 
         $found = [];
-        $text = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->text));
+        $text = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $text));
         $needleLength = strlen($needle);
         $textLength = strlen($text);
         $bufferLength = $needleLength + 2 * $contextLength;
