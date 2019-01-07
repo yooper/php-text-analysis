@@ -77,71 +77,44 @@ class TextCorpus
      * @param int $contextLength The amount of space left and right of the found needle
      * @param bool $ignorecase
      * @param int $position. Available options: contain, begin, end, equal.
+     * @param bool $mark Option to mark the needle
      * @return array
      */
-    public function concordance(string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain') : array
+    public function concordance(string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain', bool $mark = false) : array
     {
         // temporary solution to handle unicode chars
-        $this->text = utf8_decode($this->text);
+        $text = utf8_decode($this->text);
+        $text = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $text));
         $needle = utf8_decode($needle);
-
-        $found = [];
-        $text = ' ' . trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->text)) . ' ';
         $needleLength = strlen($needle);
-        $textLength = strlen($text);
-        $bufferLength = $needleLength + 2 * $contextLength;
+        $found = [];
 
-        // \p{L} or \p{Letter}: any kind of letter from any language.
-
-        $special_chars = "\/\-_\'";
-        $word_part = '\p{L}'.$special_chars;
-
-        switch ($position) {
-            case 'equal':
-                $pattern = "/[^$word_part]($needle)[^$word_part]/";
-                break;
-            case 'begin':
-                $pattern = "/[^$word_part]($needle)[$special_chars]?[\p{L}]*|^($needle)/";
-                break;
-            case 'end':
-                $pattern = "/[\p{L}]*[$special_chars]?[\p{L}]*($needle)[^$word_part]/";
-                break;
-            case 'contain':
-                $pattern = "/($needle)/";
-                break;
-            default:
-                $pattern = "/($needle)/";
-                break;
-        }
-
-        $case = $ignorecase ? 'i' : '';
-        preg_match_all($pattern.$case, $text, $matches, PREG_OFFSET_CAPTURE);
+        $positions = $this->concordancePositions($text, $needle, $contextLength, $ignorecase, $position);
 
         // Getting excerpts
-        foreach($matches[1] as $match) {
+        foreach($positions as $needlePosition) {
+            //marking the term
+            $text_marked = ($mark) ? Text::markString($text, $needlePosition, $needleLength, ['{{','}}']) : $text;
+            $needleLength_marked = ($mark) ? $needleLength+4 : $needleLength;
 
-            $needlePosition = $match[1];
-            $left = max($needlePosition - $contextLength, 0);
-
-            if($needleLength + $contextLength + $needlePosition > $textLength) {
-                $tmp = substr($text, $left);
-            } else {
-                $tmp = substr($text, $left, $bufferLength);
-            }
-            $found[] = utf8_encode($tmp);
+            $found[] = utf8_encode(Text::getExcerpt($text_marked, $needlePosition, $needleLength_marked, $contextLength));
         }
 
         return $found;
     }
 
-    public function occurrences(string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain', bool $mark = false) : array
+    /**
+     * Return all positions of the needle in the text according to the position of the needle in a word.
+     * @param string $text
+     * @param int $needle
+     * @param int $contextLength The amount of space left and right of the found needle
+     * @param bool $ignorecase
+     * @param int $position. Available options: contain, begin, end, equal.
+     * @return array
+     */
+    public function concordancePositions(string $text, string $needle, int $contextLength = 20, bool $ignorecase = true, string $position = 'contain') : array
     {
-        // temporary solution to handle unicode chars
-        $text = utf8_decode($this->text);
-        $needle = utf8_decode($needle);
-
         $found = [];
-        $text = trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $text));
         $needleLength = strlen($needle);
         $textLength = strlen($text);
         $bufferLength = $needleLength + 2 * $contextLength;
@@ -173,11 +146,7 @@ class TextCorpus
         preg_match_all($pattern.$case, $text, $matches, PREG_OFFSET_CAPTURE);
         $positions = array_column($matches[1], 1);
 
-        $excerpts = array_map(function($needlePos) use ($needleLength, $text, $contextLength, $mark) {
-            return $this->extractExcerptTerm($needlePos, $needleLength, $text, $contextLength, $mark);
-        }, $positions);
-
-        return $excerpts;
+        return $positions;
     }
 
     /**
