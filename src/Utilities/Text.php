@@ -219,9 +219,13 @@ class Text
     /**
     * Mark a string
     *
-    * @return String
+    * @param string $text
+    * @param int $position
+    * @param int $length
+    * @param array $mark
+    * @return string
     */
-    static function markString(String $text, int $position, int $length, Array $mark)
+    static function markString(string $text, int $position, int $length, array $mark) : string
     {
         $text = substr_replace($text, $mark[0], $position, 0);
         $text = substr_replace($text, $mark[1], $position + $length + strlen($mark[0]), 0);
@@ -232,9 +236,13 @@ class Text
     /**
     * Get a excerpt from a string by a neddle postion and its length
     *
-    * @return String
+    * @param string $text
+    * @param int $needlePosition
+    * @param int $needleLength
+    * @param int $contextLength
+    * @return string
     */
-    static function getExcerpt(String $text, int $needlePosition, int $needleLength, int $contextLength)
+    static function getExcerpt(String $text, int $needlePosition, int $needleLength, int $contextLength) : string
     {
         $left = max($needlePosition - $contextLength, 0);
         $bufferLength = $needleLength + (2 * $contextLength);
