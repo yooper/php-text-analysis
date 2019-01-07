@@ -150,23 +150,6 @@ class TextCorpus
     }
 
     /**
-    * Mark the neddle and get its context
-    *
-    * @return String
-    */
-    private function extractExcerptTerm(int $needlePos, int $needleLength, String $text, int $contextLength, bool $mark = false)
-    {
-        //marking the term
-        $text = ($mark) ? Text::markString($text, $needlePos, $needleLength, ['{{','}}']) : $text;
-        $needleLength = ($mark) ? $needleLength+4 : $needleLength;
-
-        //extracts the excerpt
-        $text = Text::getExcerpt($text, $needlePos, $needleLength, $contextLength);
-
-        return utf8_encode($text);
-    }
-
-    /**
      * Get percentage of times the needle shows up in the text
      * @param string $needle
      * @return float
