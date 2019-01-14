@@ -5,15 +5,15 @@ namespace TextAnalysis\Utilities;
  * Additional string functions
  * @author yooper (yooper)
  */
-class Text 
+class Text
 {
     protected function __construct(){}
-    
+
     /**
      * http://stackoverflow.com/questions/834303/php-startswith-and-endswith-functions
      * @param string $haystack
      * @param string $needle
-     * @return boolean 
+     * @return boolean
      */
     static public function startsWith($haystack, $needle)
     {
@@ -23,19 +23,19 @@ class Text
     /**
      * @param string $haystack
      * @param string $needle
-     * @return boolean 
+     * @return boolean
      */
     static public function endsWith($haystack, $needle)
     {
         return strpos($haystack, $needle) === (strlen($haystack) - strlen($needle));
     }
-    
+
     static public function contains($haystack, $needle)
     {
         return (strpos($haystack, $needle) !== false);
     }
-    
-    
+
+
     /**
      * Takes a string and produces all possible substrings
      * @param string $text
@@ -45,17 +45,17 @@ class Text
     {
         $splitText = str_split($text);
         $splitCount = count($splitText);
-        $subStrings = [];        
-        for ($i = 0; $i < $splitCount; $i++) 
+        $subStrings = [];
+        for ($i = 0; $i < $splitCount; $i++)
         {
-            for ($j = $i; $j < $splitCount; $j++) 
+            for ($j = $i; $j < $splitCount; $j++)
             {
                 $subStrings[] = implode(array_slice($splitText, $i, $j - $i + 1));
-            }       
+            }
         }
-        return $subStrings;        
+        return $subStrings;
     }
-    
+
     /**
      * Find Date in a String
      *
@@ -215,5 +215,45 @@ class Text
       else
         return $date;
     }
-  
+
+    /**
+    * Mark a string
+    *
+    * @param string $text
+    * @param int $position
+    * @param int $length
+    * @param array $mark
+    * @return string
+    */
+    static function markString(string $text, int $position, int $length, array $mark) : string
+    {
+        $text = substr_replace($text, $mark[0], $position, 0);
+        $text = substr_replace($text, $mark[1], $position + $length + strlen($mark[0]), 0);
+
+        return $text;
+    }
+
+    /**
+    * Get a excerpt from a string by a neddle postion and its length
+    *
+    * @param string $text
+    * @param int $needlePosition
+    * @param int $needleLength
+    * @param int $contextLength
+    * @return string
+    */
+    static function getExcerpt(String $text, int $needlePosition, int $needleLength, int $contextLength) : string
+    {
+        $left = max($needlePosition - $contextLength, 0);
+        $bufferLength = $needleLength + (2 * $contextLength);
+
+        if($needleLength + $contextLength + $needlePosition > strlen($text)) {
+            $text = substr($text, $left);
+        } else {
+            $text = substr($text, $left, $bufferLength);
+        }
+
+        return $text;
+    }
+
 }
