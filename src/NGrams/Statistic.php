@@ -127,6 +127,21 @@ class Statistic
     }
 
     /**
+    * Calculate the T-score
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function tscore(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        $term1 = $var['jointFrequency'] - (($var['leftFrequency'] * $var['rightFrequency'])/$this->totalBigrams);
+        $term2 = sqrt(($var['jointFrequency']));
+
+        return ( $term1 / $term2 );
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
