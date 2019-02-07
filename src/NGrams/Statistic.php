@@ -159,6 +159,31 @@ class Statistic
     }
 
     /**
+    * Calculate the Odds Ratio
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function odds(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        if ($var['RminusJ'] == 0) {
+    	    $var['RminusJ'] = 1;
+        }
+
+        if ($var['LminusJ'] == 0) {
+    	    $var['LminusJ'] = 1;
+        }
+
+        $term1 = $var['jointFrequency'] * $var['n22'];
+        $term2 = $var['RminusJ'] * $var['LminusJ'];
+
+        $odds = $term1/$term2;
+
+        return $odds;
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
