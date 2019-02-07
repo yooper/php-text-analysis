@@ -51,6 +51,36 @@ class Statistic
         return $tmi;
     }
 
+    /**
+    *
+    * @param
+    * @return
+    */
+    public function ll(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        $logLikelihood = 0;
+
+        if($var['jointFrequency']) {
+            $logLikelihood += $var['jointFrequency'] * $this->computePMI ( $var['jointFrequency'], $var['m11'] );
+        }
+
+        if($var['LminusJ']) {
+            $logLikelihood += $var['LminusJ'] * $this->computePMI( $var['LminusJ'], $var['m12'] );
+        }
+
+        if($var['RminusJ']) {
+            $logLikelihood += $var['RminusJ']  * $this->computePMI( $var['RminusJ'], $var['m21'] );
+        }
+
+        if($var['n22']) {
+            $logLikelihood += $var['n22'] * $this->computePMI( $var['n22'], $var['m22'] );
+        }
+
+        return $logLikelihood * 2;
+    }
+
     private function computePMI($n, $m)
     {
         $val = $n/$m;
@@ -84,15 +114,6 @@ class Statistic
 
     public function calculate(string $stats)
     {
-        switch ($stats) {
-            case 'tmi':
-                $statistics = array_map( array($this, 'tmi') , $this->ngrams);
-                return $statistics;
-                break;
-
-            default:
-                // code...
-                break;
-        }
+        return array_map( array($this, $stats) , $this->ngrams);
     }
 }
