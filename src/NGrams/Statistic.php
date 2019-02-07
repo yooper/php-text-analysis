@@ -28,39 +28,24 @@ class Statistic
     */
     public function tmi(array $ngram) : float
     {
-        $jointFrequency = $ngram[2];       # pair freq
-        $leftFrequency  = $ngram[0];       # single freq of first word
-        $rightFrequency = $ngram[1];       # single freq of second word
-        $totalBigrams   = $this->totalBigrams;   # totalBigrams
-        $LminusJ = $leftFrequency - $jointFrequency;
-        $RminusJ = $rightFrequency - $jointFrequency;
-        $TminusR = $totalBigrams - $rightFrequency;
-        $TminusL = $totalBigrams - $leftFrequency;
-        $n22 = $TminusR - $LminusJ;
-
-        # we know totalBigrams cant be zero. so we are safe in the next 4 calculations
-        $m11 = $leftFrequency * $rightFrequency / $totalBigrams;
-        $m12 = $leftFrequency * $TminusR / $totalBigrams;
-        $m21 = $TminusL * $rightFrequency / $totalBigrams;
-        $m22 = $TminusL * $TminusR / $totalBigrams;
-
+        $var = $this->setStatVariables($ngram);
 
         $tmi = 0;
 
-        if($jointFrequency) {
-            $tmi += $jointFrequency/$totalBigrams * $this->computePMI( $jointFrequency, $m11 )/ log(2);
+        if($var['jointFrequency']) {
+            $tmi += $var['jointFrequency']/$this->totalBigrams * $this->computePMI( $var['jointFrequency'], $var['m11'] )/ log(2);
         }
 
-        if($LminusJ) {
-            $tmi += $LminusJ/$totalBigrams * $this->computePMI( $LminusJ, $m12 )/ log(2);
+        if($var['LminusJ']) {
+            $tmi += $var['LminusJ']/$this->totalBigrams * $this->computePMI( $var['LminusJ'], $var['m12'] )/ log(2);
         }
 
-        if($RminusJ) {
-            $tmi += $RminusJ/$totalBigrams * $this->computePMI( $RminusJ, $m21 )/ log(2);
+        if($var['RminusJ']) {
+            $tmi += $var['RminusJ']/$this->totalBigrams * $this->computePMI( $var['RminusJ'], $var['m21'] )/ log(2);
         }
 
-        if($n22) {
-            $tmi += $n22/$totalBigrams * $this->computePMI( $n22, $m22 )/ log(2);
+        if($var['n22']) {
+            $tmi += $var['n22']/$this->totalBigrams * $this->computePMI( $var['n22'], $var['m22'] )/ log(2);
         }
 
         return $tmi;
@@ -76,6 +61,25 @@ class Statistic
     private function setTotalBigrams()
     {
         return array_sum(array_column($this->ngrams, 2));
+    }
+
+    public function setStatVariables(array $ngram)
+    {
+        $var['jointFrequency'] = $ngram[2];       # pair freq
+        $var['leftFrequency']  = $ngram[0];       # single freq of first word
+        $var['rightFrequency'] = $ngram[1];       # single freq of second word
+        $var['LminusJ'] = $var['leftFrequency'] - $var['jointFrequency'];
+        $var['RminusJ'] = $var['rightFrequency'] - $var['jointFrequency'];
+        $var['TminusR'] = $this->totalBigrams - $var['rightFrequency'];
+        $var['TminusL'] = $this->totalBigrams - $var['leftFrequency'];
+        $var['n22'] = $var['TminusR'] - $var['LminusJ'];
+
+        $var['m11'] = $var['leftFrequency'] * $var['rightFrequency'] / $this->totalBigrams;
+        $var['m12'] = $var['leftFrequency'] * $var['TminusR'] / $this->totalBigrams;
+        $var['m21'] = $var['TminusL'] * $var['rightFrequency'] / $this->totalBigrams;
+        $var['m22'] = $var['TminusL'] * $var['TminusR'] / $this->totalBigrams;
+
+        return $var;
     }
 
     public function calculate(string $stats)
