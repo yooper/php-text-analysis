@@ -28,6 +28,8 @@ class NGramFactory
             $freq = freq_dist($tokens)->getKeyValuesByFrequency();
             $separatorLength = strlen($separator);
             $length = count($tokens) - $nGramSize + 1;
+            $lengthToken = count($tokens);
+
             if($length < 1) {
                 return [];
             }
@@ -40,7 +42,16 @@ class NGramFactory
                 for($jindex = 0; $jindex < $nGramSize; $jindex++)
                 {
                     $ngram_string .= $tokens[$index + $jindex];
-                    $ngram[]   = $freq[$tokens[$index + $jindex]]; // adds the token frequency
+
+                    // checks if is the first token and act accordingly
+                    if($tokens[$index + $jindex] === $tokens[0] && $jindex == 1) {
+                        $ngram[$jindex] = $freq[$tokens[$index + $jindex]] - 1;
+                    } elseif($tokens[$index + $jindex] === $tokens[$lengthToken-1] && $jindex == 0) {
+                        $ngram[$jindex] = $freq[$tokens[$index + $jindex]] - 1;
+                    } else {
+                        $ngram[$jindex]   = $freq[$tokens[$index + $jindex]]; // adds the token frequency
+                    }
+
                     if($jindex < $nGramSize - $separatorLength) {
                         $ngram_string .= $separator;
                     } else {
