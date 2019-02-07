@@ -142,6 +142,23 @@ class Statistic
     }
 
     /**
+    * Calculate the Phi Coefficient
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function phi(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        $term1 = $var['jointFrequency'] * $var['n22'] - $var['RminusJ'] * $var['LminusJ'];
+        $term2 = $var['leftFrequency'] * $var['rightFrequency'] * $var['TminusR'] * $var['TminusL'];
+
+        $phi = ($term1 * $term1)/$term2;
+
+        return $phi;
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
