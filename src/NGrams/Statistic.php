@@ -96,6 +96,18 @@ class Statistic
     }
 
     /**
+    * Calculate the Dice coefficient
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function dice(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        return (2 * $var['jointFrequency'] / ($var['leftFrequency'] + $var['rightFrequency']));
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
