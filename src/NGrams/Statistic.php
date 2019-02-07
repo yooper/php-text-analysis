@@ -22,9 +22,9 @@ class Statistic
     }
 
     /**
-    *
-    * @param
-    * @return
+    * Calculate the true mutual information value
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
     */
     public function tmi(array $ngram) : float
     {
@@ -52,9 +52,9 @@ class Statistic
     }
 
     /**
-    *
-    * @param
-    * @return
+    * Calculate the Loglikelihood coefficient
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
     */
     public function ll(array $ngram) : float
     {
@@ -81,6 +81,12 @@ class Statistic
         return $logLikelihood * 2;
     }
 
+    /**
+    * Calculate the Pointwise mutual information
+    * @param int $n
+    * @param int $m
+    * @return float Return the calculated value
+    */
     private function computePMI($n, $m)
     {
         $val = $n/$m;
@@ -88,11 +94,18 @@ class Statistic
         return log($val);
     }
 
+    /**
+    * Sets the total number of bigrams
+    */
     private function setTotalBigrams()
     {
         return array_sum(array_column($this->ngrams, 2));
     }
 
+    /**
+    * Sets variables to calculate the statistic measures
+    * @return array $var Return the array with the variables
+    */
     public function setStatVariables(array $ngram)
     {
         $var['jointFrequency'] = $ngram[2];       # pair freq
@@ -112,6 +125,11 @@ class Statistic
         return $var;
     }
 
+    /**
+    * Calculate the statistic for whole ngram array
+    * @param string $stats Name of the statistic measure
+    * @return float Return the ngram array with the statistic values
+    */
     public function calculate(string $stats)
     {
         return array_map( array($this, $stats) , $this->ngrams);
