@@ -82,6 +82,20 @@ class Statistic
     }
 
     /**
+    * Calculate the Mutual Information coefficient
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function pmi(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        $temp = (($var['jointFrequency'] / $var['leftFrequency'] ) / $var['rightFrequency']) * $this->totalBigrams;
+
+        return(log($temp)/log(2));
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
