@@ -108,6 +108,25 @@ class Statistic
     }
 
     /**
+    * Calculate the X squared coefficient
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function x2(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        $Xsquare = 0;
+
+        $Xsquare += ( ( $var['jointFrequency'] - $var['m11'] ) ** 2 ) / $var['m11'];
+        $Xsquare += ( ( $var['LminusJ'] - $var['m12'] ) ** 2 ) / $var['m12'];
+        $Xsquare += ( ( $var['RminusJ'] - $var['m21'] ) ** 2 ) / $var['m21'];
+        $Xsquare += ( ( $var['n22'] - $var['m22'] ) ** 2 ) / $var['m22'];
+
+        return $Xsquare;
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
