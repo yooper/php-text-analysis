@@ -184,11 +184,11 @@ class Statistic
     }
 
     /**
-    * Calculate the Fisher's exact test (left-sided)
+    * Calculate the Fisher's exact test
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function leftFisher(array $ngram) : float
+    public function fisher(array $ngram, string $side) : float
     {
         $var = $this->setStatVariables($ngram);
 
@@ -213,17 +213,22 @@ class Statistic
 
         ########### this part by Nitin O Verma
 
-        $final_Limit = $var['jointFrequency'];
-        $var['jointFrequency'] = 0;
-        $var['LminusJ'] = $var['leftFrequency'];
-        $var['RminusJ'] = $var['rightFrequency'];
-        $var['n22'] = $var['TminusL'] - $var['RminusJ'];
-
-        while($var['n22'] < 0) {
-            $var['jointFrequency']++;
-            $var['LminusJ'] = $var['leftFrequency'] - $var['jointFrequency'];
-            $var['RminusJ'] = $var['rightFrequency'] - $var['jointFrequency'];
+        if($side == 'left') {
+            $final_Limit = $var['jointFrequency'];
+            $var['jointFrequency'] = 0;
+            $var['LminusJ'] = $var['leftFrequency'];
+            $var['RminusJ'] = $var['rightFrequency'];
             $var['n22'] = $var['TminusL'] - $var['RminusJ'];
+
+            while($var['n22'] < 0) {
+                $var['jointFrequency']++;
+                $var['LminusJ'] = $var['leftFrequency'] - $var['jointFrequency'];
+                $var['RminusJ'] = $var['rightFrequency'] - $var['jointFrequency'];
+                $var['n22'] = $var['TminusL'] - $var['RminusJ'];
+            }
+
+        } else {
+            $final_Limit = ($var['leftFrequency'] < $var['rightFrequency']) ? $var['leftFrequency'] : $var['rightFrequency'];
         }
 
         ########### end of part by Nitin O Verma
@@ -297,8 +302,11 @@ class Statistic
 
         # now for the rest of n11's	!!
 
-        for($i = 1; $i <= $final_Limit; $i++ ) {
+        $i = ($side == 'left') ? 1 : $var['jointFrequency']+1;
+
+        for($i; $i <= $final_Limit; $i++ ) {
             $product *= $var['LminusJ'];
+
             $var['n22']++;
             if($var['n22'] <= 0) {
                 continue;
@@ -315,6 +323,27 @@ class Statistic
         }
 
         return $probability;
+    }
+
+    /**
+    * Calculate the Fisher's exact test (left-sided)
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function leftFisher(array $ngram) : float
+    {
+        return $this->fisher($ngram, 'left');
+    }
+
+
+    /**
+    * Calculate the Fisher's exact test (right-sided)
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function rightFisher(array $ngram) : float
+    {
+        return $this->fisher($ngram, 'right');
     }
 
     /**
