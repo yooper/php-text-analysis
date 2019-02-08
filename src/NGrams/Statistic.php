@@ -184,6 +184,140 @@ class Statistic
     }
 
     /**
+    * Calculate the Fisher's exact test (left-sided)
+    * @param array $ngram Array of ngrams with frequencies
+    * @return float Return the calculated value
+    */
+    public function leftFisher(array $ngram) : float
+    {
+        $var = $this->setStatVariables($ngram);
+
+        # we shall have two	arrays one for the numerator and one for the
+        # denominator. the arrays will contain the factorial upper limits. we
+        # shall be arrange these two arrays	in descending order. while doing the
+        # actual calculation, we shall take	a numerator/denominator	pair, and
+        # go from the lower	value to the higher value, in effect doing a
+        # "cancellation" of	sorts.
+
+        # first create the numerator
+        $numerator = array($var['leftFrequency'], $var['rightFrequency'], $var['TminusL'], $var['TminusR']);
+        arsort($numerator);
+
+        # now to the real calculation!!!
+        $probability = 0;
+        $i = 0;
+        $j = 0;
+        # we shall calculate for n11 = 0. thereafter we shall just multiply	and
+        # divide the result	for 0 with correct numbers to obtain result for	i,
+        # i>0, i<=n11!! :o)
+
+        ########### this part by Nitin O Verma
+
+        $final_Limit = $var['jointFrequency'];
+        $var['jointFrequency'] = 0;
+        $var['LminusJ'] = $var['leftFrequency'];
+        $var['RminusJ'] = $var['rightFrequency'];
+        $var['n22'] = $var['TminusL'] - $var['RminusJ'];
+
+        while($var['n22'] < 0) {
+            $var['jointFrequency']++;
+            $var['LminusJ'] = $var['leftFrequency'] - $var['jointFrequency'];
+            $var['RminusJ'] = $var['rightFrequency'] - $var['jointFrequency'];
+            $var['n22'] = $var['TminusL'] - $var['RminusJ'];
+        }
+
+        ########### end of part by Nitin O Verma
+
+        $denominator = array($this->totalBigrams, $var['n22'], $var['LminusJ'], $var['RminusJ'], $var['jointFrequency']);
+        arsort($denominator);
+
+        # now that we have our two arrays all nicely sorted	and in place,
+        # lets do the calculations!
+
+        $dLimits  = array();
+        $nLimits  = array();
+        $dIndex   = 0;
+        $nIndex   = 0;
+
+        for($j = 0; $j < 4; $j ++) {
+            if ( $numerator[$j] > $denominator[$j] ) {
+                $nLimits[$nIndex] =	$denominator[$j] + 1;
+                $nLimits[$nIndex+1]	= $numerator[$j];
+                $nIndex += 2;
+            } elseif ($denominator[$j] > $numerator[$j]) {
+                $dLimits[$dIndex] =	$numerator[$j] + 1;
+                $dLimits[$dIndex+1]	= $denominator[$j];
+                $dIndex += 2;
+            }
+        }
+
+        $dLimits[$dIndex] =	1;
+        $dLimits[$dIndex+1]	= $denominator[4];
+
+        $product = 1;
+
+        while(isset($nLimits[0])) {
+
+            while(($product < 10000) && (isset($nLimits[0]))) {
+                $product *=	$nLimits[0];
+                $nLimits[0]++;
+                if ( $nLimits[0] > $nLimits[1] ) {
+                    array_shift($nLimits);
+                    array_shift($nLimits);
+                }
+            }
+
+            while($product > 1) {
+                $product /=	$dLimits[0];
+                $dLimits[0]++;
+                if ( $dLimits[0] > $dLimits[1] ) {
+                    array_shift($dLimits);
+                    array_shift($dLimits);
+                }
+            }
+        }
+
+        while(isset($dLimits[0])) {
+            $product /= $dLimits[0];
+            $dLimits[0]++;
+            if($dLimits[0] > $dLimits[1]) {
+                array_shift($dLimits);
+                array_shift($dLimits);
+            }
+        }
+
+        # $product now has the hypergeometric probability for n11 =	0. add it to
+        # the cumulative probability
+        $probability += $product;
+
+        # Bridget Thomson McInnes October 15 2003
+        # I set i <= final_Limit rather than n11 because we want to sum the
+        # hypergeometric probabilities where the count in n11 is less and or
+        # equal to the observed value.
+
+        # now for the rest of n11's	!!
+
+        for($i = 1; $i <= $final_Limit; $i++ ) {
+            $product *= $var['LminusJ'];
+            $var['n22']++;
+            if($var['n22'] <= 0) {
+                continue;
+            }
+            $product /= $var['n22'];
+            $product *= $var['RminusJ'];
+            $var['LminusJ']--;
+            $var['RminusJ']--;
+            $product /= $i;
+
+            # thats	our new	probability for	n11 = i! :o)) cool eh? ;o))
+            # add it to the	main probability! :o))
+            $probability +=	$product; # !! :o)
+        }
+
+        return $probability;
+    }
+
+    /**
     * Calculate the Pointwise mutual information
     * @param int $n
     * @param int $m
