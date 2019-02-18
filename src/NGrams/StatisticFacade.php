@@ -6,7 +6,7 @@ use TextAnalysis\NGrams\Statistic2D;
 use TextAnalysis\NGrams\Statistic3D;
 
 /**
- * Generate statistic values for Ngrams
+ * Generate statistic values for Ngrams. The array must contain the frequencies setup by NGramFactory::getFreq().
  * Based on The Ngram Statistics Package (Text::NSP) <http://www.d.umn.edu/~tpederse/Pubs/cicling2003-2.pdf>
  * @author Kaue Oliveira Almeida <Euak>
  */
