@@ -3,49 +3,37 @@
 namespace TextAnalysis\NGrams;
 
 /**
- *
- *
- * @author Kaue <Euak>
+ * Statistic measures for Ngrams
+ * Based on The Ngram Statistics Package (Text::NSP) <http://www.d.umn.edu/~tpederse/Pubs/cicling2003-2.pdf>
+ * @author Kaue Oliveira Almeida <Euak>
  */
-class Statistic
+class Statistic2D
 {
-    private $ngrams;
-    private $totalBigrams;
-
-    /**
-    * Protect the constructor
-    */
-    public function __construct(array $ngrams)
-    {
-        $this->ngrams = $ngrams;
-        $this->totalBigrams = $this->setTotalBigrams();
-    }
-
     /**
     * Calculate the true mutual information value
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function tmi(array $ngram) : float
+    static public function tmi(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         $tmi = 0;
 
         if($var['jointFrequency']) {
-            $tmi += $var['jointFrequency']/$this->totalBigrams * $this->computePMI( $var['jointFrequency'], $var['m11'] )/ log(2);
+            $tmi += $var['jointFrequency']/$totalNgrams * self::computePMI( $var['jointFrequency'], $var['m11'] )/ log(2);
         }
 
         if($var['LminusJ']) {
-            $tmi += $var['LminusJ']/$this->totalBigrams * $this->computePMI( $var['LminusJ'], $var['m12'] )/ log(2);
+            $tmi += $var['LminusJ']/$totalNgrams * self::computePMI( $var['LminusJ'], $var['m12'] )/ log(2);
         }
 
         if($var['RminusJ']) {
-            $tmi += $var['RminusJ']/$this->totalBigrams * $this->computePMI( $var['RminusJ'], $var['m21'] )/ log(2);
+            $tmi += $var['RminusJ']/$totalNgrams * self::computePMI( $var['RminusJ'], $var['m21'] )/ log(2);
         }
 
         if($var['n22']) {
-            $tmi += $var['n22']/$this->totalBigrams * $this->computePMI( $var['n22'], $var['m22'] )/ log(2);
+            $tmi += $var['n22']/$totalNgrams * self::computePMI( $var['n22'], $var['m22'] )/ log(2);
         }
 
         return $tmi;
@@ -56,26 +44,26 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function ll(array $ngram) : float
+    static public function ll(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         $logLikelihood = 0;
 
         if($var['jointFrequency']) {
-            $logLikelihood += $var['jointFrequency'] * $this->computePMI ( $var['jointFrequency'], $var['m11'] );
+            $logLikelihood += $var['jointFrequency'] * self::computePMI ( $var['jointFrequency'], $var['m11'] );
         }
 
         if($var['LminusJ']) {
-            $logLikelihood += $var['LminusJ'] * $this->computePMI( $var['LminusJ'], $var['m12'] );
+            $logLikelihood += $var['LminusJ'] * self::computePMI( $var['LminusJ'], $var['m12'] );
         }
 
         if($var['RminusJ']) {
-            $logLikelihood += $var['RminusJ']  * $this->computePMI( $var['RminusJ'], $var['m21'] );
+            $logLikelihood += $var['RminusJ']  * self::computePMI( $var['RminusJ'], $var['m21'] );
         }
 
         if($var['n22']) {
-            $logLikelihood += $var['n22'] * $this->computePMI( $var['n22'], $var['m22'] );
+            $logLikelihood += $var['n22'] * self::computePMI( $var['n22'], $var['m22'] );
         }
 
         return $logLikelihood * 2;
@@ -86,11 +74,11 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function pmi(array $ngram) : float
+    static public function pmi(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
-        $temp = (($var['jointFrequency'] / $var['leftFrequency'] ) / $var['rightFrequency']) * $this->totalBigrams;
+        $temp = (($var['jointFrequency'] / $var['leftFrequency'] ) / $var['rightFrequency']) * $totalNgrams;
 
         return(log($temp)/log(2));
     }
@@ -100,9 +88,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function dice(array $ngram) : float
+    static public function dice(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         return (2 * $var['jointFrequency'] / ($var['leftFrequency'] + $var['rightFrequency']));
     }
@@ -112,9 +100,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function x2(array $ngram) : float
+    static public function x2(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         $Xsquare = 0;
 
@@ -131,11 +119,11 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function tscore(array $ngram) : float
+    static public function tscore(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
-        $term1 = $var['jointFrequency'] - (($var['leftFrequency'] * $var['rightFrequency'])/$this->totalBigrams);
+        $term1 = $var['jointFrequency'] - (($var['leftFrequency'] * $var['rightFrequency'])/$totalNgrams);
         $term2 = sqrt(($var['jointFrequency']));
 
         return ( $term1 / $term2 );
@@ -146,9 +134,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function phi(array $ngram) : float
+    static public function phi(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         $term1 = $var['jointFrequency'] * $var['n22'] - $var['RminusJ'] * $var['LminusJ'];
         $term2 = $var['leftFrequency'] * $var['rightFrequency'] * $var['TminusR'] * $var['TminusL'];
@@ -163,9 +151,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function odds(array $ngram) : float
+    static public function odds(array $ngram, int $totalNgrams) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         if ($var['RminusJ'] == 0) {
     	    $var['RminusJ'] = 1;
@@ -188,9 +176,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function fisher(array $ngram, string $side) : float
+    static public function fisher(array $ngram, int $totalNgrams, string $side) : float
     {
-        $var = $this->setStatVariables($ngram);
+        $var = self::setStatVariables($ngram, $totalNgrams);
 
         # we shall have two	arrays one for the numerator and one for the
         # denominator. the arrays will contain the factorial upper limits. we
@@ -233,7 +221,7 @@ class Statistic
 
         ########### end of part by Nitin O Verma
 
-        $denominator = array($this->totalBigrams, $var['n22'], $var['LminusJ'], $var['RminusJ'], $var['jointFrequency']);
+        $denominator = array($totalNgrams, $var['n22'], $var['LminusJ'], $var['RminusJ'], $var['jointFrequency']);
         arsort($denominator);
 
         # now that we have our two arrays all nicely sorted	and in place,
@@ -330,9 +318,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function leftFisher(array $ngram) : float
+    static public function leftFisher(array $ngram, int $totalNgrams) : float
     {
-        return $this->fisher($ngram, 'left');
+        return self::fisher($ngram, $totalNgrams, 'left');
     }
 
 
@@ -341,9 +329,9 @@ class Statistic
     * @param array $ngram Array of ngrams with frequencies
     * @return float Return the calculated value
     */
-    public function rightFisher(array $ngram) : float
+    static public function rightFisher(array $ngram, int $totalNgrams) : float
     {
-        return $this->fisher($ngram, 'right');
+        return self::fisher($ngram, $totalNgrams, 'right');
     }
 
     /**
@@ -352,7 +340,7 @@ class Statistic
     * @param int $m
     * @return float Return the calculated value
     */
-    private function computePMI($n, $m)
+    static public function computePMI($n, $m)
     {
         $val = $n/$m;
 
@@ -360,43 +348,26 @@ class Statistic
     }
 
     /**
-    * Sets the total number of bigrams
-    */
-    private function setTotalBigrams()
-    {
-        return array_sum(array_column($this->ngrams, 2));
-    }
-
-    /**
     * Sets variables to calculate the statistic measures
+    * The format is restricted: [int $jointFrequency, int $leftFrequency, int $rightFrequency]
     * @return array $var Return the array with the variables
     */
-    public function setStatVariables(array $ngram)
+    static public function setStatVariables(array $ngram, int $totalNgrams)
     {
-        $var['jointFrequency'] = $ngram[2];       # pair freq
-        $var['leftFrequency']  = $ngram[0];       # single freq of first word
-        $var['rightFrequency'] = $ngram[1];       # single freq of second word
+        $var['jointFrequency'] = $ngram[0];       # pair freq
+        $var['leftFrequency']  = $ngram[1];       # single freq of first word
+        $var['rightFrequency'] = $ngram[2];       # single freq of second word
         $var['LminusJ'] = $var['leftFrequency'] - $var['jointFrequency'];
         $var['RminusJ'] = $var['rightFrequency'] - $var['jointFrequency'];
-        $var['TminusR'] = $this->totalBigrams - $var['rightFrequency'];
-        $var['TminusL'] = $this->totalBigrams - $var['leftFrequency'];
+        $var['TminusR'] = $totalNgrams - $var['rightFrequency'];
+        $var['TminusL'] = $totalNgrams - $var['leftFrequency'];
         $var['n22'] = $var['TminusR'] - $var['LminusJ'];
 
-        $var['m11'] = $var['leftFrequency'] * $var['rightFrequency'] / $this->totalBigrams;
-        $var['m12'] = $var['leftFrequency'] * $var['TminusR'] / $this->totalBigrams;
-        $var['m21'] = $var['TminusL'] * $var['rightFrequency'] / $this->totalBigrams;
-        $var['m22'] = $var['TminusL'] * $var['TminusR'] / $this->totalBigrams;
+        $var['m11'] = $var['leftFrequency'] * $var['rightFrequency'] / $totalNgrams;
+        $var['m12'] = $var['leftFrequency'] * $var['TminusR'] / $totalNgrams;
+        $var['m21'] = $var['TminusL'] * $var['rightFrequency'] / $totalNgrams;
+        $var['m22'] = $var['TminusL'] * $var['TminusR'] / $totalNgrams;
 
         return $var;
-    }
-
-    /**
-    * Calculate the statistic for whole ngram array
-    * @param string $stats Name of the statistic measure
-    * @return float Return the ngram array with the statistic values
-    */
-    public function calculate(string $stats)
-    {
-        return array_map( array($this, $stats) , $this->ngrams);
     }
 }
