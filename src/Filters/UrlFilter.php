@@ -11,13 +11,12 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 class UrlFilter implements ITokenTransformation
 {
     /**
-     * 
      * @param string $word
      * @return string
      */
     public function transform($word) 
     {
-        return preg_replace("/(https?|ftp):\/\/[^\s$.?#].[^\s]*/i", "", $word);
+        return preg_replace("/(https?|ftp):\/\/[^\s$.?#].[^\s]*/i", '', $word);
     }
 
 }
