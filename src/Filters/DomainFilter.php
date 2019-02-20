@@ -11,7 +11,7 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 class DomainFilter implements ITokenTransformation
 { 
     /**
-     * @param sting $word
+     * @param string $word
      * @return null|string
      */
     public function transform($word) 

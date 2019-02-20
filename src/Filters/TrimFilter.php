@@ -6,13 +6,12 @@ use TextAnalysis\Interfaces\ITokenTransformation;
 
 
 /**
- *
+ * Trims leading and trailing whitespace from the text
  * @author yooper
  */
 class TrimFilter implements ITokenTransformation
 {
-    //put your code here
-    public function transform($word) 
+    public function transform($word)
     {
         return trim($word);
     }

@@ -24,10 +24,11 @@ class StopWordsFilter implements ITokenTransformation
     {
         $this->stopWords = array_fill_keys($stopWords, true);
     }
-    
+
     /**
      * Check if the stop word is in the list
-     * @param string $token 
+     * @param string $token
+     * @return string|null
      */
     public function transform($token)
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace TextAnalysis\Filters;
 
 use TextAnalysis\Interfaces\ITokenTransformation;
@@ -11,19 +12,19 @@ class LambdaFilter implements ITokenTransformation
 {
     /**
      *
-     * @var function
+     * @var callable
      */
-    protected $lambdaFunc = null;
+    protected $lambdaFunc;
 
     /**
-     * 
-     * @param function $lambdaFunc
+     *
+     * @param callable $lambdaFunc
      */
-    public function __construct($lambdaFunc) 
+    public function __construct($lambdaFunc)
     {
         $this->lambdaFunc = $lambdaFunc;
     }
-    
+
     /**
      * Run the lambda function on the word token
      * @param string $word
