@@ -55,54 +55,54 @@ class NGramFactory
     static public function getFreq(array $ngrams, string $sep = ' ') : array
     {
         //getting the frequencies of the ngrams array and an array with no repetition
-        $ngrams_unique = array_count_values($ngrams);
+        $ngramsUnique = array_count_values($ngrams);
 
         //array to be the product of this function
-        $ngrams_final = array();
+        $ngramsFinal = array();
 
         //creates an array of tokens per ngram
-        $ngrams_arry = self::ngramsAsArray($sep, $ngrams);
+        $ngramsArray = self::ngramsAsArray($sep, $ngrams);
 
         //interate the array with no repeated ngrams
-        foreach ($ngrams_unique as $ngram_string => $ngram_frequency) {
-            $ngrams_final[$ngram_string] = array($ngram_frequency); //putting into the final array an array of frequencies (first, the ngram frequency)
+        foreach ($ngramsUnique as $ngramString => $ngramFrequency) {
+            $ngramsFinal[$ngramString] = array($ngramFrequency); //putting into the final array an array of frequencies (first, the ngram frequency)
 
-            $ngram_array = explode($sep, $ngram_string); //getting an array of tokens of the ngram
-            $ngram_size = count($ngram_array); //getting the size of ngram
-            foreach ($ngram_array as $k_token => $token) { //iterating the array of tokens of the ngram
-                $ngrams_final[$ngram_string][$k_token+1] = self::countFreq($ngrams_arry, $token, $k_token); //getting the frequency of the token
+            $ngramArray = explode($sep, $ngramString); //getting an array of tokens of the ngram
+            $ngramSize = count($ngramArray); //getting the size of ngram
+            foreach ($ngramArray as $kToken => $token) { //iterating the array of tokens of the ngram
+                $ngramsFinal[$ngramString][$kToken+1] = self::countFreq($ngramsArray, $token, $kToken); //getting the frequency of the token
 
-                if($ngram_size > 2) {
+                if($ngramSize > 2) {
                     //getting the combined frequency of the tokens
-                    for ($i = $k_token+1; $i < $ngram_size; $i++) {
-                        $ngrams_final[$ngram_string][$ngram_size+$k_token+$i] = self::countFreq($ngrams_arry, $token, $k_token, $ngram_array[$i], $i);
+                    for ($i = $kToken+1; $i < $ngramSize; $i++) {
+                        $ngramsFinal[$ngramString][$ngramSize+$kToken+$i] = self::countFreq($ngramsArray, $token, $kToken, $ngramArray[$i], $i);
                     }
                 }
             }
 
         }
 
-        return $ngrams_final;
+        return $ngramsFinal;
     }
 
     /**
     * Count the number of times the given string(s) to the given position(s) occurs in the given ngrams array.
-    * @param array $ngrams_arry
+    * @param array $ngramsArray
     * @param string $str1
     * @param int $pos1
     * @param string $str2
     * @param int $pos2
     * @return int $count return the frequency
     */
-    static private function countFreq(array $ngrams_arry, string $str1, int $pos1, string $str2 = null, int $pos2 = null) : int
+    static private function countFreq(array $ngramsArray, string $str1, int $pos1, string $str2 = null, int $pos2 = null) : int
     {
         $count = 0;
 
         //counts the number of times the given string(s) to the given position(s) occurs in the given ngrams array.
-        foreach ($ngrams_arry as $ngram_array) {
-            if($str1 === $ngram_array[$pos1]) {
+        foreach ($ngramsArray as $ngramArray) {
+            if($str1 === $ngramArray[$pos1]) {
                 if(isset($str2) && isset($pos2)) {
-                    if($str2 === $ngram_array[$pos2]) {
+                    if($str2 === $ngramArray[$pos2]) {
                         $count++;
                     }
                 } else {
@@ -118,13 +118,13 @@ class NGramFactory
     * Transform the ngram array to an array of their tokens
     * @param string $sep
     * @param array $ngrams
-    * @return array $ngrams_arry
+    * @return array $ngramsArray
     */
     static private function ngramsAsArray(string $sep, array $ngrams) : array {
-        $ngrams_arry = array();
+        $ngramsArray = array();
         foreach($ngrams as $key => $ngram) {
-            $ngrams_arry[] = explode($sep, $ngram);
+            $ngramsArray[] = explode($sep, $ngram);
         }
-        return $ngrams_arry;
+        return $ngramsArray;
     }
 }
