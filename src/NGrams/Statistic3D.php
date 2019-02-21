@@ -125,15 +125,15 @@ class Statistic3D
         $var['firstFrequency']          = $ngram[1];       # n1pp single freq of first word
         $var['secondFrequency']         = $ngram[2];       # np1p single freq of second word
         $var['thirdFrequency']          = $ngram[3];       # npp1 single freq of third word
-        $var['first_secondFrequency']   = $ngram[4];       # n11p freq of first with the second word
-        $var['first_thirdFrequency']    = $ngram[5];       # n1p1 freq of second with the third word
-        $var['second_thirdFrequency']   = $ngram[6];       # np11 freq of first with the third word
+        $var['firstSecondFrequency']   = $ngram[4];       # n11p freq of first with the second word
+        $var['firstThirdFrequency']    = $ngram[5];       # n1p1 freq of second with the third word
+        $var['secondThirdFrequency']   = $ngram[6];       # np11 freq of first with the third word
 
-        $var['n112'] = $var['first_secondFrequency'] - $var['jointFrequency'];
-        $var['n211'] = $var['second_thirdFrequency'] - $var['jointFrequency'];
+        $var['n112'] = $var['firstSecondFrequency'] - $var['jointFrequency'];
+        $var['n211'] = $var['secondThirdFrequency'] - $var['jointFrequency'];
         $var['n212'] = $var['secondFrequency'] - $var['jointFrequency'] - $var['n112'] - $var['n211'];
 
-	    $var['n121'] = $var['first_thirdFrequency'] - $var['jointFrequency'];
+	    $var['n121'] = $var['firstThirdFrequency'] - $var['jointFrequency'];
         $var['n122'] = $var['firstFrequency'] - $var['jointFrequency'] - $var['n112'] - $var['n121'];
         $var['n221'] = $var['thirdFrequency'] - $var['jointFrequency'] - $var['n211'] - $var['n121'];
         $var['nppp'] = $totalNgrams;

@@ -202,7 +202,7 @@ class Statistic2D
         ########### this part by Nitin O Verma
 
         if($side == 'left') {
-            $final_Limit = $var['jointFrequency'];
+            $finalLimit = $var['jointFrequency'];
             $var['jointFrequency'] = 0;
             $var['LminusJ'] = $var['leftFrequency'];
             $var['RminusJ'] = $var['rightFrequency'];
@@ -216,7 +216,7 @@ class Statistic2D
             }
 
         } else {
-            $final_Limit = ($var['leftFrequency'] < $var['rightFrequency']) ? $var['leftFrequency'] : $var['rightFrequency'];
+            $finalLimit = ($var['leftFrequency'] < $var['rightFrequency']) ? $var['leftFrequency'] : $var['rightFrequency'];
         }
 
         ########### end of part by Nitin O Verma
@@ -292,7 +292,7 @@ class Statistic2D
 
         $i = ($side == 'left') ? 1 : $var['jointFrequency']+1;
 
-        for($i; $i <= $final_Limit; $i++ ) {
+        for($i; $i <= $finalLimit; $i++ ) {
             $product *= $var['LminusJ'];
 
             $var['n22']++;
