@@ -63,19 +63,23 @@ class NGramFactory
         //creates an array of tokens per ngram
         $ngramsArray = self::ngramsAsArray($sep, $ngrams);
 
+        $ngramSize = count($ngramsArray[0]);
+
+        $tokens_frequencies = self::readFreq($sep, $ngrams);
+        $combo_frequencies  = self::readCombFreq($sep, $ngrams);
+
         //interate the array with no repeated ngrams
         foreach ($ngramsUnique as $ngramString => $ngramFrequency) {
             $ngramsFinal[$ngramString] = array($ngramFrequency); //putting into the final array an array of frequencies (first, the ngram frequency)
 
             $ngramArray = explode($sep, $ngramString); //getting an array of tokens of the ngram
-            $ngramSize = count($ngramArray); //getting the size of ngram
             foreach ($ngramArray as $kToken => $token) { //iterating the array of tokens of the ngram
-                $ngramsFinal[$ngramString][$kToken+1] = self::countFreq($ngramsArray, $token, $kToken); //getting the frequency of the token
+                $ngramsFinal[$ngramString][$kToken+1] = $tokens_frequencies[$token][$kToken]; //getting the frequency of the token
 
                 if($ngramSize > 2) {
                     //getting the combined frequency of the tokens
                     for ($i = $kToken+1; $i < $ngramSize; $i++) {
-                        $ngramsFinal[$ngramString][$ngramSize+$kToken+$i] = self::countFreq($ngramsArray, $token, $kToken, $ngramArray[$i], $i);
+                        $ngramsFinal[$ngramString][$ngramSize+$kToken+$i] = $combo_frequencies[$token.$sep.$ngramArray[$i]][$kToken][$i];
                     }
                 }
             }
@@ -86,32 +90,50 @@ class NGramFactory
     }
 
     /**
-    * Count the number of times the given string(s) to the given position(s) occurs in the given ngrams array.
-    * @param array $ngramsArray
-    * @param string $str1
-    * @param int $pos1
-    * @param string $str2
-    * @param int $pos2
-    * @return int $count return the frequency
+    * Counts the frequency of each token of an ngram array
+    * @param string $sep
+    * @param array $ngrams
+    * @return array $frequencies Return an array of tokens with its frequencies by its positions
     */
-    static private function countFreq(array $ngramsArray, string $str1, int $pos1, string $str2 = null, int $pos2 = null) : int
+    static public function readFreq(string $sep, array $ngrams) : array
     {
-        $count = 0;
-
-        //counts the number of times the given string(s) to the given position(s) occurs in the given ngrams array.
-        foreach ($ngramsArray as $ngramArray) {
-            if($str1 === $ngramArray[$pos1]) {
-                if(isset($str2) && isset($pos2)) {
-                    if($str2 === $ngramArray[$pos2]) {
-                        $count++;
-                    }
+        $ngrams = self::ngramsAsArray($sep, $ngrams);
+        $frequencies = array();
+        foreach ($ngrams as $ngram) {
+            foreach ($ngram as $pos => $token) {
+                if(isset($frequencies[$token][$pos])) { //checks if the token in that position was already counted
+                    $frequencies[$token][$pos] += 1;
                 } else {
-                    $count++;
+                    $frequencies[$token][$pos] = 1;
                 }
             }
         }
+        return $frequencies;
+    }
 
-        return $count;
+    /**
+    * Counts the frequency of combo of tokens of an ngram array
+    * @param string $sep
+    * @param array $ngrams
+    * @return array $frequencies Return an array of a combo of tokens with its frequencies by its positions
+    */
+    static public function readCombFreq(string $sep, array $ngrams) : array
+    {
+        $ngrams = self::ngramsAsArray($sep, $ngrams);
+        $frequencies = array();
+        foreach ($ngrams as $ngram) {
+            foreach ($ngram as $posToken => $token) {
+                for ($i = $posToken+1; $i < count($ngram); $i++) {
+                    if(isset($frequencies[$token.$sep.$ngram[$i]][$posToken][$i])) { //checks if the combo already exists
+                        $frequencies[$token.$sep.$ngram[$i]][$posToken][$i] += 1;
+                    } else {
+                        $frequencies[$token.$sep.$ngram[$i]][$posToken][$i] = 1;
+                    }
+                }
+            }
+
+        }
+        return $frequencies;
     }
 
     /**
