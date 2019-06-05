@@ -2,7 +2,31 @@
 <?php
 // application.php
 
-require 'vendor/autoload.php';
+foreach (
+    [
+        __DIR__ . '/../autoload.php',
+        __DIR__ . '/../../autoload.php',
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/vendor/autoload.php',
+        __DIR__ . '/../../vendor/autoload.php'
+    ] as $file
+) {
+    if (file_exists($file)) {
+        define('AUTOLOAD_PHP_FILE', $file);
+        break;
+    }    
+}
+
+if (!defined('AUTOLOAD_PHP_FILE')) {
+     fwrite(STDERR,
+        'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+        'wget http://getcomposer.org/composer.phar' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
+    die(1);
+}
+
+require AUTOLOAD_PHP_FILE;
 
 use TextAnalysis\Console\Commands\NltkPackageListCommand;
 use TextAnalysis\Console\Commands\NltkPackageInstallCommand;
