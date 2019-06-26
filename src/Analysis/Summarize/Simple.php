@@ -30,7 +30,7 @@ class Simple
         {
             foreach($scoreKeepers as $sentenceKeeper)
             {
-                if(strpos($sentenceKeeper->getToken(), $token) !== false) {
+                if(strpos($sentenceKeeper->getToken(), (string)$token) !== false) {
                     
                     $sentenceKeeper->addToScore($freq);
                 }

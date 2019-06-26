@@ -109,7 +109,11 @@ class VaderTest extends \PHPUnit_Framework_TestCase
     
     public function testIssue44OffsetError()
     {
-        $vader = new Vader;
+        if( getenv('SKIP_TEST')) {
+            return;
+        }
+	    
+	$vader = new Vader;
         $result = $vader->getPolarityScores([ 'great', 'for', 'the', 'jawbone']);
         $this->assertEquals(0.577, $result['pos']);
     }

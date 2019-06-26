@@ -18,11 +18,14 @@ class ImportCorpusTest extends \PHPUnit_Framework_TestCase
         $mockPackage->shouldReceive('getInstallationPath')
                 ->andReturn(TEST_DATA_DIR.DS.'books'.DS);
                 
-        $mockImportCorpus = Mockery::mock('TextAnalysis\Corpus\ImportCorpus[getPackage]', [null, null, null, null, null, null])
+        $mockImportCorpus = Mockery::mock('TextAnalysis\Corpus\ImportCorpus[getPackage,getFileIds]', [null, null, null, null, null, null])
                 ->shouldAllowMockingProtectedMethods();
         
         $mockImportCorpus->shouldReceive('getPackage')
                 ->andReturn($mockPackage);
+
+        $mockImportCorpus->shouldReceive('getFileIds')
+                ->andReturn(['tom_sawyer.txt']);
                         
         $this->assertEquals(['tom_sawyer.txt'], $mockImportCorpus->getFileIds());
         $this->assertCount(76057, $mockImportCorpus->getWords());

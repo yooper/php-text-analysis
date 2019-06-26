@@ -75,7 +75,7 @@ class Vader
      */
     public function __construct() 
     {
-        $this->getLexicon(); // populate the lexicon
+
     }
 
     /**
