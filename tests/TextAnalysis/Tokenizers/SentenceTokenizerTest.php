@@ -7,7 +7,7 @@ use TextAnalysis\Tokenizers\SentenceTokenizer;
 /**
  * @author yooper
  */
-class SentenceTokenizerTest extends \PHPUnit_Framework_TestCase
+class SentenceTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     public function testSentenceTokenizer()
     {

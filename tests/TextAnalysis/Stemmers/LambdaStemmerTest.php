@@ -8,7 +8,7 @@ use TextAnalysis\Stemmers\LambdaStemmer;
  *
  * @author yooper
  */
-class LambdaStemmerTest extends \PHPUnit_Framework_TestCase
+class LambdaStemmerTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleLambda()
     {

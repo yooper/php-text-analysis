@@ -6,7 +6,7 @@ use TextAnalysis\Filters\LowerCaseFilter;
 /**
  * @author yooper (yooper)
  */
-class LowerCaseFilterilterTest extends \PHPUnit_Framework_TestCase
+class LowerCaseFilterilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testRemoveSingleQuote()
     {

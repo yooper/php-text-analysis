@@ -10,7 +10,7 @@ use TextAnalysis\Documents\TokensDocument;
  * 
  * @author yooper
  */
-class TestBaseCase extends \PHPUnit_Framework_TestCase
+class TestBaseCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * The default text that is used with a lot of test cases

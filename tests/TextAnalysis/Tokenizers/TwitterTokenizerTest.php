@@ -8,7 +8,7 @@ use TextAnalysis\Tokenizers\TwitterTokenizer;
  *
  * @author yooper
  */
-class TwitterTokenizerTest extends \PHPUnit_Framework_TestCase
+class TwitterTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     public function testTokenizer()
     {

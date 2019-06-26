@@ -9,7 +9,7 @@ use TextAnalysis\Utilities\Text;
  *
  * @author yooper
  */
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit\Framework\TestCase
 {
     public function testAllSubstrings()
     {

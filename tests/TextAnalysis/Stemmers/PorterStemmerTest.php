@@ -10,7 +10,7 @@ use TextAnalysis\Stemmers\PorterStemmer;
  *
  * @author yooper
  */
-class PorterStemmerTest extends \PHPUnit_Framework_TestCase
+class PorterStemmerTest extends \PHPUnit\Framework\TestCase
 {
     public function testStemmer()
     {

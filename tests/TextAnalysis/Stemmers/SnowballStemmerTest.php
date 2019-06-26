@@ -8,7 +8,7 @@ use TextAnalysis\Stemmers\SnowballStemmer;
  *
  * @author yooper
  */
-class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
+class SnowballStemmerTest extends \PHPUnit\Framework\TestCase
 {
     public function testDefaultEnglish()
     {       
@@ -27,7 +27,7 @@ class SnowballStemmerTest extends \PHPUnit_Framework_TestCase
     
     public function testException()
     {     
-        $this->setExpectedException('Exception');
+        $this->expectException('Exception');
         $stemmer = new SnowballStemmer('Wookie');
     }
 }

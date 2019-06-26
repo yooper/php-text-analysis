@@ -6,7 +6,7 @@ use TextAnalysis\Filters\PunctuationFilter;
 /**
  * @author yooper (yooper)
  */
-class PunctuationFilterTest extends \PHPUnit_Framework_TestCase
+class PunctuationFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testPunctuation()
     {

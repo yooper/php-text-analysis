@@ -6,7 +6,7 @@ use TextAnalysis\Filters\LambdaFilter;
 /**
  * @author yooper (yooper)
  */
-class LambdaFilterTest extends \PHPUnit_Framework_TestCase
+class LambdaFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testLambdaPregFilter()
     {

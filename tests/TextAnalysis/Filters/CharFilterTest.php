@@ -9,7 +9,7 @@ use TextAnalysis\Filters\CharFilter;
  *
  * @author yooper
  */
-class CharFilterTest extends \PHPUnit_Framework_TestCase
+class CharFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testCharFilterDefaults()
     {

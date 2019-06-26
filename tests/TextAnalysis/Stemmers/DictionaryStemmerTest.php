@@ -10,7 +10,7 @@ use TextAnalysis\Stemmers\RegexStemmer;
  *
  * @author yooper
  */
-class DictionaryStemmerTest extends \PHPUnit_Framework_TestCase
+class DictionaryStemmerTest extends \PHPUnit\Framework\TestCase
 {
     public function testPspell()
     {       

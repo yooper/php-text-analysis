@@ -11,7 +11,7 @@ use TextAnalysis\Corpus\ImportCorpus;
  *
  * @author yooper
  */
-class NameCorpusTest extends \PHPUnit_Framework_TestCase
+class NameCorpusTest extends \PHPUnit\Framework\TestCase
 {
     public function testFirstNames()
     {

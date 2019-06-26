@@ -9,7 +9,7 @@ use TextAnalysis\Stemmers\MorphStemmer;
  *
  * @author yooper
  */
-class MorphStemmerTest extends \PHPUnit_Framework_TestCase
+class MorphStemmerTest extends \PHPUnit\Framework\TestCase
 {
     public function testMorphStemmer()
     {

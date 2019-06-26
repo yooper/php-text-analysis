@@ -9,7 +9,7 @@ use TextAnalysis\Filters\UrlFilter;
  *
  * @author yooper
  */
-class UrlFilterTest extends \PHPUnit_Framework_TestCase
+class UrlFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testUrlFilter()
     {

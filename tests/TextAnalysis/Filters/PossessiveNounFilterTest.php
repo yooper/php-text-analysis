@@ -9,7 +9,7 @@ use TextAnalysis\Filters\PossessiveNounFilter;
  *
  * @author yooper
  */
-class PossessiveNounFilterTest extends \PHPUnit_Framework_TestCase
+class PossessiveNounFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testPossessive()
     {

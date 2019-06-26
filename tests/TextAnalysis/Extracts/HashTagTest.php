@@ -8,7 +8,7 @@ use TextAnalysis\Extracts\HashTag;
  * Test if hashtag extraction is working
  * @author yooper
  */
-class HashTagTest extends \PHPUnit_Framework_TestCase
+class HashTagTest extends \PHPUnit\Framework\TestCase
 {
     public function testHashTag()
     {

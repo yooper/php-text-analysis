@@ -8,7 +8,7 @@ use TextAnalysis\Filters\EmailFilter;
  *
  * @author yooper
  */
-class EmailFilterTest extends \PHPUnit_Framework_TestCase
+class EmailFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testEmailFilter()
     {

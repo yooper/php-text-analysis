@@ -9,7 +9,7 @@ use TextAnalysis\NGrams\NGramFactory;
  *
  * @author yooper <yooper>
  */
-class NGramFactoryTest extends \PHPUnit_Framework_TestCase
+class NGramFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testBiGram()
     {

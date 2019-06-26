@@ -9,7 +9,7 @@ use TextAnalysis\Adapters\PspellAdapter;
  *
  * @author yooper
  */
-class PspellAdapterTest extends \PHPUnit_Framework_TestCase
+class PspellAdapterTest extends \PHPUnit\Framework\TestCase
 {
     public function testSpelling()
     {

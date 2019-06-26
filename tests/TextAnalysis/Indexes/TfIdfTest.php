@@ -10,7 +10,7 @@ use TextAnalysis\Indexes\TfIdf;
 /**
  * @author yooper (yooper)
  */
-class TfIdfTest extends \PHPUnit_Framework_TestCase
+class TfIdfTest extends \PHPUnit\Framework\TestCase
 {
         
     public function testIdf()

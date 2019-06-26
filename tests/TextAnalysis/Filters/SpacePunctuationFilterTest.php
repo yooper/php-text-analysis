@@ -8,7 +8,7 @@ use TextAnalysis\Filters\SpacePunctuationFilter;
  *
  * @author yooper
  */
-class SpacePunctuationFilterTest  extends \PHPUnit_Framework_TestCase
+class SpacePunctuationFilterTest  extends \PHPUnit\Framework\TestCase
 {
     public function testDefaults()
     {

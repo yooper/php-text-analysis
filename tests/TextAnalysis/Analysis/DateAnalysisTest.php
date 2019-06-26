@@ -8,7 +8,7 @@ use TextAnalysis\Analysis\DateAnalysis;
  *
  * @author yooper
  */
-class DateAnalysisTest extends \PHPUnit_Framework_TestCase
+class DateAnalysisTest extends \PHPUnit\Framework\TestCase
 {
     public function testDateAnalysis()
     {

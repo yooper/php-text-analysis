@@ -25,7 +25,6 @@ class NGramFactory
     */
     static public function create(array $tokens, $nGramSize = self::BIGRAM, $separator = ' ') : array
     {
-        $separatorLength = strlen($separator);
         $length = count($tokens) - $nGramSize + 1;
         if($length < 1) {
             return [];

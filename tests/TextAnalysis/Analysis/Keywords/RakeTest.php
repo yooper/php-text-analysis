@@ -15,7 +15,7 @@ use TextAnalysis\Filters\SpacePunctuationFilter;
  * Test Rake algorithm
  * @author yooper
  */
-class RakeTest extends \PHPUnit_Framework_TestCase
+class RakeTest extends \PHPUnit\Framework\TestCase
 {
     public function testRake()
     {

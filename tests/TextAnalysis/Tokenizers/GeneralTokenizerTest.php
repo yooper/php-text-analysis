@@ -8,7 +8,7 @@ use TextAnalysis\Tokenizers\GeneralTokenizer;
  * GeneralTokenizerTest
  * @author yooper
  */
-class GeneralTokenizerTest extends \PHPUnit_Framework_TestCase{
+class GeneralTokenizerTest extends \PHPUnit\Framework\TestCase{
     
     public function testSpaceTokenizer()
     {

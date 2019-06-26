@@ -6,7 +6,7 @@ use TextAnalysis\Filters\QuotesFilter;
 /**
  * @author yooper (yooper)
  */
-class QoutesFilterTest extends \PHPUnit_Framework_TestCase
+class QoutesFilterTest extends \PHPUnit\Framework\TestCase
 {
     public function testRemoveSingleQuote()
     {

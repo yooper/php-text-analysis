@@ -11,7 +11,7 @@ use TextAnalysis\Filters\LowerCaseFilter;
  *
  * @author yooper
  */
-class CollectionInvertedBuilderTest extends \PHPUnit_Framework_TestCase
+class CollectionInvertedBuilderTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleCollectionIndex()
     {

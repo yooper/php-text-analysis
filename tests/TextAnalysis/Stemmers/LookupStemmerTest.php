@@ -7,7 +7,7 @@ use TextAnalysis\Adapters\JsonDataAdapter;
  * Lookup Stemmer Test
  * @author yooper
  */
-class LookupStemmerTest extends \PHPUnit_Framework_TestCase
+class LookupStemmerTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testLookupStemmer()

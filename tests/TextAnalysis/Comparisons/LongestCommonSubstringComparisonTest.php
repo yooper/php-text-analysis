@@ -8,7 +8,7 @@ use TextAnalysis\Comparisons\LongestCommonSubstringComparison;
  *
  * @author yooper <yooper>
  */
-class LongestSubstringComparisonTest extends \PHPUnit_Framework_TestCase
+class LongestSubstringComparisonTest extends \PHPUnit\Framework\TestCase
 {
     public function testLcs()
     {

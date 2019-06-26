@@ -6,7 +6,7 @@ use TextAnalysis\Analysis\FreqDist;
  * Test cases for FreqDist
  * @author yooper (yooper)
  */
-class FreqDistTest extends \PHPUnit_Framework_TestCase
+class FreqDistTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testSimpleFreqDist()

@@ -9,7 +9,7 @@ use TextAnalysis\Comparisons\JaccardIndexComparison;
  *
  * @author yooper <yooper>
  */
-class JaccardIndexComparisonTest extends \PHPUnit_Framework_TestCase
+class JaccardIndexComparisonTest extends \PHPUnit\Framework\TestCase
 {
     public function testJaccardIndex()
     {

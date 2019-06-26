@@ -8,7 +8,7 @@ use TextAnalysis\Stemmers\RegexStemmer;
  * RegexStemmerTest
  * @author yooper
  */
-class RegexStemmerTest extends \PHPUnit_Framework_TestCase
+class RegexStemmerTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testRegexStemmer()

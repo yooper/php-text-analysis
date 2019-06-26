@@ -8,7 +8,7 @@ use TextAnalysis\Sentiment\Vader;
  *
  * @author yooper
  */
-class VaderTest extends \PHPUnit_Framework_TestCase
+class VaderTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testGetLexicon()

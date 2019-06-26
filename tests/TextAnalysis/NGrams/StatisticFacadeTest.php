@@ -11,21 +11,23 @@ use TextAnalysis\NGrams\NGramFactory;
  *
  * @author yooper <yooper>
  */
-class StatisticFacadeTest extends \PHPUnit_Framework_TestCase
+class StatisticFacadeTest extends \PHPUnit\Framework\TestCase
 {
     private $text;
     private $tokens;
 
-    public function __construct() {
+    public function setUp()
+    {
+        parent::setUp();
         $this->text = file_get_contents(TEST_DATA_DIR . DS . 'Text'.DS.'Analysis'.DS.'text_ngrams.txt');
-
-        $tokenizer = new RegexTokenizer('/([\p{L}]+[\/\-_\']?[\p{L}]+)+|[\p{L}]+/iu');
-        $this->tokens = normalize_tokens($tokenizer->tokenize($this->text));
+        $tokenizer = new RegexTokenizer('/([\p{L}]+[\/\-_\']?[\p{L}]+)+|[\p{L}]+/iu');        
+        $this->tokens = normalize_tokens($tokenizer->tokenize($this->text));           
     }
-
     public function testBigrams()
     {
+
         $ngrams = NGramFactory::create($this->tokens, 2, '<>');
+
         $ngrams = NGramFactory::getFreq($ngrams, '<>');
 
         //test frequency

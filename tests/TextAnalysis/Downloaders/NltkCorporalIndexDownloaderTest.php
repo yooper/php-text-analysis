@@ -11,7 +11,7 @@ use Mockery;
  *
  * @author yooper
  */
-class NltkCorporalIndexDownloaderTest extends \PHPUnit_Framework_TestCase
+class NltkCorporalIndexDownloaderTest extends \PHPUnit\Framework\TestCase
 {
     public function testDownloaderXml()
     {

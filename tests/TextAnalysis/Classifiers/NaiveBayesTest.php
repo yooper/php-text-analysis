@@ -7,7 +7,7 @@ namespace Tests\TextAnalysis\Classifiers;
  *
  * @author yooper
  */
-class NaiveBayesTest extends \PHPUnit_Framework_TestCase
+class NaiveBayesTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testNaiveBayes()

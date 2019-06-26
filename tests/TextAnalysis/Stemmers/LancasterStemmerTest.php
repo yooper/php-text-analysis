@@ -7,7 +7,7 @@ use TextAnalysis\Stemmers\LancasterStemmer;
  *
  * @author yooper
  */
-class LancasterStemmerTest extends \PHPUnit_Framework_TestCase
+class LancasterStemmerTest extends \PHPUnit\Framework\TestCase
 {    
     public function testLancasterStemmper()
     {

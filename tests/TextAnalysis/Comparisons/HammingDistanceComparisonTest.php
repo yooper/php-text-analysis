@@ -9,7 +9,7 @@ use TextAnalysis\Comparisons\HammingDistanceComparison;
  *
  * @author yooper <yooper>
  */
-class HammingDistanceComparisonTest extends \PHPUnit_Framework_TestCase
+class HammingDistanceComparisonTest extends \PHPUnit\Framework\TestCase
 {
     public function testHammingDistance()
     {

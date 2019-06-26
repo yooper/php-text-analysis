@@ -8,7 +8,7 @@ use TextAnalysis\Comparisons\MostFreqCharComparison;
  *
  * @author yooper <yooper>
  */
-class MostFreqCharComparisonTest extends \PHPUnit_Framework_TestCase 
+class MostFreqCharComparisonTest extends \PHPUnit\Framework\TestCase 
 {
     public function testComparison()
     {

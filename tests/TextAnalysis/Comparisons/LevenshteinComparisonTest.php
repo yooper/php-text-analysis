@@ -8,7 +8,7 @@ use TextAnalysis\Comparisons\LevenshteinComparison;
  *
  * @author yooper
  */
-class LevenshteinComparisonTest extends \PHPUnit_Framework_TestCase
+class LevenshteinComparisonTest extends \PHPUnit\Framework\TestCase
 {
     public function testHatCat()
     {

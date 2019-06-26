@@ -9,7 +9,7 @@ use TextAnalysis\Corpus\ImportCorpus;
  * Test the import corpus on the one book we have as test data
  * @author yooper
  */
-class ImportCorpusTest extends \PHPUnit_Framework_TestCase
+class ImportCorpusTest extends \PHPUnit\Framework\TestCase
 {
     public function testBook()
     {

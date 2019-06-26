@@ -7,7 +7,7 @@ use TextAnalysis\Tokenizers\RegexTokenizer;
 /**
  * @author yooper
  */
-class RegexTokenizerTest extends \PHPUnit_Framework_TestCase
+class RegexTokenizerTest extends \PHPUnit\Framework\TestCase
 {   
     public function testDefaultRegex()
     {

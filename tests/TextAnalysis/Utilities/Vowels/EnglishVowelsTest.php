@@ -6,7 +6,7 @@ use TextAnalysis\Utilities\Vowels\VowelsAbstractFactory;
  *
  * @author yooper
  */
-class EnglishVowelsTest extends \PHPUnit_Framework_TestCase
+class EnglishVowelsTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsVowel()
     {       

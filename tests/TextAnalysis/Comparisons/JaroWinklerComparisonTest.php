@@ -8,7 +8,7 @@ use TextAnalysis\Comparisons\JaroWinklerComparison;
  *
  * @author yooper <yooper>
  */
-class JaroWinklerComparisonTest extends \PHPUnit_Framework_TestCase
+class JaroWinklerComparisonTest extends \PHPUnit\Framework\TestCase
 {
     public function testJaroWinkler()
     {

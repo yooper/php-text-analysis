@@ -12,7 +12,7 @@ use TextAnalysis\Documents\TokensDocument;
  * Tests the stanford pos tagger
  * @author yooper
  */
-class StanfordPosTaggerTest extends \PHPUnit_Framework_TestCase
+class StanfordPosTaggerTest extends \PHPUnit\Framework\TestCase
 {
     protected $text = "Marquette County is a county located in the Upper Peninsula of the US state of Michigan. As of the 2010 census, the population was 67,077.";
             
@@ -21,7 +21,7 @@ class StanfordPosTaggerTest extends \PHPUnit_Framework_TestCase
     public function testJarNotFound()
     {
         $tagger = new StanfordPosTagger("not_available.jar", "not available");
-        $this->setExpectedException('RuntimeException', 'Jar not found not_available.jar');
+        $this->expectException('RuntimeException', 'Jar not found not_available.jar');
         $tagger->tag([]);
     }
     
@@ -32,7 +32,7 @@ class StanfordPosTaggerTest extends \PHPUnit_Framework_TestCase
         }           
         
         $tagger = new StanfordPosTagger(get_storage_path($this->posPath).'stanford-postagger-3.6.0.jar', "classifier.gz");
-        $this->setExpectedException('RuntimeException', 'Classifier not found classifier.gz');
+        $this->expectException('RuntimeException', 'Classifier not found classifier.gz');
         $tagger->tag([]);        
     }
     

@@ -10,7 +10,7 @@ use TextAnalysis\Corpus\WordnetCorpus;
  *
  * @author yooper
  */
-class WordnetIndexTest extends \PHPUnit_Framework_TestCase
+class WordnetIndexTest extends \PHPUnit\Framework\TestCase
 {
     
     /**

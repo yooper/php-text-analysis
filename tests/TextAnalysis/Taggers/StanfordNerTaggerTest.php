@@ -12,7 +12,7 @@ use TextAnalysis\Documents\TokensDocument;
  * Tests the stanford ner tagger
  * @author yooper
  */
-class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
+class StanfordNerTaggerTest extends \PHPUnit\Framework\TestCase
 {
     protected $nerPath = 'taggers/stanford-ner-2015-12-09';
 
@@ -21,7 +21,7 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
     public function testJarNotFound()
     {
         $tagger = new StanfordNerTagger("not_available.jar", "not available");
-        $this->setExpectedException('RuntimeException', 'Jar not found not_available.jar');
+        $this->expectException('RuntimeException', 'Jar not found not_available.jar');
         $tagger->tag([]);
     }
     
@@ -32,7 +32,7 @@ class StanfordNerTaggerTest extends \PHPUnit_Framework_TestCase
         }           
         
         $tagger = new StanfordNerTagger(get_storage_path($this->nerPath).'stanford-ner.jar', "classifier.gz");
-        $this->setExpectedException('RuntimeException', 'Classifier not found classifier.gz');
+        $this->expectException('RuntimeException', 'Classifier not found classifier.gz');
         $tagger->tag([]);        
     }
     

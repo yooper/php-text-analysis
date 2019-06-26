@@ -8,7 +8,7 @@ use TextAnalysis\Tokenizers\FixedLengthTokenizer;
  * FixedLengthTokenizerTest
  * @author yooper
  */
-class FixedLengthTokenizerTest extends \PHPUnit_Framework_TestCase
+class FixedLengthTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testFixedLengthTokenizer()

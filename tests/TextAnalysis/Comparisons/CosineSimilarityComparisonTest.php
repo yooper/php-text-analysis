@@ -8,7 +8,7 @@ use TextAnalysis\Comparisons\CosineSimilarityComparison;
  *
  * @author yooper
  */
-class CosineSimilarityComparisonTest extends \PHPUnit_Framework_TestCase
+class CosineSimilarityComparisonTest extends \PHPUnit\Framework\TestCase
 {
     public function testIdentical()
     {

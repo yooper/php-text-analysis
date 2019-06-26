@@ -6,7 +6,7 @@ namespace Tests\TextAnalysis\Analysis\Summarize;
  * Test out the simple summary algorithm
  * @author yooper
  */
-class SimpleTest extends \PHPUnit_Framework_TestCase
+class SimpleTest extends \PHPUnit\Framework\TestCase
 {
     public function testSimpleWithStopwords()
     {

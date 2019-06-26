@@ -8,7 +8,7 @@ use TextAnalysis\Tokenizers\PennTreeBankTokenizer;
  *
  * @author yooper
  */
-class PennTreeBankTokenizerTest extends \PHPUnit_Framework_TestCase
+class PennTreeBankTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     
     public function testTokenizer()

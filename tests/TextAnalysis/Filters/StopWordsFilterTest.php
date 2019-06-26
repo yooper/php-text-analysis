@@ -8,7 +8,7 @@ use StopWordFactory;
  * Stop word filter test
  * @author yooper (yooper)
  */
-class StopWordsFilterTest extends \PHPUnit_Framework_TestCase
+class StopWordsFilterTest extends \PHPUnit\Framework\TestCase
 {
     
     /**

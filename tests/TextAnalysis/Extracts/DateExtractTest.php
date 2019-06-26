@@ -8,7 +8,7 @@ use TextAnalysis\Extracts\DateExtract;
  * Test if date extraction is working
  * @author yooper
  */
-class DateExtractTest extends \PHPUnit_Framework_TestCase
+class DateExtractTest extends \PHPUnit\Framework\TestCase
 {
     public function testDate()
     {

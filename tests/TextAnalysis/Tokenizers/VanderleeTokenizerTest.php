@@ -7,7 +7,7 @@ use TextAnalysis\Tokenizers\VanderleeTokenizer;
  *
  * @author yooper
  */
-class VanderleeTokenizerTest extends \PHPUnit_Framework_TestCase
+class VanderleeTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     public function testTokenizer()
     {
