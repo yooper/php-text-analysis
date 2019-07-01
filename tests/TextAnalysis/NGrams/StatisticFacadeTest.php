@@ -16,7 +16,7 @@ class StatisticFacadeTest extends \PHPUnit\Framework\TestCase
     private $text;
     private $tokens;
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         $this->text = file_get_contents(TEST_DATA_DIR . DS . 'Text'.DS.'Analysis'.DS.'text_ngrams.txt');

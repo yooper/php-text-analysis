@@ -34,11 +34,11 @@ class FreqDistTest extends \PHPUnit\Framework\TestCase
     } 
 
     /**
-    * @expectedException TextAnalysis\Exceptions\InvalidParameterSizeException
     *  
     */    
     public function testEmptyFreqDist()
     {
+        $this->expectException(\TextAnalysis\Exceptions\InvalidParameterSizeException::class);
         $freqDist = new FreqDist([]);        
     }     
 }

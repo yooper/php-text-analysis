@@ -28,7 +28,7 @@ class TestBaseCase extends \PHPUnit\Framework\TestCase
     /**
      * Preload and cache a corpus for testing purposes 
      */
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         //load the text file
