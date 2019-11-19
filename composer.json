@@ -9,6 +9,7 @@
         "email" : "dcardin2007@gmail.com"
     }
     ],
+    "bin": ["textconsole"],
     "autoload": {
         "psr-4": {
             "TextAnalysis\\": "src/"
