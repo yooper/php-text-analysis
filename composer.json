@@ -19,7 +19,7 @@
     "autoload-dev": {
         "files": ["tests/TestBaseCase.php"]
     },
-
+F
     "bin": ["textconsole"],	
     "require" : {
         "php": ">=7.1",

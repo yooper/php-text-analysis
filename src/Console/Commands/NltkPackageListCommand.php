@@ -46,5 +46,6 @@ class NltkPackageListCommand extends Command
         {
             $output->writeln(" * {$package->getId()} - {$package->getName()}");
         }
+        return 0;
     }
 }

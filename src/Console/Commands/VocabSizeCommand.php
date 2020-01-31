@@ -50,6 +50,7 @@ class VocabSizeCommand extends Command
         } else {
             throw new \RuntimeException("Please pipe in STDIN");
         }
+        return 0;
     }    
     
     protected function filter($token)

@@ -61,8 +61,9 @@ class NltkPackageInstallCommand extends Command
         if(!$packageFound) { 
             $output->writeln("Package {$packageId} was not found, try textconsole pta:list, to see the available packages");
         } else {
-            
-            $download = DPF::download($package);  
+
+            $download = DPF::download($package);
+            $output->writeln("Package {$package->getId()} - {$package->getName()} is being installed into {$download->getInstallDir()}");
             // Create stream context.
             $context = stream_context_create([], ['notification' => [$this, 'progress']]);
 
@@ -89,7 +90,10 @@ class NltkPackageInstallCommand extends Command
             $download->unpackPackage();
             $output->writeln(PHP_EOL);
             $output->writeln("Package {$package->getId()} - {$package->getName()} was installed into {$download->getInstallDir()}");
-        }        
+            $output->writeln(PHP_EOL);
+
+            return 0;
+        }
     }
 
     /**

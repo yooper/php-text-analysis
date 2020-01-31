@@ -67,6 +67,7 @@ class StopWordsCommand extends Command
             }
             fclose($stdout);
         }
+        return 0;
     }
     
     /**
