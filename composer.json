@@ -19,8 +19,7 @@
     "autoload-dev": {
         "files": ["tests/TestBaseCase.php"]
     },
-F
-    "bin": ["textconsole"],	
+    "bin": ["textconsole","interactive"],
     "require" : {
         "php": ">=7.1",
         "yooper/stop-words": "~1",
