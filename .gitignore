@@ -2,3 +2,4 @@ nbproject/
 vendor/
 storage/
 composer.lock
+.idea
