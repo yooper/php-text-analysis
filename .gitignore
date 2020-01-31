@@ -3,3 +3,4 @@ vendor/
 storage/
 composer.lock
 .idea
+.phpunit.result.cache

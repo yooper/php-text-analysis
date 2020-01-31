@@ -9,7 +9,7 @@
         "email" : "dcardin2007@gmail.com"
     }
     ],
-    "bin": ["textconsole"],
+    "bin": ["textconsole","interactive"],
     "autoload": {
         "psr-4": {
             "TextAnalysis\\": "src/"
@@ -19,17 +19,12 @@
     "autoload-dev": {
         "files": ["tests/TestBaseCase.php"]
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.3.x-dev"
-        }
-    },
+
     "bin": ["textconsole"],	
     "require" : {
         "php": ">=7.1",
         "yooper/stop-words": "~1",
         "symfony/console": "~4.0",
-        "camspiers/porter-stemmer": "~1",
         "wamania/php-stemmer": "~1",
         "yooper/nicknames": "~1",
         "vanderlee/php-sentence": "~1.0"
