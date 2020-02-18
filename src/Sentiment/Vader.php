@@ -414,6 +414,10 @@ class Vader
             
             fclose($fh);
             
+            $rows = array_filter($rows, function ($row) {
+                return is_array($row);
+            });
+            
             foreach($rows as $row)
             {
                 $this->lexicon[$row[0]] = $row[1];
