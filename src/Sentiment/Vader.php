@@ -176,8 +176,9 @@ class Vader
         {
             $valence = 0.0;
             $lcToken = strtolower($tokens[$index]);
-            if( $lcToken === "kind" && strtolower($tokens[$index+1]) === 'of' ||
-                isset(self::$this->boosterDict[$lcToken]) ) {   
+            if( $lcToken === "kind" 
+            && (array_key_exists($index+1, $tokens) && strtolower($tokens[$index+1]) === 'of') ||
+                isset(self::$this->boosterDict[$lcToken]) ) { 
                 
                 $sentiments[] = $valence;
             } else {
