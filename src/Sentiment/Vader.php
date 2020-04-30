@@ -126,7 +126,12 @@ class Vader
      */
     public function normalize(float $score, int $alpha=15)
     {
-        $normalizedScore = $score/sqrt(($score^2) + $alpha);
+        $normalizedScore = $score;
+
+        if (sqrt(($score^2) + $alpha > 0)) {
+            $normalizedScore = $score/sqrt(($score^2) + $alpha);
+        }
+
         if ($normalizedScore < -1.0) {
             return -1.0;
         } elseif ($normalizedScore > 1.0) {

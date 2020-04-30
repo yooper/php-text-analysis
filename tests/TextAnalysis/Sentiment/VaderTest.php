@@ -128,5 +128,28 @@ class VaderTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(0.6197, $sentimentScores['compound']);
     }
+
+    public function testNormalizeZeroSum()
+    {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }
+        $tokens = [
+            'If','the','Fake','News','Opposition','Party',
+            'is','pushing','with','all','their','might',
+            'the','fact','that','President','Trump',
+            '“ignored','early','warnings','about',
+            'the','threat','”','then','why','did',
+            'Media','&','Dems','viciously',
+            'criticize','me','when','I',
+            'instituted','a','Travel','Ban',
+            'on','China','They','said',
+            '“early','&','not','necessary.”','Corrupt','Media'
+        ];
+
+        $sentimentScores = vader($tokens);
+        
+        $this->assertEquals(-1, $sentimentScores['compound']);
+    }
         
 }
