@@ -126,7 +126,12 @@ class Vader
      */
     public function normalize(float $score, int $alpha=15)
     {
-        $normalizedScore = $score/sqrt(($score^2) + $alpha);
+        $normalizedScore = $score;
+
+        if (sqrt(($score^2) + $alpha > 0)) {
+            $normalizedScore = $score/sqrt(($score^2) + $alpha);
+        }
+
         if ($normalizedScore < -1.0) {
             return -1.0;
         } elseif ($normalizedScore > 1.0) {
@@ -176,8 +181,9 @@ class Vader
         {
             $valence = 0.0;
             $lcToken = strtolower($tokens[$index]);
-            if( $lcToken === "kind" && strtolower($tokens[$index+1]) === 'of' ||
-                isset(self::$this->boosterDict[$lcToken]) ) {   
+            if( $lcToken === "kind" 
+            && (array_key_exists($index+1, $tokens) && strtolower($tokens[$index+1]) === 'of') ||
+                isset(self::$this->boosterDict[$lcToken]) ) { 
                 
                 $sentiments[] = $valence;
             } else {

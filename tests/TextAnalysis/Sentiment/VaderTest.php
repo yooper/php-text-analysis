@@ -97,7 +97,7 @@ class VaderTest extends \PHPUnit\Framework\TestCase
         $examples[] = ['sent' => "Make sure you :) or :D today!", 'neg'=> 0.0, 'neu'=> 0.294, 'pos'=> 0.706, 'compound'=> 0.8633];
         $examples[] = ['sent' => "Today SUX!", 'neg'=> 0.0, 'neg'=> 0.779, 'neu'=> 0.221, 'pos'=> 0.0, 'compound'=> -0.5461];
         $examples[] = ['sent' => "Today only kinda sux! But I'll get by, lol", 'neg'=> 0.179, 'neu'=> 0.569, 'pos'=> 0.251, 'compound'=> 0.2228];
-    
+        
         $vader = new Vader;
         
         foreach($examples as $test)
@@ -113,9 +113,43 @@ class VaderTest extends \PHPUnit\Framework\TestCase
             return;
         }
 	    
-	$vader = new Vader;
+	    $vader = new Vader;
         $result = $vader->getPolarityScores([ 'great', 'for', 'the', 'jawbone']);
         $this->assertEquals(0.577, $result['pos']);
+    }
+
+    public function testSentimentScoreKindOfCombo()
+    {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }
+
+        $sentimentScores = vader(['kind']);
+
+        $this->assertEquals(0.6197, $sentimentScores['compound']);
+    }
+
+    public function testNormalizeZeroSum()
+    {
+        if( getenv('SKIP_TEST')) {
+            return;
+        }
+        $tokens = [
+            'If','the','Fake','News','Opposition','Party',
+            'is','pushing','with','all','their','might',
+            'the','fact','that','President','Trump',
+            '“ignored','early','warnings','about',
+            'the','threat','”','then','why','did',
+            'Media','&','Dems','viciously',
+            'criticize','me','when','I',
+            'instituted','a','Travel','Ban',
+            'on','China','They','said',
+            '“early','&','not','necessary.”','Corrupt','Media'
+        ];
+
+        $sentimentScores = vader($tokens);
+        
+        $this->assertEquals(-1, $sentimentScores['compound']);
     }
         
 }
