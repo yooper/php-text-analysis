@@ -110,7 +110,7 @@ $sentimentScores = vader($tokens);
 ```
 
 ### Document Classification with Naive Bayes
-Need to do some docucment classification with PHP, trying using the Naive Bayes
+Need to do some document classification with PHP, trying using the Naive Bayes
 implementation. An example of classifying movie reviews can be found in the unit
 tests
 
