@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
     /**
     * Base function for getting the storage path to the different directories.

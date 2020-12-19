@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /**
  * A set of helpers that are used repeatedly throughout this project and

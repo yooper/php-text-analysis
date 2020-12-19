@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace TextAnalysis\Downloaders;
 
 use TextAnalysis\Utilities\Nltk\Download\Package;
