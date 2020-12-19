@@ -26,6 +26,6 @@ abstract class TokenizerAbstract
      * @param string|null $tokenExpr 
      * @return array
      */
-    abstract function tokenize($string);
+    abstract function tokenize(string $string);
         
 }

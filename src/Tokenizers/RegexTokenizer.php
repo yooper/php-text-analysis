@@ -26,7 +26,7 @@ class RegexTokenizer extends TokenizerAbstract
      * @param string $string
      * @return array 
      */
-    public function tokenize($string)
+    public function tokenize(string $string)
     {
         $matches = array();
         $count = preg_match_all($this->pattern, $string, $matches, $this->flags, $this->offset);

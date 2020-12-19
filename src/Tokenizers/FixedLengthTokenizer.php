@@ -29,7 +29,7 @@ class FixedLengthTokenizer extends TokenizerAbstract
      * @param string $string
      * @return array 
      */
-    public function tokenize($string)
+    public function tokenize(string $string)
     {
         if(!$this->length) {
             return array(substr($string, $this->startPosition));

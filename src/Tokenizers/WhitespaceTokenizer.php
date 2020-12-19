@@ -8,9 +8,9 @@ namespace TextAnalysis\Tokenizers;
  */
 class WhitespaceTokenizer extends TokenizerAbstract
 {
-    public function tokenize($string)
+    public function tokenize(string $string): array
     {
-        return mb_split('\s+', $string);
+        return mb_split('\s+', $string ?? '');
     }
 }
 

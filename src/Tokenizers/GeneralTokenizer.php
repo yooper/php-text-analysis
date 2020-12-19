@@ -28,7 +28,7 @@ class GeneralTokenizer extends TokenizerAbstract
      * @param string $string
      * @return array 
      */
-    public function tokenize($string)
+    public function tokenize(string $string)
     {
         return $this->strTokenWrapper($string);
     }

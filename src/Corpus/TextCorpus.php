@@ -57,7 +57,7 @@ class TextCorpus
         $found = array_fill_keys($needles, []);
         foreach(array_keys($needles) as $needle)
         {
-            $found[$needle] = $this->findAll($needle);
+            $found[$needle] = $this->findAll((string)$needle);
         }
         return $found;
     }

@@ -51,7 +51,7 @@ class StanfordPosTagger extends StanfordAbstract
     {
         $data = [];   
                 
-        $lines = explode(PHP_EOL, $this->output);
+        $lines = explode(PHP_EOL, $this->output ?? '');
         foreach($lines as $line)
         {
             $line = str_replace("\t", $this->getSeparator(), $line);

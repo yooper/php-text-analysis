@@ -6,7 +6,7 @@ declare(strict_types = 1);
  * Bootstrap file for running unit tests
  */
 error_reporting(E_ALL);
-ini_set('display_startup_errors', 1);
+ini_set('display_startup_errors', '1');
 
 define('DS', DIRECTORY_SEPARATOR);
 
@@ -17,7 +17,7 @@ defined('TESTS_PATH')
     || define('TESTS_PATH', realpath(dirname(__FILE__)).DS);
 
 error_reporting(E_ALL);
-ini_set('display_startup_errors', 1);
+ini_set('display_startup_errors', '1');
 
 define('VENDOR_DIR', 'vendor/');
 

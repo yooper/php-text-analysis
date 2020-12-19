@@ -28,7 +28,7 @@ class VanderleeTokenizer extends TokenizerAbstract
      * @param string $string
      * @return array
      */
-    public function tokenize($string): array 
+    public function tokenize(string $string): array
     {
         return filter_empty( $this->sentence->split($string));
     }
