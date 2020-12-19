@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Tests\TextAnalysis\Utilities\Vowels;
 use TextAnalysis\Utilities\Vowels\VowelsAbstractFactory;
 

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace TextAnalysis\Tokenizers;
 
@@ -35,7 +36,7 @@ class SentenceTokenizer extends TokenizerAbstract
      * @param string $string
      * @return array
      */
-    public function tokenize($string) 
+    public function tokenize(string $string)
     {
         $strings = explode($this->getSeparator(), $string);
         $sentenceTokens = [];

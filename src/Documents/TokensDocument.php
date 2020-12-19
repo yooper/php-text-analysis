@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace TextAnalysis\Documents;
 
 use TextAnalysis\Interfaces\ITokenTransformation;

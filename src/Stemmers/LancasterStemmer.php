@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace TextAnalysis\Stemmers;
 use TextAnalysis\Interfaces\IStemmer;
 use TextAnalysis\Utilities\Vowels\VowelsAbstractFactory;

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 
 namespace TextAnalysis\Tokenizers;
@@ -9,7 +10,7 @@ namespace TextAnalysis\Tokenizers;
  */
 class TwitterTokenizer extends TokenizerAbstract
 {       
-    public function tokenize($string): array 
+    public function tokenize(string $string): array
     {
         $matches = [];
         $found = preg_match_all("~{$this->getJoinedRegexes()}~uim", $string, $matches);

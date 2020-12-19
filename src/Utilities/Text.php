@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace TextAnalysis\Utilities;
 
 /**
@@ -190,17 +191,17 @@ class Text
       }
 
       // Day leading 0
-      if ( 1 == strlen( $day ) )
+      if ( 1 == strlen( (string)$day ) )
         $day = '0' . $day;
 
       // Month leading 0
-      if ( 1 == strlen( $month ) )
+      if ( 1 == strlen( (string)$month ) )
         $month = '0' . $month;
 
       // Check year:
-      if ( 2 == strlen( $year ) && $year > 20 )
+      if ( 2 == strlen( (string)$year ) && $year > 20 )
         $year = '19' . $year;
-      else if ( 2 == strlen( $year ) && $year < 20 )
+      else if ( 2 == strlen( (string)$year ) && $year < 20 )
         $year = '20' . $year;
 
       $date = array(

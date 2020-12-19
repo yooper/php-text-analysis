@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace TextAnalysis\Tokenizers;
 
 /** 
@@ -25,6 +26,6 @@ abstract class TokenizerAbstract
      * @param string|null $tokenExpr 
      * @return array
      */
-    abstract function tokenize($string);
+    abstract function tokenize(string $string);
         
 }

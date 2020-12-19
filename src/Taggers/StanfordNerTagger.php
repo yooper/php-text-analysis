@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace TextAnalysis\Taggers;
 
@@ -50,7 +51,7 @@ class StanfordNerTagger extends StanfordAbstract
         $data = [];   
         
         $filter = new PunctuationFilter();
-        $phrases = (new WhitespaceTokenizer())->tokenize($this->output);        
+        $phrases = (new WhitespaceTokenizer())->tokenize($this->output ?? '');
         foreach($phrases as $phrase)
         {
             $tokens = explode("{$this->getSeparator()}", $phrase);

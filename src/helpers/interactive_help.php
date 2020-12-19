@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /**
  * List out a help menu in the interactive console
