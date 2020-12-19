@@ -69,7 +69,7 @@ class NltkPackageInstallCommand extends Command
             $context = stream_context_create([], ['notification' => [$this, 'progress']]);
 
             // Pipe file.
-            $resource = fopen($packageFound->getUrl(), 'r', null, $context);
+            $resource = fopen($packageFound->getUrl(), 'r', false, $context);
             $stream = fopen($download->getDownloadFullPath(), 'w+');
             if (!$stream) {
                 $output->writeln("Package {$packageFound->getId()} - {$packageFound->getName()} install failed, permission denied to create file into {$download->getDownloadFullPath()}");
