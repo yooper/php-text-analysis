@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 
 namespace TextAnalysis\Tokenizers;
@@ -27,7 +28,7 @@ class LambdaTokenizer extends TokenizerAbstract
     }
     
     
-    public function tokenize($string) 
+    public function tokenize(string $string)
     {
         return call_user_func($this->lambdaFunc, $string);
     }

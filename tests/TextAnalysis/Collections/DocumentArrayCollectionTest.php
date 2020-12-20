@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace Tests\TextAnalysis\Collections;
 use TextAnalysis\Collections\DocumentArrayCollection;
 use TextAnalysis\Documents\TokensDocument;

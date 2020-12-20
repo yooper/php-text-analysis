@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /**
  * Some print functions to make things easier to read

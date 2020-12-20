@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace TextAnalysis\Tokenizers;
 use TextAnalysis\Exceptions\InvalidExpression;
@@ -26,9 +27,9 @@ class PennTreeBankTokenizer
      * Calls internal functions to handle data processing
      * @param string $str
      */
-    public function tokenize($str)
+    public function tokenize(string $str)
     {
-        return preg_split('/[\pZ\pC]+/u', $this->execute($str), null, PREG_SPLIT_NO_EMPTY);
+        return preg_split('/[\pZ\pC]+/u', $this->execute($str), -1, PREG_SPLIT_NO_EMPTY);
     }
     /**
      * Handles the data processing
