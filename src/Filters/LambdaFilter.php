@@ -12,13 +12,13 @@ class LambdaFilter implements ITokenTransformation
 {
     /**
      *
-     * @var function
+     * @var callable
      */
     protected $lambdaFunc = null;
 
     /**
      * 
-     * @param function $lambdaFunc
+     * @param callable $lambdaFunc
      */
     public function __construct($lambdaFunc) 
     {
