@@ -83,8 +83,9 @@ class Vader
      * Add a new token and score to the lexicon
      * @param string $token
      * @param float $meanSentimentRating
+     * @return void
      */
-    public function addToLexicon(string $token, float $meanSentimentRating)
+    public function addToLexicon(string $token, float $meanSentimentRating) : void
     {
         $this->lexicon[$token] = $meanSentimentRating;
     }
@@ -92,8 +93,9 @@ class Vader
     /**
      * Remove a token from the lexicon
      * @param string $token
+     * @return void
      */
-    public function deleteFromLexicon(string $token)
+    public function deleteFromLexicon(string $token) : void
     {
         unset($this->lexicon[$token]);
     }
@@ -124,12 +126,13 @@ class Vader
      * approximates the max expected value
      * @param float $score
      * @param int $alpha
+     * @return float
      */
-    public function normalize(float $score, int $alpha=15)
+    public function normalize(float $score, int $alpha=15) : float
     {
         $normalizedScore = $score;
 
-        if (sqrt(($score^2) + $alpha > 0)) {
+        if (sqrt(($score^2) + $alpha) > 1) {
             $normalizedScore = $score/sqrt(($score^2) + $alpha);
         }
 
@@ -178,7 +181,7 @@ class Vader
     public function getPolarityScores(array $tokens) : array
     {
         $sentiments = [];
-        for($index = 0; $index < count($tokens); $index++)
+        for($index = 0, $indexMax = count($tokens); $index < $indexMax; $index++)
         {
             $valence = 0.0;
             $lcToken = strtolower($tokens[$index]);
@@ -196,7 +199,7 @@ class Vader
         return $this->scoreValence($sentiments, $tokens);
     }
     
-    public function scoreValence(array $sentiments, array $tokens)
+    public function scoreValence(array $sentiments, array $tokens): array
     {
         if ( !empty($sentiments)) {
             $sentimentSum = array_sum($sentiments);
@@ -247,7 +250,7 @@ class Vader
         if(isset($this->getLexicon()[$lcToken]))
         {
             //get the sentiment valence
-            $valence = $this->getLexicon()[$lcToken];
+            $valence = (float)$this->getLexicon()[$lcToken];
             //check if sentiment laden word is in ALL CAPS (while others aren't)
             if ($ucToken and $isCapDiff) { 
                 if ($valence > 0) {
@@ -262,17 +265,17 @@ class Vader
                 if ($index > $startIndex && !isset($this->getLexicon()[ strtolower($tokens[$index-($startIndex+1)])]))
                 {
                     // dampen the scalar modifier of preceding words and emoticons
-                    // (excluding the ones that immediately preceed the item) based
+                    // (excluding the ones that immediately preceded the item) based
                     // on their distance from the current item.
                     $s = $this->scalarIncDec($tokens[$index-($startIndex+1)], $valence, $isCapDiff);
-                    if ($startIndex == 1 and $s != 0) {
+                    if ($startIndex === 1 and $s !== 0) {
                         $s *= 0.95;
-                    } elseif ($startIndex == 2 and $s != 0 ) {
+                    } elseif ($startIndex === 2 and $s !== 0 ) {
                         $s *= 0.9;
                     }
                     $valence += $s;
                     $valence = $this->neverCheck($valence, $tokens, $startIndex, $index);
-                    if ($startIndex == 2) {
+                    if ($startIndex === 2) {
                         $valence = $this->idiomsCheck($valence, $tokens, $index);
                     }
 
@@ -283,7 +286,7 @@ class Vader
                     //  "cooking with gas": 2, "in the black": 2, "in the red": -2,
                     //  "on the ball": 2,"under the weather": -2}
                 }
-                $valence = $this->leastCheck($valence, $tokens, $index);
+                $valence = $this->leastCheck((float)$valence, $tokens, $index);
             }
 
         }
@@ -356,7 +359,7 @@ class Vader
             return $sentiments;
         }
         
-        for($i = 0; $i < count($sentiments); $i++)
+        for($i = 0, $iMax = count($sentiments); $i < $iMax; $i++)
         {
             if( $index < $i) {
                 $sentiments[$i] *= 0.5;
@@ -444,7 +447,7 @@ class Vader
         return 0.0;      
     }
     
-    public function neverCheck(float $valence, array $tokens, int $startIndex, int $index)
+    public function neverCheck(float $valence, array $tokens, int $startIndex, int $index): float
     {
         if($startIndex == 0 && $this->isNegated([$tokens[$index-1]])) {
             $valence *= self::N_SCALAR;
@@ -460,8 +463,8 @@ class Vader
                 $valence *= self::N_SCALAR;
             }
         } elseif($startIndex == 2) {
-            if ($tokens[$index-3] == "never" &&
-               ($tokens[$index-2] == "so" || $tokens[$index-2] == "this") ||
+            if (($tokens[$index - 3] == "never" &&
+                    ($tokens[$index - 2] == "so" || $tokens[$index - 2] == "this")) ||
                ($tokens[$index-1] == "so" || $tokens[$index-1] == "this")) {
                 
                 $valence *= 1.25;
@@ -487,9 +490,12 @@ class Vader
             }
         }
         return 0.0;      
-    }    
-    
-    
+    }
+
+
+    /**
+     * @throws \Exception
+     */
     protected function getTxtFilePath() : string
     {
         return get_storage_path('sentiment'.DIRECTORY_SEPARATOR.'vader_lexicon').DIRECTORY_SEPARATOR.'vader_lexicon.txt';

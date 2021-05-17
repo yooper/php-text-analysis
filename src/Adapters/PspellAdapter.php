@@ -13,7 +13,7 @@ class PspellAdapter implements ISpelling
 {
     protected $pSpell = null;
     
-    public function __construct($language = 'en', $spelling = "", $jargon = "", $encoding = "", $mode = PSPELL_BAD_SPELLERS )
+    public function __construct($language = 'en', $spelling = "", $jargon = "", $encoding = "", $mode = \PSPELL_BAD_SPELLERS )
     {
         $this->pSpell = pspell_new($language, $spelling, $jargon, $encoding, $mode);        
     }

@@ -20,7 +20,7 @@
         "files": ["tests/TestBaseCase.php"]
     },
     "require" : {
-        "php": "~7.4",
+        "php": "~7.4|~8.0",
         "yooper/stop-words": "~1",
         "symfony/console": ">= 4.4",
         "wamania/php-stemmer": "~1",

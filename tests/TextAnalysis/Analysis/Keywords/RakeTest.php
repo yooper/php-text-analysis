@@ -27,9 +27,9 @@ class RakeTest extends \PHPUnit\Framework\TestCase
         $tokens = (new GeneralTokenizer(" \n\t\r"))->tokenize($testData);        
         $tokenDoc = new TokensDocument($tokens);
         $tokenDoc->applyTransformation(new LowerCaseFilter())
-                ->applyTransformation(new StopWordsFilter($stopwords), false)
-                ->applyTransformation(new PunctuationFilter(['@',':','\/']), false)
-                ->applyTransformation(new CharFilter(), false);
+                ->applyTransformation(new StopWordsFilter($stopwords), true)
+                ->applyTransformation(new PunctuationFilter(['@',':','\/']), true)
+                ->applyTransformation(new CharFilter(), true);
                 
         $rake = new Rake($tokenDoc, 3);
         $results = $rake->getKeywordScores();
@@ -46,9 +46,9 @@ class RakeTest extends \PHPUnit\Framework\TestCase
         $tokens = (new GeneralTokenizer(" \n\t\r"))->tokenize($testData);        
         $tokenDoc = new TokensDocument($tokens);
         $tokenDoc->applyTransformation(new LowerCaseFilter())
-                ->applyTransformation(new StopWordsFilter($stopwords), false)
-                ->applyTransformation(new PunctuationFilter(['@',':','\/']), false)
-                ->applyTransformation(new CharFilter(), false);
+                ->applyTransformation(new StopWordsFilter($stopwords), true)
+                ->applyTransformation(new PunctuationFilter(['@',':','\/']), true)
+                ->applyTransformation(new CharFilter(), true);
 
         $rake = rake($tokenDoc->toArray(), 3);
         $results = $rake->getKeywordScores();

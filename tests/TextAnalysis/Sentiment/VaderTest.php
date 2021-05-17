@@ -19,7 +19,7 @@ class VaderTest extends \PHPUnit\Framework\TestCase
         }
         
         $vader = new Vader;
-        $this->assertCount(7503, $vader->getLexicon());        
+        $this->assertCount(7502, $vader->getLexicon());
     }
     
     public function testAllCapDifferential()
