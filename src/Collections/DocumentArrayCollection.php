@@ -126,35 +126,27 @@ class DocumentArrayCollection implements ICollection
      *
      * @param mixed $key
      * @param DocumentAbstract $value
-     * @return boolean 
+     * @return void
      */
-    public function offsetSet($key, $value)
+    public function offsetSet($key, $value) : void
     {
         if(!isset($key)) { 
             $this->documents[] = $value;
-            return true;
         }
-        
         $this->documents[$key] = $value;
-        return $value;
-         
-        
     }
     
     /**
      *
      * @param mixed $key
-     * @return null 
+     * @return void
      */
-    public function offsetUnset($key)
+    public function offsetUnset($key) : void
     {
         if (isset($this->documents[$key])) {
             $deleted = $this->documents[$key];
             unset($this->documents[$key]);
-             
-             return $deleted;
          }
-          return null;
     }
     
     /**
@@ -162,7 +154,7 @@ class DocumentArrayCollection implements ICollection
      * @param mixed $key
      * @return DocumentAbstract 
      */
-    public function offsetGet($key)
+    public function offsetGet($key) : DocumentAbstract
     {
         return $this->documents[$key];
     }
@@ -172,7 +164,7 @@ class DocumentArrayCollection implements ICollection
      * @param mixed $key
      * @return boolean 
      */
-    public function offsetExists($key)
+    public function offsetExists($key) : bool
     {
         return isset($this->documents[$key]);
     }
@@ -181,7 +173,7 @@ class DocumentArrayCollection implements ICollection
      *
      * @return int
      */
-    public function count()
+    public function count() : int
     {
         return count($this->documents);
     }
@@ -190,7 +182,7 @@ class DocumentArrayCollection implements ICollection
      *
      * @return \ArrayIterator 
      */
-    public function getIterator()
+    public function getIterator() : \ArrayIterator
     {
         return new \ArrayIterator($this->documents);
     }
