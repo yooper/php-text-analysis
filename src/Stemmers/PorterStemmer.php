@@ -437,7 +437,12 @@ class Porter
     {
         $c = self::$regex_consonant;
 
-        return preg_match("#$c[2]$#", $str, $matches) AND $matches[0][0] == $matches[0][1];
+        $result = preg_match("#$c[2]$#", $str, $matches);
+
+        $sub_0 = count($matches) > 0 ? substr($matches[0], 0) : false;
+        $sub_1 = count($matches) > 0 ? substr($matches[0], 1) : false;
+        
+        return $result AND is_string($sub_0) AND is_string($sub_1) AND $sub_0 == $sub_1;
     }
 
     /**
