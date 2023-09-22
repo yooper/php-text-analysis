@@ -23,7 +23,7 @@
         "php": ">=7.4",
         "yooper/stop-words": "~1",
         "symfony/console": ">= 4.4",
-        "wamania/php-stemmer": "~1",
+        "wamania/php-stemmer": "^1.0 || ^2.0 || ^3.0",
         "yooper/nicknames": "~1"
     },
     "require-dev": {
