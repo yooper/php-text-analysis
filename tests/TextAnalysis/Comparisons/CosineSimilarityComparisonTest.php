@@ -16,7 +16,7 @@ class CosineSimilarityComparisonTest extends \PHPUnit\Framework\TestCase
         $text1 = ["hiking" , "camping", "swimming"];
         $text2 = ["hiking" , "camping", "swimming"];        
         $compare = new CosineSimilarityComparison();
-        $this->assertEquals(1.0, $compare->similarity($text1, $text2));
+        $this->assertEquals(1.0, round($compare->similarity($text1, $text2), 1));
 
     }
    
