@@ -44,7 +44,7 @@ class VaderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $vader->boostExclamationPoints(['empty']));
         $this->assertEquals(0.292, $vader->boostExclamationPoints(array_fill(0,1,'!')));
         $this->assertEquals(0.584, $vader->boostExclamationPoints(array_fill(0,2,'!')));
-        $this->assertEquals(0.876, $vader->boostExclamationPoints(array_fill(0,3,'!')));
+        $this->assertEquals(0.876, round($vader->boostExclamationPoints(array_fill(0,3,'!')), 5));
         $this->assertEquals(1.168, $vader->boostExclamationPoints(array_fill(0,4,'!')));        
         $this->assertEquals(1.168, $vader->boostExclamationPoints(array_fill(0,5,'!')));               
     }
